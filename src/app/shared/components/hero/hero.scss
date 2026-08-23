@@ -1,0 +1,150 @@
+@use '../../../../styles/variables' as *;
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 32px;
+  align-items: center;
+  width: min(1180px, calc(100% - 48px));
+  margin: 12px auto 56px;
+  min-height: 340px;
+}
+
+.hero__copy h1 {
+  font-family: $font-display;
+  font-size: clamp(40px, 5vw, 72px);
+  line-height: 1.05;
+  color: $orange-soft;
+  max-width: 12ch;
+}
+
+.hero__copy p {
+  max-width: 46ch;
+  margin: 18px 0 28px;
+  color: $text-muted-on-dark;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.hero__visual {
+  position: relative;
+  min-height: 340px;
+  display: grid;
+  place-items: center;
+}
+
+.phone {
+  width: 190px;
+  height: 300px;
+  border-radius: 28px;
+  background: linear-gradient(180deg, #4a3654 0%, #2a1c31 100%);
+  box-shadow: 18px 24px 40px rgba(0, 0, 0, 0.28);
+  padding: 16px 14px;
+  transform: rotate(-8deg);
+}
+
+.phone__notch {
+  width: 64px;
+  height: 8px;
+  margin: 0 auto 12px;
+  border-radius: 8px;
+  background: #1a101f;
+}
+
+.phone__screen {
+  height: calc(100% - 20px);
+  border-radius: 18px;
+  background: #f7f1ea;
+  color: $text-dark;
+  padding: 16px 12px;
+}
+
+.phone__chip {
+  display: inline-block;
+  font-size: 11px;
+  color: $text-muted;
+  margin-bottom: 8px;
+}
+
+.phone__screen strong {
+  display: block;
+  font-family: $font-display;
+  font-size: 20px;
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+
+.phone__bar {
+  height: 10px;
+  border-radius: 8px;
+  background: $orange-soft;
+  margin-bottom: 10px;
+  width: 92%;
+}
+
+.phone__bar--mid {
+  width: 70%;
+  opacity: 0.8;
+}
+
+.phone__bar--short {
+  width: 48%;
+  opacity: 0.55;
+}
+
+.float {
+  position: absolute;
+  transition: transform 0.8s ease;
+}
+
+.float--bubble {
+  top: 18px;
+  left: 18%;
+  transition-duration: 0.7s;
+}
+
+.float--check {
+  top: 36px;
+  right: 16%;
+  transition-duration: 1.15s;
+}
+
+.float--star {
+  bottom: 48px;
+  left: 14%;
+  transition-duration: 0.9s;
+}
+
+.float--question {
+  bottom: 28px;
+  right: 18%;
+  transition-duration: 1.3s;
+}
+
+@media (min-width: 1025px) {
+  .hero__visual:hover {
+    .float--bubble {
+      transform: translate(-14px, -18px);
+    }
+    .float--check {
+      transform: translate(16px, -12px);
+    }
+    .float--star {
+      transform: translate(-10px, 14px);
+    }
+    .float--question {
+      transform: translate(18px, 10px);
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .hero {
+    grid-template-columns: 1fr;
+    margin-bottom: 36px;
+  }
+
+  .hero__visual {
+    min-height: 280px;
+  }
+}

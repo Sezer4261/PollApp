@@ -1,0 +1,66 @@
+@use '../../../../styles/variables' as *;
+
+.editor {
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.editor__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  h3 {
+    font-family: $font-display;
+    font-size: 20px;
+    color: $orange-soft;
+  }
+}
+
+.editor__answers-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.editor__answer {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+
+  input {
+    border: 0;
+    border-radius: 12px;
+    padding: 10px 12px;
+    background: $bg-white;
+    color: $text-dark;
+
+    &:focus {
+      outline: 2px solid $orange-soft;
+      background: #ffe8d6;
+    }
+  }
+}
+
+.editor__add {
+  background: transparent;
+  border: 0;
+  color: $orange-soft;
+  font-weight: 700;
+  padding: 6px 0;
+  width: fit-content;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}

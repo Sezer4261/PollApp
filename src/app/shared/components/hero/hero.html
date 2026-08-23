@@ -1,0 +1,54 @@
+<section class="hero">
+  <div class="hero__copy">
+    <h1>Collect Feedback, Unlock Ideas</h1>
+    <p>
+      Create surveys in minutes, share them with your team and watch live results come in.
+      Ending-soon polls stay at the top so nothing important slips by.
+    </p>
+    <button class="btn btn--primary" type="button" (click)="newSurvey.emit()">
+      <span>New survey</span>
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M6 8H1C0.45 8 0 7.55 0 7s.45-1 1-1h5V1c0-.55.45-1 1-1s1 .45 1 1v5h5c.55 0 1 .45 1 1s-.45 1-1 1H8v5c0 .55-.45 1-1 1s-1-.45-1-1V8Z" fill="#24182B"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="hero__visual" aria-hidden="true">
+    <div class="phone">
+      <div class="phone__notch"></div>
+      <div class="phone__screen">
+        <span class="phone__chip">Team activities</span>
+        <strong>Next team event</strong>
+        <div class="phone__bar"></div>
+        <div class="phone__bar phone__bar--mid"></div>
+        <div class="phone__bar phone__bar--short"></div>
+      </div>
+    </div>
+    <span class="float float--bubble">
+      <svg width="64" height="52" viewBox="0 0 64 52" fill="none">
+        <path d="M8 8c0-4.4 3.6-8 8-8h28c4.4 0 8 3.6 8 8v20c0 4.4-3.6 8-8 8H28L16 48V36c-4.4 0-8-3.6-8-8V8Z" fill="#F08C4A"/>
+        <circle cx="24" cy="18" r="3" fill="#24182B"/>
+        <circle cx="34" cy="18" r="3" fill="#24182B"/>
+        <circle cx="44" cy="18" r="3" fill="#24182B"/>
+      </svg>
+    </span>
+    <span class="float float--check">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+        <circle cx="24" cy="24" r="24" fill="#F3A36B"/>
+        <path d="M14 25.5 20.2 32 34 16" stroke="#24182B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
+    <span class="float float--star">
+      <svg width="46" height="46" viewBox="0 0 46 46" fill="none">
+        <circle cx="23" cy="23" r="23" fill="#5b3d6b"/>
+        <path d="M23 8l4.1 8.8 9.6 1.2-7.1 6.6 1.9 9.4L23 29.4 14.5 34l1.9-9.4-7.1-6.6 9.6-1.2L23 8Z" fill="#F6C7A4"/>
+      </svg>
+    </span>
+    <span class="float float--question">
+      <svg width="46" height="46" viewBox="0 0 46 46" fill="none">
+        <circle cx="23" cy="23" r="23" fill="#E8B86D"/>
+        <text x="23" y="31" text-anchor="middle" font-size="26" font-family="Fredoka, sans-serif" fill="#24182B">?</text>
+      </svg>
+    </span>
+  </div>
+</section>

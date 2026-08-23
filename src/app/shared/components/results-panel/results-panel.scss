@@ -1,0 +1,62 @@
+@use '../../../../styles/variables' as *;
+
+.results {
+  color: $text-dark;
+}
+
+.results h2 {
+  font-family: $font-display;
+  font-size: 32px;
+  margin-bottom: 8px;
+
+  span {
+    color: $orange;
+  }
+}
+
+.results__lead,
+.results__empty {
+  color: $text-muted;
+  margin-bottom: 20px;
+}
+
+.results__block {
+  margin-bottom: 22px;
+
+  h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+}
+
+.results__row {
+  display: grid;
+  grid-template-columns: 24px 1fr 48px;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.results__track {
+  height: 10px;
+  border-radius: 999px;
+  background: #eadfd6;
+  overflow: hidden;
+}
+
+.results__bar {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: $orange-soft;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s ease;
+}
+
+.results__empty {
+  min-height: 180px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+}

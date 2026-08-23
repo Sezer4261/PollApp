@@ -1,0 +1,23 @@
+<div class="filter">
+  <button class="filter__button" type="button" (click)="toggle()">
+    <span>Sort by categories</span>
+    <svg width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true">
+      <path d="M1 1.5 6 6.5 11 1.5" stroke="#F3A36B" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </button>
+
+  @if (open) {
+    <ul class="filter__menu" role="listbox">
+      <li>
+        <button type="button" (click)="choose(allValue)">{{ labelFor(allValue) }}</button>
+      </li>
+      @for (category of categories; track category) {
+        <li>
+          <button type="button" [class.is-active]="value === category" (click)="choose(category)">
+            {{ category }}
+          </button>
+        </li>
+      }
+    </ul>
+  }
+</div>

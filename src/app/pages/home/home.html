@@ -1,0 +1,80 @@
+<div class="home">
+  <app-header variant="dark" (createSurvey)="openCreate()" />
+  <app-hero (newSurvey)="openCreate()" />
+
+  <section class="home__section page-wrap">
+    <h2>Your surveys</h2>
+    <p class="home__kicker">Ending soon surveys</p>
+    <div class="home__soon">
+      @for (survey of endingSoon(); track survey.id) {
+        <app-survey-card
+          @fadeListAnimation
+          [survey]="survey"
+          variant="highlight"
+          (selectSurvey)="openSurvey($event)"
+        />
+      } @empty {
+        <p class="empty-note">No surveys are ending soon.</p>
+      }
+    </div>
+  </section>
+
+  <section class="home__section page-wrap">
+    <div class="home__toolbar">
+      <div class="home__tabs">
+        <button
+          class="btn btn--tab btn--ghost"
+          type="button"
+          [class.is-active]="tab() === 'active'"
+          (click)="setTab('active')"
+        >
+          Active survey
+        </button>
+        <button
+          class="btn btn--tab btn--ghost"
+          type="button"
+          [class.is-active]="tab() === 'past'"
+          (click)="setTab('past')"
+        >
+          Past survey
+        </button>
+      </div>
+      <app-category-filter
+        [value]="currentCategory()"
+        [open]="filterOpen()"
+        (valueChange)="setCategory($event)"
+        (openChange)="filterOpen.set($event)"
+      />
+    </div>
+
+    <div class="home__list">
+      @if (loading()) {
+        <p class="empty-note">Loading surveys...</p>
+      } @else {
+        @switch (tab()) {
+          @case ('active') {
+            <div class="home__grid" @tabSwitchAnimation>
+              @for (survey of visibleSurveys(); track survey.id) {
+                <app-survey-card [survey]="survey" variant="list" (selectSurvey)="openSurvey($event)" />
+              } @empty {
+                <p class="empty-note">No active surveys in this category.</p>
+              }
+            </div>
+          }
+          @case ('past') {
+            <div class="home__grid" @tabSwitchAnimation>
+              @for (survey of visibleSurveys(); track survey.id) {
+                <app-survey-card [survey]="survey" variant="list" (selectSurvey)="openSurvey($event)" />
+              } @empty {
+                <p class="empty-note">No past surveys in this category.</p>
+              }
+            </div>
+          }
+          @default {
+            <p class="empty-note">Choose a tab to see surveys.</p>
+          }
+        }
+      }
+    </div>
+  </section>
+</div>

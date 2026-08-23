@@ -1,0 +1,47 @@
+@use '../../../../styles/variables' as *;
+
+.filter {
+  position: relative;
+  min-height: 24px;
+}
+
+.filter__button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  color: $text-on-dark;
+  border: 0;
+  font-weight: 700;
+}
+
+.filter__menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 4;
+  margin: 0;
+  padding: 10px;
+  list-style: none;
+  min-width: 240px;
+  background: $bg-white;
+  color: $text-dark;
+  border-radius: 16px;
+  box-shadow: $shadow-card;
+
+  button {
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: 0;
+    border-radius: 10px;
+    padding: 10px 12px;
+    color: $text-dark;
+    font-weight: 600;
+  }
+
+  button:hover,
+  .is-active {
+    background: #ffe8d6;
+  }
+}

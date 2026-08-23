@@ -1,0 +1,9 @@
+<router-outlet />
+
+@if (overlay.createOpen()) {
+  <app-create-survey-overlay />
+}
+
+@if (overlay.confirmOpen()) {
+  <app-confirmation-overlay />
+}

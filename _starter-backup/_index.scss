@@ -1,0 +1,190 @@
+@forward './variables';
+@forward './components';
+@forward './fonts';
+
+<header class="main-header">
+<h1 class="main-header__title">Produkte</h1>
+<a class="btn btn--primary">
+<span>Neues Produkt</span>
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"
+fill="none">
+<path
+d="M6 8H1C0.716667 8 0.479167 7.90417 0.2875 7.7125C0.0958333 7.52083 0 7.28333
+0 7C0 6.71667 0.0958333 6.47917 0.2875 6.2875C0.479167 6.09583 0.716667 6 1 6H6V1C6
+0.716667 6.09583 0.479167 6.2875 0.2875C6.47917 0.0958333 6.71667 0 7 0C7.28333 0
+7.52083 0.0958333 7.7125 0.2875C7.90417 0.479167 8 0.716667 8 1V6H13C13.2833 6
+13.5208 6.09583 13.7125 6.2875C13.9042 6.47917 14 6.71667 14 7C14 7.28333 13.9042
+7.52083 13.7125 7.7125C13.5208 7.90417 13.2833 8 13 8H8V13C8 13.2833 7.90417 13.5208
+7.7125 13.7125C7.52083 13.9042 7.28333 14 7 14C6.71667 14 6.47917 13.9042 6.2875
+13.7125C6.09583 13.5208 6 13.2833 6 13V8Z"
+fill="#232323" />
+</svg>
+</a>
+</header>
+
+<section class="product-table-wrapper">
+<table class="product-table" role="grid" aria-describedby="Produktliste">
+<thead>
+<tr>
+<th>Produkt</th>
+<th>Beschreibung</th>
+<th>Bestand</th>
+<th>Preis(€)</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr role="link">
+<td>Computermaus</td>
+<td>optisch, USB-Anschluss, schwarz</td>
+<td><span class="badge ok">104</span></td>
+<td class="price">18,00</td>
+<td><a class="btn--view" aria-label="Details anzeigen"></a></td>
+</tr>
+<tr role="link">
+<td>HDMI-Kabel High-Speed</td>
+<td>2 m, vergoldete Stecker</td>
+<td><span class="badge low">64</span></td>
+<td class="price">8,30</td>
+<td><a class="btn--view" aria-label="Details anzeigen"></a></td>
+</tr>
+<tr role="link">
+<td>USB-Kabel</td>
+<td>2.0, 1,5 m, schwarz</td>
+<td><span class="badge ok">124</span></td>
+<td class="price">5,40</td>
+<td><a class="btn--view" aria-label="Details anzeigen"></a></td>
+</tr>
+<tr routerLink="/edit">
+<td>Tastatur QWERTZ</td>
+<td>kabelgebunden, deutsch</td>
+<td><span class="badge ok">146</span></td>
+<td class="price">18,99</td>
+<td><a class="btn--view" aria-label="Details anzeigen"></a></td>
+</tr>
+</tbody>
+</table>
+</section>
+
+<article class="product-detail">
+<header class="product-detail__header">
+<h1>Computermaus HP 100</h1>
+<div>
+<a class="btn--edit" aria-label="Details editieren"></a>
+<button class="btn--delete" aria-label="Details löschen"></button>
+</div>
+</header>
+<section aria-labelledby="description">
+<h2 id="description">Beschreibung</h2>
+<ul>
+<li>Kabelgebunden optische USB-Maus mit 1600 DPI, 3 Tasten.</li>
+<li>Ergonomisches Design, Plug &amp; Play, für PC, Laptop, Windows,
+macOS – Schwarz.</li>
+<li>Stil: Rechtshänder / Linkshänder.</li>
+</ul>
+</section>
+<section aria-labelledby="specs">
+<h2 id="specs">Spezifikationen</h2>
+<p>
+optisch, USB-Anschluss, schwarz
+</p>
+</section>
+<section>
+<dl>
+<dt>Lagerbestand:</dt>
+<dd>
+<data value="104">104 Stück</data>
+</dd>
+<dt>Preis pro Stück (€):</dt>
+<dd>
+<data value="18.00">18,00</data>
+</dd>
+</dl>
+</section>
+</article>
+
+<section class="product-form">
+<header class="product-form__header">
+<h1>Produkt erstellen</h1>
+<a href="" class="btn--close"></a>
+</header>
+<form>
+<fieldset class="product-form__fieldset--vert">
+<legend>Product Information</legend>
+<label for="product-name">Produkt Name:</label>
+<input type="text" id="product-name" />
+<label for="description">Beschreibung:</label>
+<textarea id="description" name="description" rows="4"></textarea>
+</fieldset>
+<fieldset class="product-form__fieldset--hori">
+<legend>Stock &amp; Pricing</legend>
+<label for="stock">Lagerbestand:</label>
+<input type="number" id="stock" name="stock" />
+<label for="price">Preis pro Stück (€):</label>
+<input type="number" id="price" name="price" step="0.01" />
+</fieldset>
+<button class="btn btn--primary">Produkt hinzufügen</button>
+</form>
+</section>
+für Fehlermeldungen:
+<p class="product-form__error">Fehler:</p>
+<p class="product-form__error">
+Deine Fehlermeldung
+</p>
+
+[
+{
+"name": "Gaming Maus",
+"description": "Eine ergonomische Gaming-Maus mit hoher Präzision und einstellbarer
+DPI. Ideal für FPS- und MOBA-Spiele, bietet sie eine langlebige Bauweise und komfortable
+Seitentasten für schnelles Reagieren.",
+"specs": "dpi: 6400, cable length: 1.8m, color: Schwarz",
+"stock": 120,
+"price": 2500000
+},
+{
+"name": "USB-C Kabel",
+"description": "Robustes Ladekabel für Smartphones, Tablets und Laptops. Unterstützt
+schnelles Laden und Datenübertragung. Perfekt für den täglichen Einsatz zu Hause, im Büro
+oder unterwegs.",
+"specs": "length: 1m, color: Weiß, type: USB-C zu USB-A",
+"stock": 300,
+"price": 4800
+},
+{
+"name": "Mechanische Tastatur",
+"description": "Hochwertige mechanische Tastatur mit RGB-Hintergrundbeleuchtung. Die
+schnellen Switches sorgen für präzise Eingaben und langen Schreibkomfort. Ideal für Gamer
+und Vielschreiber.",
+"specs": "switches: Red, connection: USB, color: Schwarz",
+"stock": 85,
+"price": 79.90
+},
+{
+"name": "HDMI Kabel",
+"description": "Ein zuverlässiges HDMI 2.1 Kabel, das gestochen scharfe Bilder in 4K
+und 8K Qualität liefert. Geeignet für Fernseher, Monitore, Konsolen und Projektoren.
+Unterstützt HDR und hohe Bildwiederholraten.",
+"specs": "length: 2m, version: 2.1, color: Schwarz",
+"stock": 250,
+"price": 12.99
+},
+{
+"name": "Externe SSD",
+"description": "Leistungsstarke und kompakte externe SSD für schnelle
+Datenübertragung. Perfekt für große Dateien, Gaming-Bibliotheken oder als Backup-Lösung.
+Stoßfestes Gehäuse für den mobilen Einsatz.",
+"specs": "capacity: 1TB, interface: USB 3.2, color: Silber",
+"stock": 60,
+"price": 109.99
+},
+{
+"name": "Bluetooth Kopfhörer",
+"description": "Kabellose Over-Ear Kopfhörer mit klaren Höhen und kräftigem Bass.
+Dank 20 Stunden Akkulaufzeit und komfortabler Ohrpolster ideal für lange Musik- oder
+Gaming-Sessions.",
+"specs": "battery life: 20h, color: Schwarz, connection: Bluetooth 5.0",
+"stock": 150,
+"price": 59.95
+}
+]

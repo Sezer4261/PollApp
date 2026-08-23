@@ -1,0 +1,76 @@
+<div class="overlay" @overlayAnimation>
+  <section class="overlay__panel" @panelAnimation>
+    <header class="overlay__header">
+      <span class="badge badge--draft">Draft</span>
+      <h1>Create new survey</h1>
+      <button class="cancel" type="button" (click)="close()">
+        Cancel
+        <span aria-hidden="true">✕</span>
+      </button>
+    </header>
+
+    <form class="overlay__form" (submit)="$event.preventDefault(); publish()">
+      <div class="overlay__meta">
+        <label class="field">
+          <span>Survey name <span class="req">*</span></span>
+          <input
+            type="text"
+            [value]="draft().title"
+            (input)="patch({ title: inputValue($event) })"
+            required
+          />
+        </label>
+
+        <label class="field">
+          <span>Set end date (optional)</span>
+          <input type="date" [value]="draft().endsAt" (input)="patch({ endsAt: inputValue($event) })" />
+        </label>
+
+        <label class="field">
+          <span>Choose category <span class="req">*</span></span>
+          <select [value]="draft().category" (change)="patch({ category: inputValue($event) })">
+            <option value="" disabled>Choose category</option>
+            @for (category of categories; track category) {
+              <option [value]="category">{{ category }}</option>
+            }
+          </select>
+        </label>
+
+        <label class="field field--wide">
+          <span>Describing text (optional)</span>
+          <textarea
+            [value]="draft().description"
+            (input)="patch({ description: inputValue($event) })"
+          ></textarea>
+        </label>
+      </div>
+
+      <div class="overlay__questions">
+        @for (question of draft().questions; track question.id; let i = $index; let first = $first) {
+          <app-question-editor
+            [question]="question"
+            [index]="i"
+            [isFirst]="first"
+            (questionChange)="updateQuestion(i, $event)"
+            (removeQuestion)="removeQuestion(i)"
+            (clearQuestion)="clearFirstQuestion()"
+          />
+        }
+      </div>
+
+      <button class="overlay__add-question" type="button" (click)="addQuestion()">
+        + Add next question
+      </button>
+
+      <div class="overlay__errors">
+        @for (error of errors(); track error) {
+          <p>{{ error }}</p>
+        }
+      </div>
+
+      <div class="overlay__footer">
+        <button class="btn btn--primary" type="submit" [disabled]="submitting()">Publish</button>
+      </div>
+    </form>
+  </section>
+</div>

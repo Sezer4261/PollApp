@@ -1,0 +1,41 @@
+@use '../../../styles/variables' as *;
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 28px 0 12px;
+  min-height: 86px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand__name {
+  font-family: $font-display;
+  font-size: 28px;
+  font-weight: 600;
+  color: $orange-soft;
+}
+
+.site-header--light {
+  .brand__name {
+    color: $orange;
+  }
+}
+
+@media (max-width: 768px) {
+  .site-header {
+    width: min(1180px, calc(100% - 24px));
+    padding-top: 18px;
+  }
+
+  .brand__name {
+    font-size: 22px;
+  }
+}

@@ -1,0 +1,49 @@
+$bg-dark: #24182b;
+$bg-deep: #1c1322;
+$bg-elevated: #32243b;
+$bg-card-dark: #3a2b44;
+$bg-light: #efe8e0;
+$bg-card-light: #f7f1ea;
+$bg-white: #ffffff;
+
+$orange: #ef8c4a;
+$orange-deep: #e57a32;
+$orange-soft: #f4b183;
+$peach: #f6c7a4;
+$peach-btn: #f3a36b;
+$gold: #e8b86d;
+
+$text-dark: #2a1c31;
+$text-muted: #6d5b73;
+$text-on-dark: #ffffff;
+$text-muted-on-dark: rgba(255, 255, 255, 0.72);
+
+$radius-sm: 10px;
+$radius-md: 16px;
+$radius-lg: 24px;
+$radius-xl: 80px;
+$radius-pill: 999px;
+
+$shadow-card: 0 18px 40px rgba(28, 19, 34, 0.18);
+$shadow-hover: 0 16px 32px rgba(239, 140, 74, 0.22);
+
+$font-display: 'Fredoka', 'Nunito', sans-serif;
+$font-body: 'Nunito', sans-serif;
+
+$bp-tablet: 1024px;
+$bp-mobile: 768px;
+
+:root {
+  --bg-dark: #{$bg-dark};
+  --bg-deep: #{$bg-deep};
+  --bg-elevated: #{$bg-elevated};
+  --bg-card-dark: #{$bg-card-dark};
+  --bg-light: #{$bg-light};
+  --bg-card-light: #{$bg-card-light};
+  --orange: #{$orange};
+  --orange-soft: #{$orange-soft};
+  --peach-btn: #{$peach-btn};
+  --text-dark: #{$text-dark};
+  --font-display: #{$font-display};
+  --font-body: #{$font-body};
+}
