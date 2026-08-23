@@ -1,7 +1,8 @@
 /**
  * @fileoverview Dashboard hero with headline, CTA and the floating phone illustration.
  */
-import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { OverlayService } from '../../../core/services/overlay.service';
 
 /**
  * Top section of the homescreen.
@@ -13,6 +14,10 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angul
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Hero {
-  /** Emitted when "New survey" is clicked. */
-  @Output() newSurvey = new EventEmitter<void>();
+  private readonly overlay = inject(OverlayService);
+
+  /** Opens the create-survey overlay from the hero CTA. */
+  openCreate(): void {
+    this.overlay.openCreate();
+  }
 }

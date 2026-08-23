@@ -1,7 +1,7 @@
 /**
  * @fileoverview Overlay form for creating and publishing a new survey.
  */
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, inject, signal } from '@angular/core';
 import { overlayAnimation, panelAnimation } from '../../../core/animations/poll.animations';
 import { SURVEY_CATEGORIES } from '../../../core/constants/categories';
 import {
@@ -41,6 +41,27 @@ export class CreateSurveyOverlay {
   /** Closes the overlay without publishing. */
   close(): void {
     this.overlay.closeCreate();
+  }
+
+  /** Closes the overlay when Escape is pressed. */
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    this.close();
+  }
+
+  /** Clears the survey name field. */
+  clearTitle(): void {
+    this.patch({ title: '' });
+  }
+
+  /** Clears the optional end date. */
+  clearEndsAt(): void {
+    this.patch({ endsAt: '' });
+  }
+
+  /** Clears the optional describing text. */
+  clearDescription(): void {
+    this.patch({ description: '' });
   }
 
   /**

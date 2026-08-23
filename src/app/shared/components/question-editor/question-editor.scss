@@ -13,9 +13,10 @@
   justify-content: space-between;
 
   h3 {
-    font-family: $font-display;
-    font-size: 20px;
-    color: $orange-soft;
+    font-family: $font-body;
+    font-size: 16px;
+    font-weight: 700;
+    color: $text-on-dark;
   }
 }
 
@@ -25,6 +26,7 @@
   align-items: center;
   gap: 12px;
   margin-bottom: 10px;
+  color: $text-on-dark;
 }
 
 .editor__answer {
@@ -40,6 +42,7 @@
     padding: 10px 12px;
     background: $bg-white;
     color: $text-dark;
+    min-height: 46px;
 
     &:focus {
       outline: 2px solid $orange-soft;
@@ -48,13 +51,31 @@
   }
 }
 
+.editor__letter {
+  font-weight: 800;
+  color: $text-on-dark;
+  min-width: 1.4em;
+}
+
 .editor__add {
   background: transparent;
   border: 0;
-  color: $orange-soft;
+  color: $peach;
   font-weight: 700;
   padding: 6px 0;
   width: fit-content;
+}
+
+.trash {
+  width: 36px;
+  height: 36px;
+  min-height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  display: grid;
+  place-items: center;
 }
 
 .sr-only {

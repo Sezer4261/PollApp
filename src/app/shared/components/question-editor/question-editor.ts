@@ -79,12 +79,13 @@ export class QuestionEditor {
   }
 
   /**
-   * Removes an answer when more than two rows remain.
+   * Removes an answer when more than two rows remain, otherwise clears its text.
    *
    * @param answerId - Answer row to delete.
    */
   removeAnswer(answerId: string): void {
     if (this.question.answers.length <= 2) {
+      this.updateAnswer(answerId, '');
       return;
     }
     this.patch({

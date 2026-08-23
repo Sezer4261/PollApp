@@ -4,10 +4,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: min(1180px, calc(100% - 48px));
+  width: min(1180px, calc(100% - 64px));
   margin: 0 auto;
-  padding: 28px 0 12px;
-  min-height: 86px;
+  padding: 28px 0 8px;
+  min-height: 92px;
 }
 
 .brand {
@@ -17,10 +17,13 @@
 }
 
 .brand__name {
+  display: flex;
+  flex-direction: column;
   font-family: $font-display;
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 600;
-  color: $orange-soft;
+  line-height: 0.95;
+  color: $peach;
 }
 
 .site-header--light {
@@ -36,6 +39,6 @@
   }
 
   .brand__name {
-    font-size: 22px;
+    font-size: 18px;
   }
 }

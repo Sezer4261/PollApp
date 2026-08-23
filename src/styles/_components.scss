@@ -86,8 +86,8 @@
   }
 
   &--deadline {
-    background: $orange;
-    color: $text-on-dark;
+    background: $peach;
+    color: $text-dark;
   }
 }
 
@@ -96,6 +96,7 @@
   flex-direction: column;
   gap: 8px;
 
+  > span,
   label {
     font-weight: 700;
     color: $text-on-dark;
