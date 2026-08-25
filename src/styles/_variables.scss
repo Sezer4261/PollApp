@@ -1,23 +1,45 @@
-$bg-dark: #2d2430;
-$bg-deep: #241c28;
+/// The start page is specified as a 547 px wide mock-up. `u()` turns a
+/// measurement taken from that mock-up into a viewport relative length, so the
+/// rendered page keeps the exact proportions of the design at any window size.
+@function u($n) {
+  @return calc(#{$n} * var(--u));
+}
+
+/// Same as `u()`, but never shrinks below `$min`. Used for type sizes so a very
+/// narrow window stays readable while desktop keeps the exact design size.
+@function ufloor($n, $min) {
+  @return unquote('max(calc(#{$n} * var(--u)), #{$min})');
+}
+
+$mock-width: 547;
+
+$bg-dark: #35273a;
+$bg-deep: #2a1e2e;
 $bg-elevated: #3a303e;
-$bg-card-dark: #3d3341;
+$bg-card-dark: #423546;
 $bg-light: #efe8e0;
 $bg-card-light: #f7f1ea;
 $bg-white: #ffffff;
-$bg-highlight: #f3eef2;
+$bg-highlight: #faf5fe;
+$bg-tab-idle: #ede0d4;
+$bg-badge-soft: #ffcfa1;
 
 $orange: #f0a05a;
 $orange-deep: #e57a32;
-$orange-soft: #ffc28d;
-$peach: #ffc28d;
-$peach-btn: #ffc28d;
-$gold: #e8b86d;
+$orange-soft: #ffb770;
+$peach: #ffb770;
+$peach-btn: #ffcfa1;
+$peach-shadow: #bd784d;
+$peach-ink: #bf8269;
+$text-category: #978d9c;
+$gold: #ffd166;
 
-$text-dark: #2d2430;
+$text-dark: #35273a;
 $text-muted: #6d5b73;
 $text-on-dark: #ffffff;
-$text-muted-on-dark: rgba(255, 255, 255, 0.86);
+$text-muted-on-dark: rgba(255, 255, 255, 0.9);
+
+$error: #ff6f6f;
 
 $radius-sm: 10px;
 $radius-md: 16px;
@@ -25,16 +47,18 @@ $radius-lg: 24px;
 $radius-xl: 80px;
 $radius-pill: 999px;
 
-$shadow-card: 0 18px 40px rgba(28, 19, 34, 0.18);
-$shadow-hover: 0 16px 32px rgba(239, 140, 74, 0.22);
+$shadow-card: 0 10px 22px rgba(12, 6, 16, 0.32);
+$shadow-hover: 0 8px 18px rgba(20, 10, 18, 0.28);
+$shadow-type: 3px 4px 0 rgba(18, 10, 20, 0.55);
 
-$font-display: 'Fredoka', 'Nunito', sans-serif;
+$font-display: 'Fredoka One', 'Fredoka', 'Nunito', sans-serif;
 $font-body: 'Nunito', sans-serif;
 
 $bp-tablet: 1024px;
 $bp-mobile: 768px;
 
 :root {
+  --u: calc(min(100vw, 1920px) / #{$mock-width});
   --bg-dark: #{$bg-dark};
   --bg-deep: #{$bg-deep};
   --bg-elevated: #{$bg-elevated};
@@ -45,6 +69,7 @@ $bp-mobile: 768px;
   --orange: #{$orange};
   --orange-soft: #{$orange-soft};
   --peach-btn: #{$peach-btn};
+  --error: #{$error};
   --text-dark: #{$text-dark};
   --font-display: #{$font-display};
   --font-body: #{$font-body};

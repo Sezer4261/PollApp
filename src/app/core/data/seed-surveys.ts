@@ -94,11 +94,11 @@ export function createSeedSurveys(now: Date = new Date()): Survey[] {
     },
     {
       id: 'survey-wellness',
-      title: 'Weekly Wellness Check-in',
+      title: 'Fit & wellness survey!',
       description: 'A quick pulse check so we can support energy, focus and balance in the team.',
       category: 'Health & Wellness',
       status: 'published',
-      endsAt: atDaysFromNow(3, now),
+      endsAt: atDaysFromNow(2, now),
       createdAt: atDaysFromNow(-6, now),
       questions: [
         {
@@ -128,11 +128,11 @@ export function createSeedSurveys(now: Date = new Date()): Survey[] {
     },
     {
       id: 'survey-game-night',
-      title: 'Next Game Night Picks',
+      title: 'Gaming habits and favorite games!',
       description: 'Vote for the games we should put on the table this Friday.',
       category: 'Gaming & Entertainment',
       status: 'published',
-      endsAt: atDaysFromNow(5, now),
+      endsAt: atDaysFromNow(3, now),
       createdAt: atDaysFromNow(-4, now),
       questions: [
         {

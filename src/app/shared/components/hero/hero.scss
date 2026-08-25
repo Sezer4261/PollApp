@@ -1,161 +1,86 @@
 @use '../../../../styles/variables' as *;
 
 .hero {
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: 24px;
-  align-items: center;
-  width: min(1180px, calc(100% - 64px));
-  margin: 8px auto 52px;
-  min-height: 360px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: u(12);
+  min-height: u(152);
+}
+
+.hero__copy {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin-top: u(-3.5);
 }
 
 .hero__copy h1 {
   font-family: $font-display;
-  font-size: clamp(44px, 5.4vw, 76px);
-  line-height: 1.02;
-  font-weight: 600;
+  font-size: ufloor(31.3, 34px);
+  font-weight: 400;
+  line-height: u(33);
   color: $peach;
 }
 
 .hero__copy p {
-  max-width: 44ch;
-  margin: 18px 0 28px;
+  max-width: u(266);
+  margin-top: u(10.4);
   color: $text-on-dark;
-  font-size: 17px;
-  line-height: 1.65;
+  font-size: ufloor(9.5, 15px);
+  line-height: u(11.5);
+}
+
+.hero__copy .btn--primary {
+  margin-top: u(15.6);
+  min-height: 0;
+  height: u(18);
+  padding: 0 u(6);
+  border-radius: u(9);
+  font-size: ufloor(7.2, 13px);
+  font-weight: 700;
+  line-height: 1;
+  background: $peach-btn;
+  color: $text-dark;
+  box-shadow: 0 u(1.5) u(3) rgba(15, 7, 18, 0.35);
+
+  &:hover:not(:disabled) {
+    background: #ffdcb6;
+  }
 }
 
 .hero__visual {
   position: relative;
-  min-height: 360px;
-  display: grid;
-  place-items: center;
+  flex: 0 0 auto;
+  width: u(124);
+  height: u(152);
 }
 
-.phone {
-  width: 210px;
-  height: 320px;
-  border-radius: 36px;
-  background: linear-gradient(180deg, #fff7f1 0%, #f3e6dc 100%);
-  box-shadow:
-    0 28px 40px rgba(0, 0, 0, 0.28),
-    inset 0 0 0 10px #2d2430;
-  padding: 28px 18px 18px;
-  transform: rotate(-7deg);
-}
-
-.phone__screen {
-  height: 100%;
-  border-radius: 18px;
-  background: #fff;
-  color: $text-dark;
-  padding: 16px 14px;
-}
-
-.phone__chip {
-  display: inline-block;
-  font-size: 11px;
-  color: $text-muted;
-  margin-bottom: 8px;
-}
-
-.phone__screen strong {
-  display: block;
-  font-family: $font-display;
-  font-size: 20px;
-  line-height: 1.15;
-  margin-bottom: 16px;
-}
-
-.phone__screen ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.phone__screen li {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 10px;
-  font-size: 12px;
-}
-
-.phone__screen li span {
-  width: 14px;
-  height: 14px;
-  border: 2px solid #d7c3c8;
-  border-radius: 4px;
-  flex-shrink: 0;
-}
-
-.phone__screen li.is-on span {
-  background: $peach;
-  border-color: $peach;
-}
-
-.phone__cta {
-  margin-top: 18px;
-  height: 28px;
-  border-radius: 999px;
-  background: $peach;
-}
-
-.float {
+.hero__layer {
   position: absolute;
-  transition: transform 0.8s ease;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
 }
 
-.float--bubble {
-  top: 12px;
-  left: 14%;
-  transition-duration: 0.7s;
+/// The mock-up shows the phone tilted in space, not merely rotated: its left edge
+/// measures 134 design units against 149 on the right. Fitting a projection to the
+/// four measured corners yields the values below, so the phone leans away to the
+/// left exactly as in the design.
+.hero__phone {
+  transform-origin: 53.5% 49.02%;
+  transform: perspective(#{u(117.9)}) rotateY(-10.06deg) rotateX(4.65deg) rotate(0.38deg);
 }
 
-.float--check {
-  top: 28px;
-  right: 12%;
-  transition-duration: 1.15s;
-}
-
-.float--star {
-  bottom: 42px;
-  left: 10%;
-  transition-duration: 0.9s;
-}
-
-.float--question {
-  bottom: 22px;
-  right: 14%;
-  transition-duration: 1.3s;
-}
-
-@media (min-width: 1025px) {
-  .hero__visual:hover {
-    .float--bubble {
-      transform: translate(-14px, -18px);
-    }
-    .float--check {
-      transform: translate(16px, -12px);
-    }
-    .float--star {
-      transform: translate(-10px, 14px);
-    }
-    .float--question {
-      transform: translate(18px, 10px);
-    }
-  }
-}
-
-@media (max-width: 1024px) {
+@media (max-width: $bp-tablet) {
   .hero {
-    grid-template-columns: 1fr;
-    width: min(1180px, calc(100% - 24px));
-    margin-bottom: 36px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: u(20);
   }
 
   .hero__visual {
-    min-height: 300px;
+    align-self: center;
   }
 }

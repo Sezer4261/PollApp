@@ -18,7 +18,12 @@
       </button>
     </header>
 
-    <form class="overlay__form" (submit)="$event.preventDefault(); publish()">
+    <!--
+      `novalidate` keeps the browser from replacing our own red messages with its
+      native bubbles. The `required` and `min` attributes stay in place: they still
+      restrict the date picker and drive the `:invalid` styling.
+    -->
+    <form class="overlay__form" novalidate (submit)="$event.preventDefault(); publish()">
       <div class="overlay__body">
         <div class="overlay__left">
           <label class="field">
@@ -39,12 +44,15 @@
           </label>
 
           <div class="overlay__pair">
-            <label class="field">
+            <label class="field" [class.field--invalid]="endDateError()">
               <span>Set end date (optional)</span>
               <div class="field__row">
                 <input
                   type="date"
                   [value]="draft().endsAt"
+                  [min]="minEndDate"
+                  [attr.aria-invalid]="endDateError() ? 'true' : null"
+                  [attr.aria-describedby]="endDateError() ? 'end-date-error' : null"
                   (input)="patch({ endsAt: inputValue($event) })"
                 />
                 <button class="trash" type="button" (click)="clearEndsAt()" aria-label="Clear end date">
@@ -53,6 +61,9 @@
                   </svg>
                 </button>
               </div>
+              @if (endDateError()) {
+                <span class="field__error" id="end-date-error" role="alert">{{ endDateError() }}</span>
+              }
             </label>
 
             <label class="field">
@@ -66,19 +77,6 @@
                 </select>
               </div>
             </label>
-          </div>
-
-          <div class="overlay__questions">
-            @for (question of draft().questions; track question.id; let i = $index; let first = $first) {
-              <app-question-editor
-                [question]="question"
-                [index]="i"
-                [isFirst]="first"
-                (questionChange)="updateQuestion(i, $event)"
-                (removeQuestion)="removeQuestion(i)"
-                (clearQuestion)="clearFirstQuestion()"
-              />
-            }
           </div>
         </div>
 
@@ -102,7 +100,22 @@
               </button>
             </div>
           </label>
+        </div>
 
+        <div class="overlay__questions">
+          @for (question of draft().questions; track question.id; let i = $index; let first = $first) {
+            <app-question-editor
+              [question]="question"
+              [index]="i"
+              [isFirst]="first"
+              (questionChange)="updateQuestion(i, $event)"
+              (removeQuestion)="removeQuestion(i)"
+              (clearQuestion)="clearFirstQuestion()"
+            />
+          }
+        </div>
+
+        <div class="overlay__actions">
           <button class="overlay__add-question" type="button" (click)="addQuestion()">
             Add next question
             <span class="overlay__plus" aria-hidden="true">+</span>

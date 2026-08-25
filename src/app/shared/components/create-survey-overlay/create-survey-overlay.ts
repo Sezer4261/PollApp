@@ -1,7 +1,14 @@
 /**
  * @fileoverview Overlay form for creating and publishing a new survey.
  */
-import { ChangeDetectionStrategy, Component, HostListener, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { overlayAnimation, panelAnimation } from '../../../core/animations/poll.animations';
 import { SURVEY_CATEGORIES } from '../../../core/constants/categories';
 import {
@@ -13,6 +20,22 @@ import {
 import { OverlayService } from '../../../core/services/overlay.service';
 import { SurveyService } from '../../../core/services/survey.service';
 import { QuestionEditor } from '../question-editor/question-editor';
+
+const PAST_END_DATE_MESSAGE = 'The end date cannot be in the past. Please pick today or later.';
+
+/**
+ * Formats a date the way `<input type="date">` expects it. Built from the local
+ * calendar fields rather than `toISOString()`, which would roll over to the
+ * previous day for evening hours in timezones ahead of UTC.
+ *
+ * @param date - Date to format.
+ * @returns Date as `YYYY-MM-DD`.
+ */
+function toDateInputValue(date: Date): string {
+  const month = `${date.getMonth() + 1}`.padStart(2, '0');
+  const day = `${date.getDate()}`.padStart(2, '0');
+  return `${date.getFullYear()}-${month}-${day}`;
+}
 
 /**
  * Create-survey modal. Not a route: it is shown above the current page.
@@ -37,6 +60,12 @@ export class CreateSurveyOverlay {
   readonly errors = signal<string[]>([]);
   /** True while the survey is being persisted. */
   readonly submitting = signal(false);
+  /** Earliest selectable end date, fed to the `min` attribute of the date input. */
+  readonly minEndDate = toDateInputValue(new Date());
+  /** Error shown under the end date field while a past day is entered. */
+  readonly endDateError = computed(() =>
+    this.isPastDate(this.draft().endsAt) ? PAST_END_DATE_MESSAGE : '',
+  );
 
   /** Closes the overlay without publishing. */
   close(): void {
@@ -132,7 +161,7 @@ export class CreateSurveyOverlay {
   async publish(): Promise<void> {
     const issues = this.validate(this.draft());
     this.errors.set(issues);
-    if (issues.length > 0) {
+    if (issues.length > 0 || this.endDateError()) {
       return;
     }
 
@@ -168,5 +197,14 @@ export class CreateSurveyOverlay {
     }
 
     return issues;
+  }
+
+  /**
+   * @param value - Date as `YYYY-MM-DD`, or an empty string when no date is set.
+   * @returns True when the date lies before today. `YYYY-MM-DD` sorts
+   *   chronologically, so a string comparison is enough here.
+   */
+  private isPastDate(value: string): boolean {
+    return value !== '' && value < this.minEndDate;
   }
 }
