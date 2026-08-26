@@ -21,7 +21,7 @@ function votes(count: number, prefix: string) {
 function atDaysFromNow(days: number, now: Date): string {
   const date = new Date(now);
   date.setDate(date.getDate() + days);
-  date.setHours(18, 0, 0, 0);
+  date.setHours(23, 59, 0, 0);
   return date.toISOString();
 }
 

@@ -113,13 +113,15 @@
               (clearQuestion)="clearFirstQuestion()"
             />
           }
-        </div>
-
-        <div class="overlay__actions">
-          <button class="overlay__add-question" type="button" (click)="addQuestion()">
-            Add next question
-            <span class="overlay__plus" aria-hidden="true">+</span>
-          </button>
+          <div
+            class="overlay__actions"
+            [class.overlay__actions--beside]="draft().questions.length === 1"
+          >
+            <button class="overlay__add-question" type="button" (click)="addQuestion()">
+              Add next question
+              <span class="overlay__plus" aria-hidden="true">+</span>
+            </button>
+          </div>
         </div>
       </div>
 

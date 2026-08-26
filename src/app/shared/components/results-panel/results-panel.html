@@ -2,13 +2,12 @@
   <h2>Survey results <span>LIVE</span></h2>
 
   @if (hasAnswers) {
-    <p class="results__lead">Results update as soon as someone completes the survey.</p>
     @for (question of survey.questions; track question.id; let qi = $index) {
       <section class="results__block">
         <h3>{{ qi + 1 }}. {{ question.text }}</h3>
         @for (option of question.options; track option.id; let oi = $index) {
           <div class="results__row">
-            <span>{{ oi | optionLetter }}.</span>
+            <span class="results__letter">{{ oi | optionLetter }}.</span>
             <div class="results__track">
               <div
                 class="results__bar"
@@ -26,10 +25,6 @@
     <p class="results__lead">
       Results will be shown here after participants complete the survey.
     </p>
-    @for (answerBatch of []; track $index) {
-      <p>{{ answerBatch }}</p>
-    } @empty {
-      <p class="results__empty">There are no answers yet.</p>
-    }
+    <p class="results__empty">There are no answers yet.</p>
   }
 </aside>

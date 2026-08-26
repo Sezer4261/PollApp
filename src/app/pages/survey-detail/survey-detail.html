@@ -6,26 +6,37 @@
       <article class="detail__card" [class.is-locked]="locked()">
         <div class="detail__meta">
           <span class="badge badge--published">Published</span>
-          <p>{{ current.endsAt | endsOn }}</p>
-          <p>Category: {{ current.category }}</p>
+          <div class="detail__meta-row">
+            <p>{{ current.endsAt | endsOn }}</p>
+            <p>Category: {{ current.category }}</p>
+          </div>
         </div>
 
-        <h1>{{ current.title }}</h1>
-        <p class="detail__description">{{ current.description }}</p>
-        <p class="detail__note">
-          @if (isPast()) {
-            This survey has ended. You can still view the results.
-          } @else if (alreadyCompleted()) {
-            You already completed this survey.
+        <h1>
+          @for (line of titleLines(current.title); track $index) {
+            @if ($index > 0) {
+              <br />
+            }
+            <span class="detail__title-line">{{ line }}</span>
           }
-        </p>
+        </h1>
+        <p class="detail__description">{{ current.description }}</p>
+        @if (isPast() || alreadyCompleted()) {
+          <p class="detail__note">
+            @if (isPast()) {
+              This survey has ended. You can still view the results.
+            } @else {
+              You already completed this survey.
+            }
+          </p>
+        }
 
         <div class="detail__questions">
           @for (question of current.questions; track question.id; let qi = $index) {
             <section class="question">
               <h2>{{ qi + 1 }}. {{ question.text }}</h2>
               <p class="question__hint" [class.is-hidden]="!question.allowMultiple">
-                More than one answers are possible
+                More than one answers are possible.
               </p>
 
               @for (option of question.options; track option.id; let oi = $index) {
@@ -37,14 +48,16 @@
                     [disabled]="locked()"
                     (change)="toggleOption(question, option.id)"
                   />
-                  <span>{{ oi | optionLetter }}. {{ option.text }}</span>
+                  <span><strong>{{ oi | optionLetter }}.</strong> {{ option.text }}</span>
                 </label>
               }
             </section>
           }
         </div>
 
-        <p class="detail__error">{{ formError() }}</p>
+        @if (formError(); as message) {
+          <p class="detail__error">{{ message }}</p>
+        }
 
         <div class="detail__actions">
           @if (!locked()) {

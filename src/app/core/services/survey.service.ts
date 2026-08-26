@@ -14,7 +14,7 @@ import {
 import { SupabaseService } from './supabase.service';
 
 /** localStorage key for the survey cache. */
-const LOCAL_DB_KEY = 'poll-app.surveys.v2';
+const LOCAL_DB_KEY = 'poll-app.surveys.v3';
 /** localStorage key for surveys this browser already completed. */
 const LOCAL_VOTES_KEY = 'poll-app.completed-surveys';
 

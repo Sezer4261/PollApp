@@ -1,6 +1,9 @@
 /// The start page is specified as a 547 px wide mock-up. `u()` turns a
 /// measurement taken from that mock-up into a viewport relative length, so the
-/// rendered page keeps the exact proportions of the design at any window size.
+/// page fills the window while inner proportions stay as in the design.
+$mock-width: 547;
+$mock-height: 716;
+
 @function u($n) {
   @return calc(#{$n} * var(--u));
 }
@@ -11,7 +14,16 @@
   @return unquote('max(calc(#{$n} * var(--u)), #{$min})');
 }
 
-$mock-width: 547;
+/// Figma type size (px at 1920-wide artboard), converted through `--u` so type
+/// keeps the same proportion to the layout as in the screenshot.
+@function fs($px) {
+  @return calc(#{$px} * #{$mock-width} / 1920 * var(--u));
+}
+
+/// Same as `fs()`, but never shrinks below `$min`.
+@function fsfloor($px, $min) {
+  @return unquote('max(calc(#{$px} * #{$mock-width} / 1920 * var(--u)), #{$min})');
+}
 
 $bg-dark: #35273a;
 $bg-deep: #2a1e2e;
@@ -51,14 +63,14 @@ $shadow-card: 0 10px 22px rgba(12, 6, 16, 0.32);
 $shadow-hover: 0 8px 18px rgba(20, 10, 18, 0.28);
 $shadow-type: 3px 4px 0 rgba(18, 10, 20, 0.55);
 
-$font-display: 'Fredoka One', 'Fredoka', 'Nunito', sans-serif;
-$font-body: 'Nunito', sans-serif;
+$font-display: 'Nerko One', cursive;
+$font-body: 'Mulish', sans-serif;
 
 $bp-tablet: 1024px;
 $bp-mobile: 768px;
 
 :root {
-  --u: calc(min(100vw, 1920px) / #{$mock-width});
+  --u: calc(100vw / #{$mock-width});
   --bg-dark: #{$bg-dark};
   --bg-deep: #{$bg-deep};
   --bg-elevated: #{$bg-elevated};

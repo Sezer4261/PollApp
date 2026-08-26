@@ -13,9 +13,9 @@
   justify-content: space-between;
 
   h3 {
-    font-family: $font-body;
-    font-size: 16px;
-    font-weight: 700;
+    font-family: $font-display;
+    font-size: 32px;
+    font-weight: 400;
     color: $text-on-dark;
   }
 }
@@ -27,6 +27,9 @@
   gap: 12px;
   margin-bottom: 10px;
   color: $text-on-dark;
+  font-family: $font-body;
+  font-size: 24px;
+  font-weight: 400;
 }
 
 .editor__answer {
@@ -43,6 +46,8 @@
     background: $bg-white;
     color: $text-dark;
     min-height: 46px;
+    font-family: $font-body;
+    font-size: 26px;
 
     &:focus {
       outline: 2px solid $orange-soft;
@@ -52,18 +57,40 @@
 }
 
 .editor__letter {
-  font-weight: 800;
+  font-family: $font-body;
+  font-weight: 700;
+  font-size: 24px;
   color: $text-on-dark;
   min-width: 1.4em;
 }
 
 .editor__add {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
   background: transparent;
   border: 0;
-  color: $peach;
+  color: $text-on-dark;
+  font-family: $font-body;
   font-weight: 700;
+  font-size: 16px;
   padding: 6px 0;
   width: fit-content;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.editor__plus {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border: 2px solid $text-on-dark;
+  border-radius: 50%;
+  font-size: 15px;
+  line-height: 1;
+  color: $text-on-dark;
 }
 
 .trash {

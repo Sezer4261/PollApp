@@ -59,6 +59,22 @@ export class SurveyDetail {
   }
 
   /**
+   * Splits the team-event title so "Let's Plan the Next Team" stays on one line.
+   *
+   * @param title - Survey title to display.
+   * @returns One or two lines for the heading.
+   */
+  titleLines(title: string): string[] {
+    const firstLine = "Let's Plan the Next Team";
+    if (title.startsWith(firstLine)) {
+      const rest = title.slice(firstLine.length).trim();
+      return rest ? [firstLine, rest] : [firstLine];
+    }
+
+    return [title];
+  }
+
+  /**
    * @param questionId - Question to inspect.
    * @param optionId - Option to inspect.
    * @returns True when the option is currently selected.

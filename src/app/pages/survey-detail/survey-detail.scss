@@ -1,74 +1,106 @@
 @use '../../../styles/variables' as *;
 
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #ffffff;
+}
+
 .detail {
   min-height: 100vh;
-  background: $bg-light;
+  background: #ffffff;
   color: $text-dark;
   padding-bottom: 64px;
 }
 
-.detail__layout {
+.detail__layout.page-wrap {
+  width: min(1280px, calc(100% - 80px));
   display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.8fr);
-  gap: 36px;
+  grid-template-columns: minmax(0, 1.62fr) minmax(280px, 0.62fr);
+  gap: 40px 64px;
   align-items: start;
-  margin-top: 12px;
+  margin-top: 4px;
 }
 
 .detail__card {
-  background: $bg-card-light;
-  border-radius: 24px $radius-xl 24px 24px;
-  padding: 32px;
+  background: #f2eff5;
+  border-radius: 24px 110px 24px 24px;
+  padding: 32px 40px 32px 36px;
 }
 
 .detail__meta {
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.detail__meta-row {
+  display: flex;
   flex-wrap: wrap;
-  gap: 12px 18px;
-  align-items: center;
-  color: $text-muted;
-  margin-bottom: 16px;
+  justify-content: space-between;
+  width: 100%;
+  gap: 8px 24px;
+  font-family: $font-body;
+  font-size: 14px;
+  color: $text-dark;
+}
+
+.detail .badge--published {
+  background: $peach;
+  color: $text-dark;
+  border-radius: 8px;
+  padding: 5px 12px;
+  font-size: 13px;
 }
 
 .detail__card h1 {
   font-family: $font-display;
-  font-size: clamp(32px, 4vw, 52px);
-  color: $orange;
-  line-height: 1.1;
-  margin-bottom: 12px;
+  font-size: clamp(36px, 3.8vw, 52px);
+  font-weight: 400;
+  color: $peach;
+  line-height: 1.08;
+  margin-bottom: 16px;
+}
+
+.detail__title-line {
+  white-space: nowrap;
 }
 
 .detail__description,
 .detail__note {
-  color: $text-muted;
+  font-family: $font-body;
+  font-size: 16px;
+  color: $text-dark;
   max-width: 62ch;
-  line-height: 1.55;
-  margin-bottom: 16px;
-  min-height: 1.55em;
-}
-
-.detail__note {
-  min-height: 1.55em;
+  line-height: 1.5;
+  margin-bottom: 28px;
 }
 
 .detail__questions {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 28px 32px;
+  gap: 32px 40px;
 }
 
 .question h2 {
-  font-size: 18px;
+  font-family: $font-body;
+  font-size: 16px;
+  font-weight: 700;
+  color: $text-dark;
+  line-height: 1.35;
 }
 
 .question__hint {
+  font-family: $font-body;
   color: $text-muted;
   font-size: 13px;
-  margin: 4px 0 10px;
-  min-height: 18px;
+  margin: 4px 0 12px;
+  min-height: 0;
 
   &.is-hidden {
-    visibility: hidden;
+    display: none;
   }
 }
 
@@ -77,16 +109,49 @@
   align-items: center;
   gap: 10px;
   margin-bottom: 8px;
-  padding: 8px 10px;
-  border-radius: 10px;
+  padding: 0;
+  border-radius: 0;
   cursor: pointer;
+  font-family: $font-body;
+  font-size: 15px;
+  font-weight: 400;
+  color: $text-dark;
+
+  strong {
+    font-weight: 700;
+  }
 
   input {
-    accent-color: $orange;
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    flex-shrink: 0;
+    border: 1.5px solid #b7a9c0;
+    border-radius: 4px;
+    background: #ffffff;
+    display: grid;
+    place-items: center;
+    accent-color: $peach;
+  }
+
+  input:checked {
+    background: $peach;
+    border-color: $peach;
+  }
+
+  input:checked::after {
+    content: '';
+    width: 8px;
+    height: 5px;
+    border-left: 2px solid $text-dark;
+    border-bottom: 2px solid $text-dark;
+    transform: rotate(-45deg) translate(0.5px, -1px);
   }
 
   &.is-selected {
-    background: #f8d7bc;
+    background: transparent;
   }
 }
 
@@ -100,14 +165,22 @@
   justify-content: flex-end;
   align-items: center;
   margin-top: 28px;
-  min-height: 46px;
+  min-height: 0;
+}
+
+.detail__actions .btn--primary {
+  background: $peach;
+  color: $text-dark;
+  box-shadow: none;
+  border-radius: 12px;
+  min-height: 42px;
+  padding: 10px 22px;
 }
 
 .detail__error {
   color: #b42318;
   font-weight: 700;
   margin-top: 16px;
-  min-height: 24px;
 }
 
 .detail__missing {
@@ -116,8 +189,13 @@
 }
 
 @media (max-width: 960px) {
-  .detail__layout,
+  .detail__layout.page-wrap,
   .detail__questions {
     grid-template-columns: 1fr;
+  }
+
+  .detail__layout.page-wrap {
+    width: calc(100% - 40px);
+    gap: 28px;
   }
 }

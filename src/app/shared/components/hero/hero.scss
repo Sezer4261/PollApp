@@ -16,9 +16,9 @@
 
 .hero__copy h1 {
   font-family: $font-display;
-  font-size: ufloor(31.3, 34px);
+  font-size: fs(100);
   font-weight: 400;
-  line-height: u(33);
+  line-height: 1.08;
   color: $peach;
 }
 
@@ -26,8 +26,10 @@
   max-width: u(266);
   margin-top: u(10.4);
   color: $text-on-dark;
-  font-size: ufloor(9.5, 15px);
-  line-height: u(11.5);
+  font-family: $font-body;
+  font-size: fs(24);
+  font-weight: 400;
+  line-height: 1.35;
 }
 
 .hero__copy .btn--primary {
@@ -35,8 +37,9 @@
   min-height: 0;
   height: u(18);
   padding: 0 u(6);
-  border-radius: u(9);
-  font-size: ufloor(7.2, 13px);
+  border-radius: calc(3 * var(--u));
+  font-family: $font-body;
+  font-size: fs(20);
   font-weight: 700;
   line-height: 1;
   background: $peach-btn;
@@ -73,14 +76,3 @@
   transform: perspective(#{u(117.9)}) rotateY(-10.06deg) rotateX(4.65deg) rotate(0.38deg);
 }
 
-@media (max-width: $bp-tablet) {
-  .hero {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: u(20);
-  }
-
-  .hero__visual {
-    align-self: center;
-  }
-}
