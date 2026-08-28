@@ -5,7 +5,7 @@ import { EnvironmentProviders, InjectionToken, makeEnvironmentProviders } from '
 import { environment } from '../../../environments/environment';
 import { OverlayService } from '../services/overlay.service';
 import { SupabaseService } from '../services/supabase.service';
-import { SurveyService } from '../services/survey.service';
+import { SurveyService } from '../survey/survey.service';
 
 /** Injected settings for Supabase and the ending-soon list. */
 export interface PollAppSettings {

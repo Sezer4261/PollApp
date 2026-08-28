@@ -1,0 +1,16 @@
+<article
+  class="survey-card"
+  [class.survey-card--highlight]="variant === 'highlight'"
+  [class.survey-card--list]="variant === 'list'"
+  (click)="open()"
+  (keydown.enter)="open()"
+  tabindex="0"
+  role="link"
+>
+  <p class="survey-card__category">{{ survey.category }}</p>
+  <h3 class="survey-card__title">{{ survey.title }}</h3>
+  <span
+    class="badge badge--deadline"
+    [class.survey-card__deadline]="variant === 'list'"
+  >{{ survey.endsAt | endsIn }}</span>
+</article>

@@ -4,14 +4,13 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { fadeListAnimation, tabSwitchAnimation } from '../../core/animations/poll.animations';
-import { ALL_CATEGORIES_VALUE } from '../../core/constants/categories';
-import { SurveyListTab } from '../../core/models/survey.model';
+import { ALL_CATEGORIES_VALUE, SurveyListTab } from '../../core/survey/survey.model';
 import { OverlayService } from '../../core/services/overlay.service';
-import { SurveyService } from '../../core/services/survey.service';
+import { SurveyService } from '../../core/survey/survey.service';
 import { Header } from '../../layout/header/header';
-import { CategoryFilter } from '../../shared/components/category-filter/category-filter';
-import { Hero } from '../../shared/components/hero/hero';
-import { SurveyCard } from '../../shared/components/survey-card/survey-card';
+import { CategoryFilter } from './category-filter/category-filter';
+import { Hero } from './hero/hero';
+import { SurveyCard } from './survey-card/survey-card';
 
 /**
  * Homescreen. Active and Past keep separate category filters.
@@ -51,10 +50,9 @@ export class Home {
   readonly visibleSurveys = computed(() => {
     const source = this.tab() === 'active' ? this.surveys.activeSurveys() : this.surveys.pastSurveys();
     const category = this.currentCategory();
-    if (category === ALL_CATEGORIES_VALUE) {
-      return source;
-    }
-    return source.filter((survey) => survey.category === category);
+    return category === ALL_CATEGORIES_VALUE
+      ? source
+      : source.filter((survey) => survey.category === category);
   });
 
   /** Opens the create-survey overlay. */

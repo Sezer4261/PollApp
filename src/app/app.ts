@@ -4,8 +4,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { OverlayService } from './core/services/overlay.service';
-import { ConfirmationOverlay } from './shared/components/confirmation-overlay/confirmation-overlay';
-import { CreateSurveyOverlay } from './shared/components/create-survey-overlay/create-survey-overlay';
+import { ConfirmationOverlay } from './layout/overlays/confirmation/confirmation-overlay';
+import { CreateSurveyOverlay } from './layout/overlays/create-survey/create-survey-overlay';
 
 /**
  * Root component. Overlays stay outside the router so create-survey is never a route.

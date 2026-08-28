@@ -9,9 +9,18 @@ npm install
 npm start
 ```
 
-Then open `http://localhost:4200`.
+Then open `http://127.0.0.1:4200`.
 
 The app runs with local seed data out of the box, including active surveys, ending-soon surveys and past surveys.
+
+## Build / Upload
+
+```bash
+npm run build
+```
+
+Upload the contents of `dist/poll-app/browser`. That folder contains the production `index.html`, JS, CSS, fonts and favicon.
+
 
 ## Supabase (optional)
 

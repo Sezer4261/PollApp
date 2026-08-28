@@ -5,13 +5,12 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
-import { isSurveyPast, SurveyQuestion } from '../../core/models/survey.model';
+import { Survey, SurveyQuestion, isSurveyPast } from '../../core/survey/survey.model';
 import { OverlayService } from '../../core/services/overlay.service';
-import { SurveyService } from '../../core/services/survey.service';
+import { SurveyService } from '../../core/survey/survey.service';
 import { Header } from '../../layout/header/header';
-import { ResultsPanel } from '../../shared/components/results-panel/results-panel';
-import { EndsOnPipe } from '../../shared/pipes/ends-on.pipe';
-import { OptionLetterPipe } from '../../shared/pipes/option-letter.pipe';
+import { EndsOnPipe, OptionLetterPipe } from '../../shared/pipes/poll.pipes';
+import { ResultsPanel } from './results-panel/results-panel';
 
 /**
  * Vote form and live results. Past surveys stay visible but cannot be submitted.
@@ -66,12 +65,11 @@ export class SurveyDetail {
    */
   titleLines(title: string): string[] {
     const firstLine = "Let's Plan the Next Team";
-    if (title.startsWith(firstLine)) {
-      const rest = title.slice(firstLine.length).trim();
-      return rest ? [firstLine, rest] : [firstLine];
+    if (!title.startsWith(firstLine)) {
+      return [title];
     }
-
-    return [title];
+    const rest = title.slice(firstLine.length).trim();
+    return rest ? [firstLine, rest] : [firstLine];
   }
 
   /**
@@ -93,36 +91,21 @@ export class SurveyDetail {
     if (this.locked()) {
       return;
     }
-
-    this.selected.update((current) => {
-      const existing = current[question.id] ?? [];
-      if (question.allowMultiple) {
-        const next = existing.includes(optionId)
-          ? existing.filter((id) => id !== optionId)
-          : [...existing, optionId];
-        return { ...current, [question.id]: next };
-      }
-      return { ...current, [question.id]: [optionId] };
-    });
+    this.selected.update((current) => ({
+      ...current,
+      [question.id]: nextOptionIds(current[question.id] ?? [], optionId, question.allowMultiple),
+    }));
   }
 
   /** Validates answers and submits votes so live results can update. */
   async complete(): Promise<void> {
     const survey = this.survey();
-    if (!survey || this.locked()) {
+    if (!survey || this.locked() || this.hasMissingAnswers(survey)) {
       return;
     }
-
-    const missing = survey.questions.some((question) => (this.selected()[question.id] ?? []).length === 0);
-    if (missing) {
-      this.formError.set('Please answer every question before completing the survey.');
-      return;
-    }
-
     this.formError.set(null);
     this.submitting.set(true);
-    const optionIds = survey.questions.flatMap((question) => this.selected()[question.id] ?? []);
-    await this.surveys.submitVotes(survey.id, optionIds);
+    await this.surveys.submitVotes(survey.id, selectedOptionIds(survey, this.selected()));
     this.submitting.set(false);
   }
 
@@ -130,4 +113,25 @@ export class SurveyDetail {
   goHome(): void {
     void this.router.navigateByUrl('/');
   }
+
+  private hasMissingAnswers(survey: Survey): boolean {
+    const missing = survey.questions.some((question) => (this.selected()[question.id] ?? []).length === 0);
+    if (missing) {
+      this.formError.set('Please answer every question before completing the survey.');
+    }
+    return missing;
+  }
+}
+
+function nextOptionIds(existing: string[], optionId: string, allowMultiple: boolean): string[] {
+  if (!allowMultiple) {
+    return [optionId];
+  }
+  return existing.includes(optionId)
+    ? existing.filter((id) => id !== optionId)
+    : [...existing, optionId];
+}
+
+function selectedOptionIds(survey: Survey, selected: Record<string, string[]>): string[] {
+  return survey.questions.flatMap((question) => selected[question.id] ?? []);
 }

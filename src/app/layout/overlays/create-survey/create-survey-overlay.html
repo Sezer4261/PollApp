@@ -1,0 +1,133 @@
+<div class="overlay" @overlayAnimation (click)="close()">
+  <section
+    class="overlay__panel"
+    @panelAnimation
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="create-survey-title"
+    (click)="$event.stopPropagation()"
+  >
+    <header class="overlay__header">
+      <div class="overlay__heading">
+        <span class="overlay__draft">Draft</span>
+        <h1 id="create-survey-title">Create new survey</h1>
+      </div>
+      <button class="overlay__cancel" type="button" (click)="close()">
+        Cancel
+        <span aria-hidden="true">✕</span>
+      </button>
+    </header>
+
+    <!--
+      `novalidate` keeps the browser from replacing our own red messages with its
+      native bubbles. The `required` and `min` attributes stay in place: they still
+      restrict the date picker and drive the `:invalid` styling.
+    -->
+    <form class="overlay__form" novalidate (submit)="$event.preventDefault(); publish()">
+      <div class="overlay__body">
+        <div class="overlay__left">
+          <label class="field">
+            <span>Survey name</span>
+            <div class="field__row">
+              <input
+                type="text"
+                [value]="draft().title"
+                (input)="patch({ title: inputValue($event) })"
+                required
+              />
+              <button class="trash" type="button" (click)="clearTitle()" aria-label="Clear survey name">
+                <app-trash-icon />
+              </button>
+            </div>
+          </label>
+
+          <div class="overlay__pair">
+            <label class="field" [class.field--invalid]="endDateError()">
+              <span>Set end date (optional)</span>
+              <div class="field__row">
+                <input
+                  type="date"
+                  [value]="draft().endsAt"
+                  [min]="minEndDate"
+                  [attr.aria-invalid]="endDateError() ? 'true' : null"
+                  [attr.aria-describedby]="endDateError() ? 'end-date-error' : null"
+                  (input)="patch({ endsAt: inputValue($event) })"
+                />
+                <button class="trash" type="button" (click)="clearEndsAt()" aria-label="Clear end date">
+                  <app-trash-icon />
+                </button>
+              </div>
+              @if (endDateError()) {
+                <span class="field__error" id="end-date-error" role="alert">{{ endDateError() }}</span>
+              }
+            </label>
+
+            <label class="field">
+              <span>Choose category</span>
+              <div class="field__select">
+                <select [value]="draft().category" (change)="patch({ category: inputValue($event) })">
+                  <option value="" disabled>Choose category</option>
+                  @for (category of categories; track category) {
+                    <option [value]="category">{{ category }}</option>
+                  }
+                </select>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="overlay__right">
+          <label class="field field--description">
+            <span>Describing text (optional)</span>
+            <div class="field__textarea">
+              <textarea
+                [value]="draft().description"
+                (input)="patch({ description: inputValue($event) })"
+              ></textarea>
+              <button
+                class="trash trash--overlay"
+                type="button"
+                (click)="clearDescription()"
+                aria-label="Clear describing text"
+              >
+                <app-trash-icon />
+              </button>
+            </div>
+          </label>
+        </div>
+
+        <div class="overlay__questions">
+          @for (question of draft().questions; track question.id; let i = $index; let first = $first) {
+            <app-question-editor
+              [question]="question"
+              [index]="i"
+              [isFirst]="first"
+              (questionChange)="updateQuestion(i, $event)"
+              (removeQuestion)="removeQuestion(i)"
+              (clearQuestion)="clearFirstQuestion()"
+            />
+          }
+          <div
+            class="overlay__actions"
+            [class.overlay__actions--beside]="draft().questions.length === 1"
+          >
+            <button class="overlay__add-question" type="button" (click)="addQuestion()">
+              Add next question
+              <span class="overlay__plus" aria-hidden="true">+</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="overlay__errors">
+        @for (error of errors(); track error) {
+          <p>{{ error }}</p>
+        }
+      </div>
+
+      <div class="overlay__footer">
+        <button class="overlay__publish" type="submit" [disabled]="submitting()">Publish</button>
+      </div>
+    </form>
+  </section>
+</div>
