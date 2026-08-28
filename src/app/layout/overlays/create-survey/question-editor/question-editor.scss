@@ -79,6 +79,11 @@
   width: fit-content;
   text-decoration: underline;
   text-underline-offset: 3px;
+  transition: color 0.18s ease;
+
+  &:hover {
+    color: $peach;
+  }
 }
 
 .editor__plus {
@@ -103,6 +108,11 @@
   background: transparent;
   display: grid;
   place-items: center;
+  transition: background 0.18s ease;
+
+  &:hover {
+    background: rgba(255, 194, 141, 0.18);
+  }
 }
 
 .sr-only {

@@ -16,10 +16,23 @@
   font-family: $font-body;
   font-size: fs(24);
   line-height: 1;
+  transition: color 0.18s ease;
 
   svg {
     width: u(6);
     height: u(4);
+  }
+
+  svg path {
+    transition: stroke 0.18s ease;
+  }
+
+  &:hover {
+    color: $peach;
+
+    svg path {
+      stroke: $peach;
+    }
   }
 }
 

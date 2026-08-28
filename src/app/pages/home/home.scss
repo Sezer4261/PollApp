@@ -78,6 +78,11 @@ app-hero {
   line-height: 1;
   background: $bg-tab-idle;
   color: $text-dark;
+  transition: background 0.18s ease;
+
+  &:hover:not(.is-active) {
+    background: #e2d2c2;
+  }
 
   &.is-active {
     background: $peach;

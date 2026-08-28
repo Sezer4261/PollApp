@@ -171,3 +171,31 @@ export function emptyDraftQuestion(): DraftQuestion {
 export function emptyDraftAnswer(): DraftAnswer {
   return { id: createId(), text: '' };
 }
+
+/**
+ * Adds a synthetic vote to every selected option so results update live
+ * while a participant is still answering, before the vote is submitted.
+ *
+ * @param survey - Survey being answered.
+ * @param selected - Option ids currently selected per question id.
+ * @returns A copy of `survey` with preview votes applied.
+ */
+export function withPreviewVotes(survey: Survey, selected: Record<string, string[]>): Survey {
+  return {
+    ...survey,
+    questions: survey.questions.map((question) =>
+      withPreviewQuestionVotes(question, selected[question.id] ?? []),
+    ),
+  };
+}
+
+function withPreviewQuestionVotes(question: SurveyQuestion, selectedOptionIds: string[]): SurveyQuestion {
+  return {
+    ...question,
+    options: question.options.map((option) =>
+      selectedOptionIds.includes(option.id)
+        ? { ...option, votes: [...option.votes, { id: 'preview' }] }
+        : option,
+    ),
+  };
+}

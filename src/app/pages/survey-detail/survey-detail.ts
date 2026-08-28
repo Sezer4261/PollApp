@@ -5,7 +5,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
-import { Survey, SurveyQuestion, isSurveyPast } from '../../core/survey/survey.model';
+import { Survey, SurveyQuestion, isSurveyPast, withPreviewVotes } from '../../core/survey/survey.model';
 import { OverlayService } from '../../core/services/overlay.service';
 import { SurveyService } from '../../core/survey/survey.service';
 import { Header } from '../../layout/header/header';
@@ -47,6 +47,14 @@ export class SurveyDetail {
   readonly locked = computed(() => this.isPast() || this.alreadyCompleted());
   /** Selected option ids grouped by question id. */
   readonly selected = signal<Record<string, string[]>>({});
+  /** Survey shown in the results panel, with a live preview vote per selection. */
+  readonly previewSurvey = computed(() => {
+    const survey = this.survey();
+    if (!survey) {
+      return undefined;
+    }
+    return this.locked() ? survey : withPreviewVotes(survey, this.selected());
+  });
   /** Validation message kept in a reserved slot so the layout does not jump. */
   readonly formError = signal<string | null>(null);
   /** True while votes are being stored. */

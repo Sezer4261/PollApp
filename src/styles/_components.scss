@@ -39,6 +39,10 @@
     background: $bg-tab-idle;
     color: $text-dark;
     border: 1px solid transparent;
+
+    &:hover:not(.is-active):not(:disabled) {
+      background: #e2d2c2;
+    }
   }
 
   &--tab {
