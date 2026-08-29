@@ -20,6 +20,7 @@ body {
   color: $text-on-dark;
   background: $bg-dark;
   -webkit-font-smoothing: antialiased;
+  font-synthesis: none;
 }
 
 img {
