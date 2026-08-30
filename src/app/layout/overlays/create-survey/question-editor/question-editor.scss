@@ -75,14 +75,17 @@
   font-family: $font-body;
   font-weight: 700;
   font-size: 16px;
-  padding: 6px 0;
+  padding: 6px 10px;
   width: fit-content;
   text-decoration: underline;
   text-underline-offset: 3px;
-  transition: color 0.18s ease;
+  border-radius: 8px;
+  transition: background 0.18s ease, color 0.18s ease;
 
   &:hover {
-    color: $peach;
+    color: $text-on-dark;
+    background: rgba(255, 255, 255, 0.1);
+    text-decoration: underline;
   }
 }
 
@@ -103,15 +106,18 @@
   height: 36px;
   min-height: 36px;
   padding: 0;
-  border: 0;
+  border: 1.5px solid transparent;
   border-radius: 10px;
   background: transparent;
+  color: $text-on-dark;
   display: grid;
   place-items: center;
-  transition: background 0.18s ease;
+  transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
 
   &:hover {
-    background: rgba(255, 194, 141, 0.18);
+    background: $orange;
+    border-color: $orange;
+    color: $text-dark;
   }
 }
 

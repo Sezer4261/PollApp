@@ -3,12 +3,14 @@
  */
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { OverlayService } from '../../../core/services/overlay.service';
+import { PrimaryBtnIcons } from '../../../shared/icons/primary-btn-icons';
 
 /**
  * Top section of the homescreen.
  */
 @Component({
   selector: 'app-hero',
+  imports: [PrimaryBtnIcons],
   templateUrl: './hero.html',
   styleUrl: './hero.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

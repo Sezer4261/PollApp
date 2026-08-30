@@ -20,6 +20,7 @@ import {
 import { OverlayService } from '../../../core/services/overlay.service';
 import { SurveyService } from '../../../core/survey/survey.service';
 import { TrashIcon } from '../../../shared/icons/trash-icon';
+import { PrimaryBtnIcons } from '../../../shared/icons/primary-btn-icons';
 import { validateDraftSurvey } from './create-survey.validation';
 import { QuestionEditor } from './question-editor/question-editor';
 
@@ -42,7 +43,7 @@ function toDateInputValue(date: Date): string {
  */
 @Component({
   selector: 'app-create-survey-overlay',
-  imports: [QuestionEditor, TrashIcon],
+  imports: [QuestionEditor, TrashIcon, PrimaryBtnIcons],
   templateUrl: './create-survey-overlay.html',
   styleUrl: './create-survey-overlay.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -56,6 +57,8 @@ export class CreateSurveyOverlay {
   readonly categories = SURVEY_CATEGORIES;
   /** Current form state. */
   readonly draft = signal<DraftSurvey>(emptyDraftSurvey());
+  /** Whether the custom category menu is visible. */
+  readonly categoryOpen = signal(false);
   /** Validation messages shown in a reserved error slot. */
   readonly errors = signal<string[]>([]);
   /** True while the survey is being persisted. */
@@ -91,6 +94,17 @@ export class CreateSurveyOverlay {
   /** Clears the optional describing text. */
   clearDescription(): void {
     this.patch({ description: '' });
+  }
+
+  /** Opens or closes the category menu. */
+  toggleCategory(): void {
+    this.categoryOpen.update((open) => !open);
+  }
+
+  /** Stores a category and closes its menu. */
+  chooseCategory(category: DraftSurvey['category']): void {
+    this.patch({ category });
+    this.categoryOpen.set(false);
   }
 
   /**

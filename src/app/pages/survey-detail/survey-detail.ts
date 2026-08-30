@@ -10,6 +10,7 @@ import { OverlayService } from '../../core/services/overlay.service';
 import { SurveyService } from '../../core/survey/survey.service';
 import { Header } from '../../layout/header/header';
 import { EndsOnPipe, OptionLetterPipe } from '../../shared/pipes/poll.pipes';
+import { PrimaryBtnIcons } from '../../shared/icons/primary-btn-icons';
 import { ResultsPanel } from './results-panel/results-panel';
 
 /**
@@ -17,7 +18,7 @@ import { ResultsPanel } from './results-panel/results-panel';
  */
 @Component({
   selector: 'app-survey-detail',
-  imports: [Header, ResultsPanel, EndsOnPipe, OptionLetterPipe],
+  imports: [Header, ResultsPanel, EndsOnPipe, OptionLetterPipe, PrimaryBtnIcons],
   templateUrl: './survey-detail.html',
   styleUrl: './survey-detail.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

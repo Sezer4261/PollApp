@@ -109,13 +109,19 @@
   align-items: center;
   gap: 10px;
   margin-bottom: 8px;
-  padding: 0;
-  border-radius: 0;
+  margin-left: -10px;
+  padding: 6px 10px;
+  border-radius: 8px;
   cursor: pointer;
   font-family: $font-body;
   font-size: 15px;
   font-weight: 400;
   color: $text-dark;
+  transition: background 0.18s ease;
+
+  &:hover {
+    background: #ffe8d6;
+  }
 
   strong {
     font-weight: 700;
@@ -128,12 +134,18 @@
     height: 16px;
     margin: 0;
     flex-shrink: 0;
-    border: 1.5px solid #b7a9c0;
+    border: 1.5px solid #35273a;
     border-radius: 4px;
     background: #ffffff;
     display: grid;
     place-items: center;
     accent-color: $peach;
+    transition: background 0.18s ease, border-color 0.18s ease;
+  }
+
+  &:hover input:not(:checked):not(:disabled) {
+    background: #ffffff;
+    box-shadow: inset 0 0 0 4px #ffe8d6;
   }
 
   input:checked {
@@ -145,19 +157,27 @@
     content: '';
     width: 8px;
     height: 5px;
-    border-left: 2px solid $text-dark;
-    border-bottom: 2px solid $text-dark;
+    border-left: 2px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
     transform: rotate(-45deg) translate(0.5px, -1px);
   }
 
   &.is-selected {
     background: transparent;
+
+    span {
+      font-weight: 700;
+    }
   }
 }
 
 .is-locked .option {
   cursor: not-allowed;
   opacity: 0.75;
+
+  &:hover {
+    background: transparent;
+  }
 }
 
 .detail__actions {
@@ -168,13 +188,18 @@
   min-height: 0;
 }
 
-.detail__actions .btn--primary {
-  background: $peach;
+.detail__actions .btn--primary,
+.detail__missing .btn--primary {
+  background: $peach-btn;
   color: $text-dark;
   box-shadow: none;
   border-radius: 12px;
   min-height: 42px;
   padding: 10px 22px;
+}
+
+.detail__actions .detail__complete:hover:not(:disabled) {
+  background: #ffc085;
 }
 
 .detail__error {

@@ -61,8 +61,13 @@
 
         <div class="detail__actions">
           @if (!locked()) {
-            <button class="btn btn--primary" type="button" [disabled]="submitting()" (click)="complete()">
-              Complete survey
+            <button
+              class="btn btn--primary detail__complete"
+              type="button"
+              [disabled]="submitting()"
+              (click)="complete()"
+            >
+              <span>Complete survey</span>
             </button>
           }
         </div>
@@ -73,7 +78,10 @@
   } @else {
     <div class="page-wrap detail__missing">
       <h1>Survey not found</h1>
-      <button class="btn btn--primary" type="button" (click)="goHome()">Back to surveys</button>
+      <button class="btn btn--primary" type="button" (click)="goHome()">
+        <span>Back to surveys</span>
+        <app-primary-btn-icons />
+      </button>
     </div>
   }
 </div>

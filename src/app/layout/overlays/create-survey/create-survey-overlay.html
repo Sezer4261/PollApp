@@ -62,30 +62,65 @@
               }
             </label>
 
-            <label class="field">
-              <span>Choose category</span>
-              <div class="field__select">
-                <select [value]="draft().category" (change)="patch({ category: inputValue($event) })">
-                  <option value="" disabled>Choose category</option>
-                  @for (category of categories; track category) {
-                    <option [value]="category">{{ category }}</option>
-                  }
-                </select>
+            <div class="field field--category">
+              <div class="category-picker">
+                <button
+                  class="category-picker__trigger"
+                  type="button"
+                  aria-haspopup="listbox"
+                  [attr.aria-expanded]="categoryOpen()"
+                  (click)="toggleCategory()"
+                >
+                  <span>Choose category</span>
+                  <svg width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true">
+                    <path
+                      d="M1 1.5 6 6.5 11 1.5"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </button>
+
+                @if (categoryOpen()) {
+                  <ul class="category-picker__menu" role="listbox">
+                    @for (category of categories; track category) {
+                      <li>
+                        <button
+                          type="button"
+                          role="option"
+                          [class.is-active]="draft().category === category"
+                          [attr.aria-selected]="draft().category === category"
+                          (click)="chooseCategory(category)"
+                        >
+                          {{ category }}
+                        </button>
+                      </li>
+                    }
+                  </ul>
+                }
               </div>
-            </label>
+
+              @if (draft().category) {
+                <p class="category-picker__selection">{{ draft().category }}</p>
+              }
+            </div>
           </div>
         </div>
 
         <div class="overlay__right">
-          <label class="field field--description">
-            <span>Describing text (optional)</span>
-            <div class="field__textarea">
-              <textarea
-                [value]="draft().description"
-                (input)="patch({ description: inputValue($event) })"
-              ></textarea>
+          <div class="field field--description">
+            <label for="survey-description">Describing text (optional)</label>
+            <div class="field__description-row">
+              <div class="field__textarea">
+                <textarea
+                  id="survey-description"
+                  [value]="draft().description"
+                  (input)="patch({ description: inputValue($event) })"
+                ></textarea>
+              </div>
               <button
-                class="trash trash--overlay"
+                class="trash"
                 type="button"
                 (click)="clearDescription()"
                 aria-label="Clear describing text"
@@ -93,7 +128,7 @@
                 <app-trash-icon />
               </button>
             </div>
-          </label>
+          </div>
         </div>
 
         <div class="overlay__questions">
@@ -126,7 +161,10 @@
       </div>
 
       <div class="overlay__footer">
-        <button class="overlay__publish" type="submit" [disabled]="submitting()">Publish</button>
+        <button class="btn btn--primary btn--confirm overlay__publish" type="submit" [disabled]="submitting()">
+          <span>Publish</span>
+          <app-primary-btn-icons />
+        </button>
       </div>
     </form>
   </section>

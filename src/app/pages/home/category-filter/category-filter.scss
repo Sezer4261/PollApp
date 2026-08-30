@@ -42,12 +42,13 @@
   top: calc(100% + 8px);
   z-index: 4;
   margin: 0;
-  padding: 10px;
+  padding: 2px;
   list-style: none;
-  min-width: 240px;
+  width: 110px;
+  max-width: calc(100vw - 32px);
   background: $bg-white;
   color: $text-dark;
-  border-radius: 16px;
+  border-radius: 12px;
   box-shadow: $shadow-card;
 
   button {
@@ -55,11 +56,15 @@
     text-align: left;
     background: transparent;
     border: 0;
-    border-radius: 10px;
-    padding: 10px 12px;
+    border-radius: 6px;
+    padding: 2px 4px;
     font-family: $font-body;
-    font-size: 26px;
+    font-size: 10px;
     font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   button:hover,

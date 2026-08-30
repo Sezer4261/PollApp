@@ -3,13 +3,14 @@
  */
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { PrimaryBtnIcons } from '../../shared/icons/primary-btn-icons';
 
 /**
  * Shared header used on the dark dashboard and the light survey detail page.
  */
 @Component({
   selector: 'app-header',
-  imports: [RouterLink],
+  imports: [RouterLink, PrimaryBtnIcons],
   templateUrl: './header.html',
   styleUrl: './header.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
