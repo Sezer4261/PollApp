@@ -1,7 +1,7 @@
 @use './variables' as *;
 
 .page-wrap {
-  width: min(1120px, calc(100% - 72px));
+  width: min(#{$content-max}, calc(100% - 72px));
   margin-inline: auto;
 }
 
@@ -9,7 +9,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  /// Spacing towards the plus/check icons lives on the icons themselves
+  /// (`--btn-icon-gap`), so a hidden icon does not leave a hole in the button.
+  gap: 0;
   border: 1px solid transparent;
   border-radius: 8px;
   padding: 12px 22px;
@@ -36,10 +38,11 @@
       gap 0.18s ease;
 
     &:hover:not(:disabled) {
-      background: #ffc085;
+      background: $peach;
 
       .btn__icon--plus {
         width: var(--btn-plus-size, 18px);
+        margin-left: var(--btn-icon-gap, 8px);
         opacity: 1;
         transform: scale(1);
       }
@@ -51,12 +54,14 @@
 
       .btn__icon--plus {
         width: 0;
+        margin-left: 0;
         opacity: 0;
         transform: scale(0.6);
       }
 
       .btn__icon--check {
         width: 18px;
+        margin-left: var(--btn-icon-gap, 8px);
         opacity: 1;
         transform: scale(1);
       }
@@ -65,12 +70,14 @@
     &.btn--confirm:hover:not(:disabled) {
       .btn__icon--plus {
         width: 0;
+        margin-left: 0;
         opacity: 0;
         transform: scale(0.6);
       }
 
       .btn__icon--check {
         width: 1.3em;
+        margin-left: var(--btn-icon-gap, 8px);
         opacity: 1;
         transform: scale(1);
 
@@ -88,10 +95,15 @@
     align-items: center;
     justify-content: center;
     width: 0;
+    margin-left: 0;
     opacity: 0;
     overflow: hidden;
     transform: scale(0.6);
-    transition: width 0.18s ease, opacity 0.18s ease, transform 0.18s ease;
+    transition:
+      width 0.18s ease,
+      margin-left 0.18s ease,
+      opacity 0.18s ease,
+      transform 0.18s ease;
 
     svg {
       width: var(--btn-icon-size, 18px);

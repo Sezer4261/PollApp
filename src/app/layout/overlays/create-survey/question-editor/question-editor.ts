@@ -5,6 +5,12 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { DraftQuestion, emptyDraftAnswer } from '../../../../core/survey/survey.model';
 import { TrashIcon } from '../../../../shared/icons/trash-icon';
 import { OptionLetterPipe } from '../../../../shared/pipes/poll.pipes';
+import {
+  ANSWERS_REQUIRED,
+  QUESTION_TEXT_REQUIRED,
+  areAnswersMissing,
+  isQuestionTextMissing,
+} from '../create-survey.validation';
 
 /**
  * Edits one question. Question 1 can only be cleared, later questions can be removed.
@@ -23,12 +29,24 @@ export class QuestionEditor {
   @Input() index = 0;
   /** True for the first question, which cannot be deleted entirely. */
   @Input() isFirst = false;
+  /** True once Publish was pressed, which reveals the missing-field markers. */
+  @Input() showErrors = false;
   /** Emits the updated question model. */
   @Output() questionChange = new EventEmitter<DraftQuestion>();
   /** Emits when a non-first question should be removed. */
   @Output() removeQuestion = new EventEmitter<void>();
   /** Emits when the first question should be reset instead of removed. */
   @Output() clearQuestion = new EventEmitter<void>();
+
+  /** @returns Message for the question field, or an empty string when valid. */
+  get textError(): string {
+    return this.showErrors && isQuestionTextMissing(this.question) ? QUESTION_TEXT_REQUIRED : '';
+  }
+
+  /** @returns Message for the answer list, or an empty string when valid. */
+  get answersError(): string {
+    return this.showErrors && areAnswersMissing(this.question) ? ANSWERS_REQUIRED : '';
+  }
 
   /**
    * @param event - Native input event.

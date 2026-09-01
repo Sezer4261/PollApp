@@ -8,17 +8,20 @@
   position: fixed;
   inset: 0;
   z-index: 20;
-  overflow: auto;
+  overflow: hidden;
   display: flex;
   background: #2a1e2e;
   padding: 18px 28px 20px;
 }
 
+/// The panel claims the full viewport height instead of growing with its
+/// content. Header, error slot and the Publish row therefore keep their place
+/// while questions and answers are added; only `.overlay__body` scrolls.
 .overlay__panel {
   display: flex;
   flex-direction: column;
-  width: min(1480px, 100%);
-  min-height: calc(100vh - 38px);
+  width: min(#{$content-max}, 100%);
+  height: calc(100vh - 38px);
   margin: 0 auto;
   background: #2d2430;
   border-radius: 24px 110px 24px 24px;
@@ -90,15 +93,38 @@
   min-height: 0;
 }
 
+/// Match `.overlay__questions` so the add-question control can line up with
+/// the first question's trash icon in the left column.
+$overlay-col-gap: 40px;
+
 .overlay__body {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 22px 36px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: min-content;
+  gap: 22px $overlay-col-gap;
   align-items: stretch;
   flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   background: #3c313e;
   border-radius: 18px;
   padding: 24px 28px 22px;
+  scrollbar-width: thin;
+  scrollbar-color: $peach transparent;
+}
+
+.overlay__body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.overlay__body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.overlay__body::-webkit-scrollbar-thumb {
+  background: $peach;
+  border-radius: $radius-pill;
 }
 
 .overlay__left,
@@ -115,15 +141,18 @@
   gap: 16px;
 }
 
+/// Field type is a step below the global 24px: the panel is capped at
+/// `$content-max`, and at that width the larger size wraps labels such as
+/// "Set end date (optional)" onto a second line.
 .overlay .field > span {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 400;
 }
 
 .overlay .field--description > label {
   color: $text-on-dark;
   font-family: $font-body;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 400;
 }
 
@@ -137,28 +166,18 @@
 .overlay .field select {
   border-radius: 14px;
   min-height: 48px;
-  font-size: 26px;
+  font-size: 20px;
 }
 
-/// Questions sit in a two-column row. With one question the "Add next question"
-/// control occupies the right cell; after a second question is added it wraps
-/// to the start of the next row (bottom left).
+/// Questions fill a two-column grid. With one question, the add control sits
+/// on the first row beside it, aligned to the describing-text input edge.
 .overlay__questions {
   grid-column: 1 / -1;
+  position: relative;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 28px 40px;
+  gap: 28px $overlay-col-gap;
   align-items: start;
-}
-
-.overlay__actions {
-  display: flex;
-  align-items: flex-start;
-}
-
-.overlay__actions--beside {
-  align-self: start;
-  padding-top: 46px;
 }
 
 .field__row,
@@ -192,7 +211,7 @@
   background: transparent;
   color: $text-on-dark;
   font-family: $font-body;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 400;
   line-height: 1;
   transition: color 0.18s ease;
@@ -213,25 +232,27 @@
   top: calc(100% + 6px);
   left: 0;
   z-index: 5;
-  width: 180px;
+  width: max-content;
+  min-width: 240px;
+  max-width: min(320px, calc(100vw - 32px));
   margin: 0;
-  padding: 4px;
+  padding: 6px;
   list-style: none;
-  border-radius: 10px;
+  border-radius: 12px;
   background: $bg-white;
   box-shadow: $shadow-card;
 
   button {
     width: 100%;
-    padding: 6px 8px;
+    padding: 8px 10px;
     border: 0;
-    border-radius: 6px;
+    border-radius: 8px;
     background: transparent;
     color: $text-dark;
     font-family: $font-body;
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 600;
-    line-height: 1.15;
+    line-height: 1.25;
     text-align: left;
 
     &:hover,
@@ -253,10 +274,11 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  gap: 10px;
   min-height: 0;
 }
 
-.field__description-row {
+.field__description-input {
   display: flex;
   align-items: flex-start;
   gap: 8px;
@@ -264,10 +286,9 @@
   min-height: 0;
 }
 
-.field__textarea {
-  position: relative;
-  align-items: stretch;
+.field--description .field__textarea {
   flex: 1;
+  align-items: stretch;
   min-height: 0;
 
   textarea {
@@ -283,9 +304,14 @@
   min-height: 48px;
 }
 
-.field__error {
+/// Occupies its row at all times, so a field turning invalid never resizes the
+/// grid around it. The `.field >` part is needed to beat the label rule above,
+/// which would otherwise hand the message the 20px label size.
+.overlay .field > .field__error {
+  display: block;
+  min-height: 19px;
   color: $error;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   line-height: 1.3;
 }
@@ -298,6 +324,10 @@
   }
 
   > span:first-child {
+    color: $error;
+  }
+
+  .category-picker__trigger {
     color: $error;
   }
 }
@@ -338,10 +368,21 @@
   font-size: 16px;
   min-height: 48px;
   transition: background 0.18s ease;
+  grid-column: 1 / -1;
+  justify-self: start;
 
   &:hover {
     background: #ffb77070;
   }
+}
+
+/// One question only: share the header row with "1. Question" and align to
+/// the left edge of the describing-text input above.
+.overlay__add-question--lead {
+  position: absolute;
+  top: 0;
+  left: calc((100% + #{$overlay-col-gap}) / 2);
+  grid-column: unset;
 }
 
 .overlay__plus {
@@ -355,11 +396,18 @@
   line-height: 1;
 }
 
+/// Height is reserved even while valid so the Publish row never moves when a
+/// validation message appears.
 .overlay__errors {
+  display: flex;
+  align-items: center;
   margin-top: 10px;
+  min-height: 26px;
   color: $error;
+  font-family: $font-body;
+  font-size: 16px;
   font-weight: 700;
-  min-height: 0;
+  line-height: 1.3;
 }
 
 .overlay__footer {
@@ -403,7 +451,7 @@
   .overlay__panel {
     border-radius: 24px 56px 24px 24px;
     padding: 18px 16px 16px;
-    min-height: 0;
+    height: calc(100vh - 24px);
   }
 
   .overlay__body {
@@ -415,9 +463,5 @@
   .overlay__pair,
   .overlay__questions {
     grid-template-columns: 1fr;
-  }
-
-  .overlay__actions--beside {
-    padding-top: 0;
   }
 }

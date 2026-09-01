@@ -11,15 +11,19 @@
     </button>
   </header>
 
-  <label class="field">
+  <label class="field" [class.field--invalid]="textError">
     <span class="sr-only">Question text</span>
     <input
       type="text"
       [value]="question.text"
       [placeholder]="index === 0 ? 'Which date would work best for you?' : 'Question'"
+      [attr.aria-invalid]="textError ? 'true' : null"
       (input)="patch({ text: inputValue($event) })"
     />
   </label>
+
+  <!-- Rendered even while empty so revealing a message never moves the block. -->
+  <p class="editor__error" role="alert">{{ textError }}</p>
 
   <div class="editor__answers">
     <div class="editor__answers-head">
@@ -48,6 +52,8 @@
         </button>
       </div>
     }
+
+    <p class="editor__error" role="alert">{{ answersError }}</p>
 
     <button class="editor__add" type="button" (click)="addAnswer()">
       Add answer

@@ -21,7 +21,11 @@ import { OverlayService } from '../../../core/services/overlay.service';
 import { SurveyService } from '../../../core/survey/survey.service';
 import { TrashIcon } from '../../../shared/icons/trash-icon';
 import { PrimaryBtnIcons } from '../../../shared/icons/primary-btn-icons';
-import { validateDraftSurvey } from './create-survey.validation';
+import {
+  CATEGORY_REQUIRED,
+  TITLE_REQUIRED,
+  validateDraftSurvey,
+} from './create-survey.validation';
 import { QuestionEditor } from './question-editor/question-editor';
 
 const PAST_END_DATE_MESSAGE = 'The end date cannot be in the past. Please pick today or later.';
@@ -59,8 +63,8 @@ export class CreateSurveyOverlay {
   readonly draft = signal<DraftSurvey>(emptyDraftSurvey());
   /** Whether the custom category menu is visible. */
   readonly categoryOpen = signal(false);
-  /** Validation messages shown in a reserved error slot. */
-  readonly errors = signal<string[]>([]);
+  /** True once Publish was pressed, which reveals the missing-field markers. */
+  readonly showErrors = signal(false);
   /** True while the survey is being persisted. */
   readonly submitting = signal(false);
   /** Earliest selectable end date, fed to the `min` attribute of the date input. */
@@ -69,6 +73,18 @@ export class CreateSurveyOverlay {
   readonly endDateError = computed(() =>
     this.isPastDate(this.draft().endsAt) ? PAST_END_DATE_MESSAGE : '',
   );
+  /** Every unmet requirement of the current draft. */
+  readonly errors = computed(() => validateDraftSurvey(this.draft()));
+  /** True while publishing would create an incomplete survey. */
+  readonly blocked = computed(() => this.errors().length > 0 || this.endDateError() !== '');
+  /** Single summary line, kept to one row so the Publish button never moves. */
+  readonly errorSummary = computed(() =>
+    this.showErrors() ? (this.errors()[0] ?? this.endDateError()) : '',
+  );
+  /** Marker for the survey name field. */
+  readonly titleError = computed(() => this.errorFor(TITLE_REQUIRED));
+  /** Marker for the category picker. */
+  readonly categoryError = computed(() => this.errorFor(CATEGORY_REQUIRED));
 
   /** Closes the overlay without publishing. */
   close(): void {
@@ -173,12 +189,19 @@ export class CreateSurveyOverlay {
 
   /** Validates required fields and publishes the survey. */
   async publish(): Promise<void> {
-    const issues = validateDraftSurvey(this.draft());
-    this.errors.set(issues);
-    if (issues.length > 0 || this.endDateError()) {
+    this.showErrors.set(true);
+    if (this.blocked() || this.submitting()) {
       return;
     }
     await this.submitDraft();
+  }
+
+  /**
+   * @param message - Requirement to look for.
+   * @returns The message once Publish revealed the markers, otherwise empty.
+   */
+  private errorFor(message: string): string {
+    return this.showErrors() && this.errors().includes(message) ? message : '';
   }
 
   /**

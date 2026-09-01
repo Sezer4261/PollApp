@@ -1,10 +1,21 @@
-<div class="confirm" @overlayAnimation>
-  <section class="confirm__panel" @panelAnimation>
-    <h2>Survey published</h2>
-    <p>Your survey is live. Close this message to open the new survey view.</p>
-    <button class="btn btn--primary" type="button" (click)="close()">
-      <span>Close</span>
-      <app-primary-btn-icons />
+<div class="confirm" @overlayAnimation (click)="close()">
+  <section
+    class="confirm__panel"
+    @panelAnimation
+    role="alertdialog"
+    aria-labelledby="confirm-message"
+    (click)="$event.stopPropagation()"
+  >
+    <p id="confirm-message">Your survey is now published</p>
+    <button class="confirm__close" type="button" (click)="close()" aria-label="Close">
+      <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path
+          d="M3.6 3.6 12.4 12.4M12.4 3.6 3.6 12.4"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+        />
+      </svg>
     </button>
   </section>
 </div>

@@ -23,16 +23,20 @@
         <rect x="26" y="61" width="8" height="10" rx="2" fill="#56326D" />
       </g>
 
-      <g class="hero__float hero__float--check" filter="url(#heroBackLift)">
-        <circle cx="105" cy="86.5" r="7" fill="#FFB770" opacity="0.45" />
-        <circle cx="98" cy="108.5" r="13.8" fill="#F8B470" />
-        <path
-          d="M92.3 108.9 96.2 112.9 104.3 104.4"
-          stroke="#2A1E2E"
-          stroke-width="2.6"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
+      <g filter="url(#heroBackLift)">
+        <g class="hero__float hero__float--glow">
+          <circle cx="105" cy="86.5" r="7" fill="#FBB671" opacity="0.42" />
+        </g>
+        <g class="hero__float hero__float--check">
+          <circle cx="98" cy="108.5" r="13.8" fill="#FBB671" />
+          <path
+            d="M91.8 109 96.4 113.6 105.1 103.6"
+            stroke="#FFFFFF"
+            stroke-width="3.1"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </g>
       </g>
     </svg>
 
@@ -55,7 +59,7 @@
         <rect x="57" y="66.5" width="28" height="5" rx="2.5" fill="#FBB671" />
         <rect x="50" y="74" width="5" height="5" rx="1.2" fill="#E2D7E9" />
         <rect x="57" y="74" width="28" height="5" rx="2.5" fill="#FBB671" />
-        <circle cx="47" cy="123.5" r="6.5" fill="#2A1E2E" />
+        <circle cx="47" cy="123.5" r="6.5" fill="#35273A" />
         <path
           d="M44.2 123.8 46.3 126.3 50.2 120.7"
           stroke="#FBB671"
@@ -75,25 +79,34 @@
       </defs>
 
       <g class="hero__float hero__float--star" filter="url(#heroFrontLift)">
-        <circle cx="24" cy="111" r="4" fill="#503E65" />
-        <circle cx="12.5" cy="127" r="13" fill="#48385C" />
+        <circle class="hero__spark" cx="24.3" cy="110.3" r="4.4" fill="#503E65" />
+        <circle cx="12.5" cy="127" r="13" fill="#443659" />
         <path
           d="M11.32 118.58 14.19 123.82 20.14 123.27 16.05 127.63 18.41 133.11 13 130.57 8.51 134.5 9.26 128.58 4.13 125.52 10 124.41Z"
           fill="#FFCE81"
+          stroke="#FFCE81"
+          stroke-width="1.35"
+          stroke-linejoin="round"
+          stroke-linecap="round"
         />
       </g>
 
+      <g class="hero__float hero__float--question-dot" filter="url(#heroFrontLift)">
+        <circle cx="118" cy="27.85" r="3.05" fill="#FBB671" />
+      </g>
+
+      <!--
+        The glyph is the outline of the mock-up's question mark, not a stroked
+        path: its bowl is noticeably thinner at the top than at the sides, and a
+        constant stroke width cannot reproduce that contrast.
+      -->
       <g class="hero__float hero__float--question" filter="url(#heroFrontLift)">
-        <circle cx="120" cy="27" r="3.4" fill="#D18F57" />
         <circle cx="111" cy="12.5" r="11.5" fill="#FFCE81" />
         <path
-          d="M106.7 8.5A4.3 4.3 0 1 1 113.15 12.22C112.6 14.1 111.2 14.3 111.2 15.9"
-          stroke="#35273A"
-          stroke-width="3"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          fill="#35273A"
+          d="M109.72 5.92C109.61 5.96 109.35 5.95 109.05 6.18C108.76 6.4 108.21 6.83 107.95 7.29C107.69 7.74 107.6 8.6 107.48 8.91C107.36 9.23 107.26 9.02 107.21 9.19C107.16 9.35 107.06 9.56 107.19 9.89C107.32 10.22 107.68 10.89 107.98 11.17C108.27 11.45 108.56 11.5 108.95 11.56C109.34 11.62 110 11.6 110.3 11.52C110.6 11.45 110.65 11.47 110.74 11.09C110.83 10.72 110.78 9.73 110.87 9.27C110.95 8.82 111.08 8.58 111.25 8.36C111.42 8.14 111.68 7.94 111.89 7.94C112.1 7.93 112.39 7.87 112.51 8.34C112.63 8.8 112.67 10.06 112.61 10.71C112.56 11.36 112.4 11.87 112.2 12.25C112 12.64 111.66 12.88 111.39 13.01C111.13 13.13 110.8 13.06 110.61 13.01C110.42 12.95 110.37 12.68 110.26 12.68C110.15 12.68 110.15 12.92 109.97 13C109.78 13.07 109.37 12.93 109.15 13.13C108.93 13.32 108.72 13.82 108.64 14.15C108.57 14.49 108.58 14.86 108.71 15.15C108.84 15.44 109.14 15.71 109.42 15.9C109.69 16.09 109.97 16.23 110.34 16.29C110.72 16.36 111.26 16.46 111.66 16.29C112.05 16.13 112.33 15.54 112.72 15.29C113.12 15.04 113.58 15.13 114.04 14.81C114.5 14.49 115.12 14 115.49 13.35C115.85 12.7 116.12 11.7 116.24 10.9C116.37 10.1 116.35 9.15 116.23 8.54C116.11 7.93 115.77 7.59 115.52 7.26C115.28 6.92 115.03 6.72 114.77 6.54C114.52 6.36 114.44 6.3 113.98 6.18C113.52 6.05 112.72 5.81 112.02 5.77C111.31 5.72 110.12 5.87 109.73 5.9C109.35 5.92 109.84 5.87 109.72 5.92Z"
         />
-        <circle cx="111.2" cy="19.2" r="1.75" fill="#35273A" />
+        <ellipse cx="109.58" cy="18.15" rx="1.82" ry="1.45" fill="#35273A" />
       </g>
 
       <g class="hero__float hero__float--chat" filter="url(#heroFrontLift)">

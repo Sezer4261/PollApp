@@ -11,8 +11,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   template: `
     <span class="btn__icon btn__icon--plus" aria-hidden="true">
       <svg viewBox="0 0 22 22" fill="none">
-        <circle cx="11" cy="11" r="9.5" stroke="currentColor" stroke-width="1.4" />
-        <path d="M11 7.2v7.6M7.2 11h7.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+        <circle cx="11" cy="11" r="9.8" stroke="currentColor" stroke-width="2.4" />
+        <path d="M11 6v10M6 11h10" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" />
       </svg>
     </span>
     <span class="btn__icon btn__icon--check" aria-hidden="true">

@@ -4,6 +4,17 @@
 $mock-width: 547;
 $mock-height: 716;
 
+/// Widest content column the app ever draws. Everything else is derived from it
+/// so the start page, the create-survey overlay and the detail page share one
+/// limiter instead of each growing with the window.
+$content-max: 1044px;
+
+/// `u()` grows with the window, which turns a 4K screen into a giant version of
+/// the design. Freezing the reference width here caps that growth: past this
+/// point the canvas keeps its size and gets centred instead. The value is
+/// chosen so the content column `u(393)` lands exactly on `$content-max`.
+$canvas-max: 1453px;
+
 @function u($n) {
   @return calc(#{$n} * var(--u));
 }
@@ -70,7 +81,9 @@ $bp-tablet: 1024px;
 $bp-mobile: 768px;
 
 :root {
-  --u: calc(100vw / #{$mock-width});
+  --u: calc(min(100vw, #{$canvas-max}) / #{$mock-width});
+  --canvas-max: #{$canvas-max};
+  --content-max: #{$content-max};
   --bg-dark: #{$bg-dark};
   --bg-deep: #{$bg-deep};
   --bg-elevated: #{$bg-elevated};

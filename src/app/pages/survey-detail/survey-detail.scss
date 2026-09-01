@@ -14,7 +14,7 @@
 }
 
 .detail__layout.page-wrap {
-  width: min(1280px, calc(100% - 80px));
+  width: min(#{$content-max}, calc(100% - 80px));
   display: grid;
   grid-template-columns: minmax(0, 1.62fr) minmax(280px, 0.62fr);
   gap: 40px 64px;

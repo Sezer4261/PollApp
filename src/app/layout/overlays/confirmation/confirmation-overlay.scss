@@ -10,27 +10,50 @@
   padding: 24px;
 }
 
+/// A short note rather than a dialog with its own buttons: the message sits on
+/// the left, the close control in the top right, and the oversized top-right
+/// corner ties it to the survey cards and the create-survey panel.
 .confirm__panel {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
   width: min(420px, 100%);
-  background: $bg-dark;
-  color: $text-on-dark;
-  border-radius: 24px 64px 24px 24px;
-  padding: 32px;
-  text-align: center;
+  padding: 20px 24px 22px;
+  background: #fee9d4;
+  border-radius: 12px 44px 12px 12px;
   box-shadow: $shadow-card;
 
-  h2 {
-    font-family: $font-display;
-    font-weight: 400;
-    color: $orange-soft;
-    font-size: 48px;
-    margin-bottom: 12px;
+  p {
+    max-width: 11em;
+    font-family: $font-body;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.35;
+    color: $text-dark;
+  }
+}
+
+.confirm__close {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  margin-top: 2px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: $text-dark;
+  transition: background 0.18s ease;
+
+  svg {
+    width: 16px;
+    height: 16px;
   }
 
-  p {
-    font-family: $font-body;
-    font-size: 24px;
-    color: $text-muted-on-dark;
-    margin-bottom: 24px;
+  &:hover {
+    background: #ffd3a4;
   }
 }

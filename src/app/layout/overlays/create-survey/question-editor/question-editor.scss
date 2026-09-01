@@ -11,13 +11,24 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
 
+  /// Matches the other form labels ("Set end date", "Describing text"), which
+  /// all use the body face rather than the display face.
   h3 {
-    font-family: $font-display;
-    font-size: 32px;
+    font-family: $font-body;
+    font-size: 20px;
     font-weight: 400;
     color: $text-on-dark;
   }
+}
+
+/// The overlay sizes its own fields, but this input lives in a child component
+/// and would otherwise fall back to the larger global `.field` size.
+.editor .field input {
+  border-radius: 14px;
+  min-height: 48px;
+  font-size: 20px;
 }
 
 .editor__answers-head {
@@ -28,7 +39,7 @@
   margin-bottom: 10px;
   color: $text-on-dark;
   font-family: $font-body;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 400;
 }
 
@@ -47,7 +58,7 @@
     color: $text-dark;
     min-height: 46px;
     font-family: $font-body;
-    font-size: 26px;
+    font-size: 20px;
 
     &:focus {
       outline: 2px solid $orange-soft;
@@ -59,9 +70,20 @@
 .editor__letter {
   font-family: $font-body;
   font-weight: 700;
-  font-size: 24px;
+  font-size: 20px;
   color: $text-on-dark;
   min-width: 1.4em;
+}
+
+/// Keeps its row whether or not a message is present, so switching to the
+/// invalid state does not push the answers or the button around.
+.editor__error {
+  min-height: 20px;
+  color: $error;
+  font-family: $font-body;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.3;
 }
 
 .editor__add {

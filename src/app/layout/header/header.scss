@@ -46,7 +46,7 @@
 }
 
 .site-header--light {
-  width: min(1280px, calc(100% - 80px));
+  width: min(#{$content-max}, calc(100% - 80px));
   margin-inline: auto;
   align-items: center;
   padding-block: 28px 12px;
