@@ -96,3 +96,56 @@
   }
 }
 
+/// Both variants drop their fixed canvas height on phones: the list card now
+/// carries a two-line title, and the highlight card sits in a sideways
+/// scroller where a scaled-down height would clip its badge.
+@media (max-width: #{$bp-mobile}) {
+  .badge--deadline {
+    height: auto;
+    min-height: 22px;
+    padding: 4px 10px;
+    font-size: 11px;
+  }
+
+  .survey-card--highlight {
+    height: auto;
+    min-height: 148px;
+    padding: 14px 14px 16px;
+    border-radius: 8px 44px 8px 8px;
+    box-shadow: 0 3px 8px rgba(15, 7, 18, 0.4);
+
+    .survey-card__category {
+      font-size: 12px;
+    }
+
+    .survey-card__title {
+      margin-top: 6px;
+      font-size: 17px;
+    }
+  }
+
+  .survey-card--list {
+    height: auto;
+    padding: 12px 14px 12px 14px;
+    border-radius: 8px 30px 8px 8px;
+
+    .survey-card__category {
+      font-size: 12px;
+    }
+
+    /// Full width leaves room for a second line, so the title is no longer
+    /// truncated the way it has to be in the two-column desktop grid.
+    .survey-card__title {
+      margin-top: 6px;
+      font-size: 16px;
+      line-height: 1.25;
+      white-space: normal;
+      overflow: visible;
+    }
+
+    .badge--deadline {
+      margin-top: 10px;
+    }
+  }
+}
+

@@ -81,3 +81,40 @@
   place-items: center;
   text-align: center;
 }
+
+@media (max-width: #{$bp-mobile}) {
+  .results {
+    padding-top: 0;
+  }
+
+  .results h2 {
+    margin-bottom: 20px;
+    font-size: 25px;
+  }
+
+  .results__lead,
+  .results__empty {
+    margin-bottom: 12px;
+    font-size: 13px;
+  }
+
+  .results__block {
+    margin-bottom: 24px;
+
+    h3 {
+      margin-bottom: 10px;
+      font-size: 13px;
+    }
+  }
+
+  .results__row {
+    grid-template-columns: 18px minmax(0, 1fr) 38px;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 12px;
+  }
+
+  .results__empty {
+    min-height: 80px;
+  }
+}

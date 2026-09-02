@@ -46,6 +46,12 @@ export class Home {
     this.tab() === 'active' ? this.activeCategory() : this.pastCategory(),
   );
 
+  /** Human-readable label for the current category filter. */
+  readonly categoryLabel = computed(() => {
+    const category = this.currentCategory();
+    return category === ALL_CATEGORIES_VALUE ? null : category;
+  });
+
   /** Surveys for the current tab and category. */
   readonly visibleSurveys = computed(() => {
     const source = this.tab() === 'active' ? this.surveys.activeSurveys() : this.surveys.pastSurveys();

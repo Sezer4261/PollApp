@@ -93,3 +93,54 @@
     font-size: 15px;
   }
 }
+
+@media (max-width: #{$bp-tablet}) {
+  .site-header--light {
+    width: min(#{$content-max}, calc(100% - 48px));
+    padding-block: 22px 10px;
+  }
+}
+
+/// The dark header is sized in canvas units, which at phone width would leave
+/// the wordmark unreadably small. Both variants switch to fixed sizes here.
+@media (max-width: #{$bp-mobile}) {
+  .site-header {
+    align-items: center;
+    padding-top: 16px;
+  }
+
+  .brand {
+    gap: 8px;
+    align-items: center;
+  }
+
+  .brand__mark {
+    width: 36px;
+    height: 25px;
+  }
+
+  .brand__name {
+    margin-top: 0;
+    font-size: 21px;
+  }
+
+  .site-header--light {
+    width: calc(100% - #{$gutter-mobile * 2});
+    padding-block: 16px 8px;
+
+    .brand__mark {
+      width: 36px;
+      height: 25px;
+    }
+
+    .brand__name {
+      font-size: 21px;
+    }
+
+    .btn--primary {
+      min-height: 36px;
+      padding: 8px 14px;
+      font-size: 13px;
+    }
+  }
+}

@@ -142,3 +142,69 @@
   }
 }
 
+@media (max-width: #{$bp-tablet}) {
+  .hero {
+    gap: u(8);
+  }
+}
+
+/// One column on phones. `.hero__copy` dissolves into the flex flow so the
+/// illustration can sit between the headline and the paragraph, as in the
+/// mock-up, without reordering the markup.
+@media (max-width: #{$bp-mobile}) {
+  .hero {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    min-height: 0;
+  }
+
+  .hero__copy {
+    display: contents;
+  }
+
+  .hero__copy h1 {
+    order: 1;
+    font-size: 34px;
+  }
+
+  .hero__visual {
+    order: 2;
+    align-self: center;
+    width: min(74%, 250px);
+    height: auto;
+    aspect-ratio: 124 / 152;
+    margin: 20px 0 4px;
+  }
+
+  .hero__copy p {
+    order: 3;
+    max-width: none;
+    margin-top: 14px;
+    font-size: 14px;
+  }
+
+  .hero__copy .btn--primary {
+    order: 4;
+    align-self: flex-start;
+    height: auto;
+    min-height: 44px;
+    margin-top: 20px;
+    padding: 0 20px;
+    border-radius: 12px;
+    font-size: 16px;
+    --btn-plus-size: 17px;
+    --btn-icon-gap: 10px;
+  }
+}
+
+@media (max-width: #{$bp-small}) {
+  .hero__copy h1 {
+    font-size: 29px;
+  }
+
+  .hero__visual {
+    width: min(78%, 210px);
+  }
+}
+

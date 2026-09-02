@@ -8,21 +8,23 @@
   position: fixed;
   inset: 0;
   z-index: 20;
-  overflow: hidden;
+  overflow-y: auto;
   display: flex;
+  align-items: flex-start;
   background: #2a1e2e;
   padding: 18px 28px 20px;
 }
 
-/// The panel claims the full viewport height instead of growing with its
-/// content. Header, error slot and the Publish row therefore keep their place
-/// while questions and answers are added; only `.overlay__body` scrolls.
+/// The panel grows with its content and only caps at the viewport height.
+/// When content exceeds that limit, only `.overlay__body` scrolls.
 .overlay__panel {
   display: flex;
   flex-direction: column;
   width: min(#{$content-max}, 100%);
-  height: calc(100vh - 38px);
+  height: auto;
+  max-height: calc(100vh - 38px);
   margin: 0 auto;
+  overflow: hidden;
   background: #2d2430;
   border-radius: 24px 110px 24px 24px;
   padding: 22px 36px 18px;
@@ -146,14 +148,14 @@ $overlay-col-gap: 40px;
 /// "Set end date (optional)" onto a second line.
 .overlay .field > span {
   font-size: 20px;
-  font-weight: 400;
+  font-weight: 700;
 }
 
 .overlay .field--description > label {
   color: $text-on-dark;
   font-family: $font-body;
   font-size: 20px;
-  font-weight: 400;
+  font-weight: 700;
 }
 
 .overlay .checkbox {
@@ -212,7 +214,7 @@ $overlay-col-gap: 40px;
   color: $text-on-dark;
   font-family: $font-body;
   font-size: 20px;
-  font-weight: 400;
+  font-weight: 700;
   line-height: 1;
   transition: color 0.18s ease;
 
@@ -443,25 +445,243 @@ $overlay-col-gap: 40px;
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: #{$bp-tablet}) {
   .overlay {
-    padding: 12px;
+    padding: 14px 16px 16px;
   }
 
   .overlay__panel {
-    border-radius: 24px 56px 24px 24px;
-    padding: 18px 16px 16px;
-    height: calc(100vh - 24px);
+    border-radius: 24px 72px 24px 24px;
+    padding: 20px 22px 16px;
+    max-height: calc(100vh - 30px);
   }
 
   .overlay__body {
-    grid-template-columns: 1fr;
     border-radius: 16px;
-    padding: 18px 14px 16px;
+    padding: 20px 18px 18px;
+  }
+}
+
+@media (max-width: #{$bp-mobile}) {
+  .overlay {
+    padding: 10px;
   }
 
-  .overlay__pair,
+  .overlay__body,
   .overlay__questions {
     grid-template-columns: 1fr;
+  }
+
+  /// With a single column there is no second column to park the control in, so
+  /// it returns to the normal flow underneath the first question.
+  .overlay__add-question--lead {
+    position: static;
+    grid-column: 1 / -1;
+  }
+
+  .overlay__panel {
+    border-radius: 18px 52px 18px 18px;
+    padding: 16px 14px 14px;
+    max-height: calc(100vh - 20px);
+  }
+
+  .overlay__header {
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .overlay__heading {
+    gap: 6px;
+  }
+
+  .overlay__draft {
+    padding: 3px 10px;
+    font-size: 12px;
+  }
+
+  .overlay__heading h1 {
+    font-size: 34px;
+  }
+
+  /// Only the ✕ is left: the word does not fit beside the Draft badge here.
+  /// The button keeps its name through `aria-label`.
+  .overlay__cancel {
+    justify-content: center;
+    gap: 0;
+    width: 34px;
+    height: 34px;
+    min-height: 0;
+    margin-top: 0;
+    padding: 0;
+    border-radius: 10px;
+    font-size: 15px;
+  }
+
+  .overlay__cancel-text {
+    display: none;
+  }
+
+  .overlay__body {
+    gap: 18px;
+    border-radius: 14px;
+    padding: 16px 14px;
+  }
+
+  .overlay__left,
+  .overlay__right {
+    gap: 14px;
+  }
+
+  /// Mock-up order on a phone: name, category, end date, describing text.
+  .overlay__pair {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .overlay__pair .field--category {
+    order: -1;
+  }
+
+  /// The trash icon moves up next to the label so the input can use the full
+  /// width. `display: contents` lifts the row's children into the field grid.
+  .overlay .field:not(.field--category) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 6px 8px;
+  }
+
+  .overlay .field > span:first-child {
+    grid-area: 1 / 1;
+  }
+
+  .overlay .field__row {
+    display: contents;
+  }
+
+  .overlay .field__row input {
+    grid-area: 2 / 1 / 3 / -1;
+  }
+
+  .overlay .field__row .trash {
+    grid-area: 1 / 2;
+  }
+
+  .overlay .field > .field__error {
+    grid-area: 3 / 1 / 4 / -1;
+    min-height: 16px;
+    font-size: 13px;
+  }
+
+  .overlay .field > span,
+  .overlay .field--description > label {
+    font-size: 15px;
+  }
+
+  .overlay .field input,
+  .overlay .field textarea,
+  .overlay .field select {
+    min-height: 42px;
+    border-radius: 10px;
+    font-size: 16px;
+  }
+
+  .overlay .checkbox {
+    font-size: 12px;
+  }
+
+  .category-picker__trigger {
+    padding: 0;
+    font-size: 15px;
+  }
+
+  .category-picker__menu {
+    min-width: 0;
+    width: calc(100vw - 76px);
+    max-width: none;
+  }
+
+  .category-picker__selection {
+    font-size: 13px;
+  }
+
+  /// Same treatment as `.field__row`, for the describing-text block.
+  .overlay .field--description {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .overlay .field--description > label {
+    grid-area: 1 / 1;
+  }
+
+  .field__description-input {
+    display: contents;
+  }
+
+  .field--description .field__textarea {
+    grid-area: 2 / 1 / 3 / -1;
+
+    textarea {
+      min-height: 110px;
+    }
+  }
+
+  .field--description .trash {
+    grid-area: 1 / 2;
+  }
+
+  .overlay__questions {
+    gap: 20px;
+  }
+
+  /// Centred under the questions, matching the mock-up.
+  .overlay__add-question {
+    justify-self: center;
+    min-height: 40px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 13px;
+  }
+
+  .overlay__plus {
+    width: 18px;
+    height: 18px;
+    font-size: 13px;
+  }
+
+  .overlay__errors {
+    min-height: 20px;
+    font-size: 13px;
+  }
+
+  .overlay__footer {
+    justify-content: center;
+    margin-top: 12px;
+  }
+
+  .overlay__publish {
+    min-width: 0;
+    width: min(210px, 100%);
+    min-height: 44px;
+    padding: 10px 26px;
+    border-radius: 14px;
+    font-size: 16px;
+  }
+
+  .trash {
+    width: 30px;
+    height: 30px;
+    min-height: 30px;
+  }
+}
+
+@media (max-width: #{$bp-small}) {
+  .overlay__heading h1 {
+    font-size: 28px;
   }
 }

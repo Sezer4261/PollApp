@@ -51,6 +51,10 @@
         />
       </div>
 
+      @if (categoryLabel()) {
+        <p class="home__filter-label">{{ categoryLabel() }}</p>
+      }
+
       <div class="home__list">
         @if (loading()) {
           <p class="empty-note">Loading surveys...</p>

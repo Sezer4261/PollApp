@@ -4,6 +4,13 @@
 $mock-width: 547;
 $mock-height: 716;
 
+/// The content column inside that mock-up. Below `$bp-mobile` the layout is a
+/// single column, so this — not the full frame — is what the canvas maps onto.
+$mock-content: 393;
+
+/// Space kept free left and right of the content column on phones.
+$gutter-mobile: 20px;
+
 /// Widest content column the app ever draws. Everything else is derived from it
 /// so the start page, the create-survey overlay and the detail page share one
 /// limiter instead of each growing with the window.
@@ -77,8 +84,11 @@ $shadow-type: 3px 4px 0 rgba(18, 10, 20, 0.55);
 $font-display: 'Nerko One', cursive;
 $font-body: 'Mulish', sans-serif;
 
+/// `$bp-tablet` is where the two-column content grids fold, `$bp-mobile` where
+/// the phone layout takes over and `$bp-small` covers the narrowest devices.
 $bp-tablet: 1024px;
 $bp-mobile: 768px;
+$bp-small: 520px;
 
 :root {
   --u: calc(min(100vw, #{$canvas-max}) / #{$mock-width});
@@ -98,4 +108,14 @@ $bp-mobile: 768px;
   --text-dark: #{$text-dark};
   --font-display: #{$font-display};
   --font-body: #{$font-body};
+}
+
+/// On a phone the start page is no longer a shrunken copy of the 547-unit frame:
+/// the columns collapse, so the canvas is remapped onto the content column and
+/// the design fills the screen instead of leaving the sides empty. Type sizes
+/// do not follow this scale down that far and are set per component.
+@media (max-width: #{$bp-mobile}) {
+  :root {
+    --u: calc((100vw - #{$gutter-mobile * 2}) / #{$mock-content});
+  }
 }

@@ -213,14 +213,108 @@
   color: $text-dark;
 }
 
-@media (max-width: 960px) {
-  .detail__layout.page-wrap,
-  .detail__questions {
+/// The results column needs 280 px of its own, so it drops below the card
+/// first. The questions keep their two columns: the card is full width now and
+/// has more room for them than before.
+@media (max-width: #{$bp-tablet}) {
+  .detail__layout.page-wrap {
     grid-template-columns: 1fr;
+    width: min(#{$content-max}, calc(100% - 48px));
+    gap: 28px;
+  }
+
+  .detail__card {
+    padding: 28px 28px 28px 26px;
+  }
+}
+
+@media (max-width: #{$bp-mobile}) {
+  .detail {
+    padding-bottom: 40px;
   }
 
   .detail__layout.page-wrap {
-    width: calc(100% - 40px);
-    gap: 28px;
+    width: calc(100% - #{$gutter-mobile * 2});
+    gap: 24px;
+  }
+
+  .detail__card {
+    border-radius: 16px 56px 16px 16px;
+    padding: 18px 16px 20px;
+  }
+
+  .detail__meta {
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .detail__meta-row {
+    gap: 4px 16px;
+    font-size: 12px;
+  }
+
+  .detail__card h1 {
+    font-size: 27px;
+    margin-bottom: 12px;
+  }
+
+  /// The pre-split title lines are kept on one line on desktop; at phone width
+  /// they have to wrap or they push the card sideways.
+  .detail__title-line {
+    white-space: normal;
+  }
+
+  .detail__description,
+  .detail__note {
+    max-width: none;
+    margin-bottom: 20px;
+    font-size: 13px;
+  }
+
+  .detail__questions {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .question h2 {
+    font-size: 14px;
+  }
+
+  .question__hint {
+    margin: 3px 0 8px;
+    font-size: 11px;
+  }
+
+  .option {
+    gap: 8px;
+    margin-bottom: 4px;
+    margin-left: -8px;
+    padding: 5px 8px;
+    font-size: 13px;
+
+    input {
+      width: 15px;
+      height: 15px;
+    }
+  }
+
+  .detail__actions {
+    margin-top: 20px;
+  }
+
+  .detail__actions .btn--primary,
+  .detail__missing .btn--primary {
+    min-height: 38px;
+    padding: 9px 18px;
+    font-size: 14px;
+  }
+
+  .detail__error {
+    margin-top: 12px;
+    font-size: 13px;
+  }
+
+  .detail__missing {
+    padding-top: 32px;
   }
 }
