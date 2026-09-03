@@ -1,6 +1,19 @@
+<!--
+  Hero of the start page: headline, intro and call to action next to the
+  illustration. The illustration is inline SVG rather than an image file so its
+  parts can be animated individually on hover.
+-->
 <section class="hero">
   <div class="hero__copy">
-    <h1>Collect Feedback,<br>Unlock Ideas</h1>
+    <!--
+      One span per line: the design breaks the headline after "Collect" and
+      "Feedback,", and a natural line break would fall elsewhere.
+    -->
+    <h1>
+      <span class="hero__title-line">Collect</span>
+      <span class="hero__title-line">Feedback,</span>
+      <span class="hero__title-line">Unlock Ideas</span>
+    </h1>
     <p>
       Create and share surveys in minutes – from team events to workplace culture.
       Collect opinions, engage your audience, and turn feedback into action.
@@ -11,9 +24,18 @@
     </button>
   </div>
 
+  <!--
+    Purely decorative, so it is hidden from screen readers. Three stacked SVG
+    layers share one 124 x 152 viewBox: props behind the phone, the phone
+    itself, and props in front of it. Splitting them is what allows the phone
+    to be tilted in 3D while the props stay flat, and the `hero__float` groups
+    are the parts the stylesheet moves on hover.
+  -->
   <div class="hero__visual" aria-hidden="true">
+    <!-- Back layer: the small square and the check badge behind the phone. -->
     <svg class="hero__layer" viewBox="0 0 124 152" fill="none">
       <defs>
+        <!-- Shared drop shadow that lifts the props off the background. -->
         <filter id="heroBackLift" x="-40%" y="-40%" width="190%" height="190%">
           <feDropShadow dx="1.4" dy="3.4" stdDeviation="2.6" flood-color="#150b19" flood-opacity="0.55" />
         </filter>
@@ -40,6 +62,7 @@
       </g>
     </svg>
 
+    <!-- Middle layer: the phone. `.hero__phone` applies the 3D tilt in CSS. -->
     <svg class="hero__layer hero__phone" viewBox="0 0 124 152" fill="none">
       <defs>
         <filter id="heroPhoneLift" x="-30%" y="-25%" width="170%" height="160%">
@@ -47,6 +70,11 @@
         </filter>
       </defs>
 
+      <!--
+        The phone was drawn at a slightly different size than the props, so this
+        transform scales it back onto the shared viewBox instead of every
+        coordinate below being rewritten.
+      -->
       <g transform="translate(4.854 0.005) scale(0.9247 0.9613)" filter="url(#heroPhoneLift)">
         <rect x="29" y="4" width="75" height="147" rx="11" fill="#D3D7DC" />
         <rect x="33" y="8" width="64" height="139" rx="8" fill="#FFFFFF" />
@@ -71,6 +99,7 @@
       </g>
     </svg>
 
+    <!-- Front layer: star, question mark and chat bubble over the phone. -->
     <svg class="hero__layer" viewBox="0 0 124 152" fill="none">
       <defs>
         <filter id="heroFrontLift" x="-40%" y="-40%" width="190%" height="190%">
@@ -78,6 +107,7 @@
         </filter>
       </defs>
 
+      <!-- `hero__spark` is the dot that orbits the star disc on hover. -->
       <g class="hero__float hero__float--star" filter="url(#heroFrontLift)">
         <circle class="hero__spark" cx="24.3" cy="110.3" r="4.4" fill="#503E65" />
         <circle cx="12.5" cy="127" r="13" fill="#443659" />

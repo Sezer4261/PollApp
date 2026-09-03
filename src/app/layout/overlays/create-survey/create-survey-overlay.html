@@ -1,3 +1,8 @@
+<!--
+  Create-survey modal. Shown above the current page instead of being a route,
+  so the dashboard stays behind it. The backdrop closes on click, the panel
+  stops the event so clicks inside are not treated as "click outside".
+-->
 <div class="overlay" @overlayAnimation (click)="close()">
   <section
     class="overlay__panel"
@@ -9,6 +14,7 @@
   >
     <header class="overlay__header">
       <div class="overlay__heading">
+        <!-- Nothing is stored until Publish, which the badge makes explicit. -->
         <span class="overlay__draft">Draft</span>
         <h1 id="create-survey-title">Create new survey</h1>
       </div>
@@ -24,10 +30,14 @@
       restrict the date picker and drive the `:invalid` styling.
     -->
     <form class="overlay__form" novalidate (submit)="$event.preventDefault(); publish()">
+      <!--
+        Left column: name, end date and category. Right column: describing
+        text. The questions span both columns underneath.
+      -->
       <div class="overlay__body">
         <div class="overlay__left">
           <label class="field" [class.field--invalid]="titleError()">
-            <span>Survey name</span>
+            <span class="field__label">Survey name</span>
             <div class="field__row">
               <input
                 type="text"
@@ -45,7 +55,7 @@
 
           <div class="overlay__pair">
             <label class="field" [class.field--invalid]="endDateError()">
-              <span>Set end date (optional)</span>
+              <span class="field__label">Set end date (optional)</span>
               <div class="field__row">
                 <input
                   type="date"
@@ -63,7 +73,13 @@
               <span class="field__error" id="end-date-error" role="alert">{{ endDateError() }}</span>
             </label>
 
+            <!--
+              Own dropdown instead of `<select>`, so it can be styled like the
+              design. `role="listbox"`/`role="option"` and `aria-expanded`
+              restore the semantics the native element would have provided.
+            -->
             <div class="field field--category" [class.field--invalid]="categoryError()">
+              <span class="field__label">Choose category</span>
               <div class="category-picker">
                 <button
                   class="category-picker__trigger"
@@ -72,7 +88,7 @@
                   [attr.aria-expanded]="categoryOpen()"
                   (click)="toggleCategory()"
                 >
-                  <span>Choose category</span>
+                  <span>{{ draft().category || 'Select' }}</span>
                   <svg width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true">
                     <path
                       d="M1 1.5 6 6.5 11 1.5"
@@ -102,9 +118,6 @@
                 }
               </div>
 
-              @if (draft().category) {
-                <p class="category-picker__selection">{{ draft().category }}</p>
-              }
               <span class="field__error" role="alert">{{ categoryError() }}</span>
             </div>
           </div>
@@ -112,11 +125,12 @@
 
         <div class="overlay__right">
           <div class="field field--description">
-            <label for="survey-description">Describing text (optional)</label>
+            <span class="field__label" id="survey-description-label">Describing text (optional)</span>
             <div class="field__description-input">
               <div class="field__textarea">
                 <textarea
                   id="survey-description"
+                  aria-labelledby="survey-description-label"
                   [value]="draft().description"
                   (input)="patch({ description: inputValue($event) })"
                 ></textarea>
@@ -133,6 +147,11 @@
           </div>
         </div>
 
+        <!--
+          Each question is edited by its own component and reports back through
+          `questionChange`; the draft itself lives in this overlay. `isFirst`
+          decides whether the trash icon clears or removes the question.
+        -->
         <div class="overlay__questions">
           @for (question of draft().questions; track question.id; let i = $index; let first = $first) {
             <app-question-editor
@@ -146,6 +165,10 @@
             />
           }
 
+          <!--
+            With a single question the control moves into the free second
+            column (`--lead`); from the second question on it sits below them.
+          -->
           <button
             class="overlay__add-question"
             [class.overlay__add-question--lead]="draft().questions.length === 1"

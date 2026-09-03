@@ -1,4 +1,9 @@
+/// The root component's host element sits between `body` and every routed page,
+/// so it has to pass the full height through and repeat the horizontal overflow
+/// guard from the reset — otherwise a wide page would scroll inside the host.
 :host {
   display: block;
   min-height: 100%;
+  max-width: 100%;
+  overflow-x: clip;
 }

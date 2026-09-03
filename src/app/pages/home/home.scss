@@ -1,4 +1,11 @@
+/// Start page. All desktop measurements are taken from the 547-unit mock-up and
+/// converted with `u()`/`fs()`, so the page keeps its proportions at every
+/// window width up to `$canvas-max`. Type sizes on phones are set explicitly.
 @use '../../../styles/variables' as *;
+
+/// One rhythm for every gap in the stacked mobile layout: heading to label,
+/// label to cards, cards to toolbar, tabs to category picker, picker to list.
+$stack-gap-mobile: 36px;
 
 .home {
   min-height: 100vh;
@@ -6,11 +13,18 @@
   background: $bg-dark;
 }
 
+/// Stand-in for the mock-up frame: it grows with the window until
+/// `$canvas-max`, then centres. Clipping here catches anything that would
+/// otherwise let the page scroll sideways.
 .home__canvas {
   width: min(100%, #{$canvas-max});
+  max-width: 100%;
+  min-width: 0;
   margin-inline: auto;
+  overflow-x: clip;
 }
 
+/// Header and hero are inset further than the content column below them.
 .home__top {
   padding-left: u(41);
 }
@@ -33,8 +47,12 @@ app-hero {
   text-shadow: 0 u(2.5) u(3) rgba(18, 9, 22, 0.6);
 }
 
+/// The 393-unit content column of the design, shared by both list sections.
+/// On phones `--u` is remapped so this column becomes the full screen width.
 .home__section {
   width: u(393);
+  max-width: 100%;
+  min-width: 0;
   margin-inline: auto;
 }
 
@@ -62,11 +80,13 @@ app-hero {
   margin-top: u(15);
 }
 
+/// Echoes the picked category under the dropdown. Fixed at 14px, since it is a
+/// label and must not scale with the canvas like the headings do.
 .home__filter-label {
   margin-top: u(8);
   font-family: $font-body;
-  font-size: fs(16);
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 700;
   line-height: 1.2;
   text-align: right;
   color: $peach;
@@ -100,6 +120,9 @@ app-hero {
   }
 }
 
+/// The list scrolls inside a fixed box on desktop. It is widened and pulled
+/// right by the same amount so the scrollbar sits outside the card column
+/// instead of eating into the cards.
 .home__list {
   width: calc(100% + u(10));
   margin-top: u(14);
@@ -151,14 +174,14 @@ app-hero {
   }
 
   .home__title {
-    margin-top: 28px;
-    font-size: 34px;
+    margin-top: 52px;
+    font-size: 54px;
     text-shadow: 0 2px 3px rgba(18, 9, 22, 0.6);
   }
 
   .home__kicker {
-    margin-top: 20px;
-    font-size: 17px;
+    margin-top: $stack-gap-mobile;
+    font-size: 24px;
   }
 
   /// Three columns would squeeze the highlight cards below a readable width, so
@@ -168,7 +191,7 @@ app-hero {
     grid-auto-flow: column;
     grid-auto-columns: 62%;
     gap: 10px;
-    margin-top: 12px;
+    margin-top: $stack-gap-mobile;
     padding-bottom: 8px;
     overflow-x: auto;
     scroll-snap-type: x proximity;
@@ -197,20 +220,21 @@ app-hero {
   .home__toolbar {
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
-    margin-top: 18px;
+    gap: $stack-gap-mobile;
+    /// The card row reserves 8px below itself for its scrollbar, so the
+    /// remainder gets the row to the same visual gap as everywhere else.
+    margin-top: $stack-gap-mobile - 8px;
   }
 
   .home__tabs .btn--tab {
     height: auto;
     min-height: 30px;
     padding: 0 14px;
-    font-size: 13px;
+    font-size: 14px;
   }
 
   .home__filter-label {
-    margin-top: 6px;
-    font-size: 13px;
+    margin-top: $stack-gap-mobile;
     text-align: left;
   }
 
@@ -219,7 +243,7 @@ app-hero {
   .home__list {
     width: 100%;
     max-height: none;
-    margin-top: 12px;
+    margin-top: $stack-gap-mobile;
     margin-right: 0;
     padding-right: 0;
     overflow: visible;
@@ -232,10 +256,6 @@ app-hero {
 }
 
 @media (max-width: #{$bp-small}) {
-  .home__title {
-    font-size: 29px;
-  }
-
   .home__soon {
     grid-auto-columns: 74%;
   }
@@ -243,6 +263,5 @@ app-hero {
   .home__tabs .btn--tab {
     min-height: 28px;
     padding: 0 10px;
-    font-size: 12px;
   }
 }

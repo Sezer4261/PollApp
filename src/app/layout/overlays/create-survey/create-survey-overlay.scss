@@ -1,13 +1,19 @@
+/// Create-survey overlay. Unlike the pages this is not driven by `u()`: a modal
+/// keeps its type and control sizes fixed and only its column layout responds,
+/// so the form stays usable at any window size.
 @use '../../../../styles/variables' as *;
 
 :host {
   display: block;
 }
 
+/// Backdrop and scroll container. Aligned to the top rather than centred, so a
+/// tall form does not creep off screen upwards.
 .overlay {
   position: fixed;
   inset: 0;
   z-index: 20;
+  overflow-x: clip;
   overflow-y: auto;
   display: flex;
   align-items: flex-start;
@@ -21,12 +27,14 @@
   display: flex;
   flex-direction: column;
   width: min(#{$content-max}, 100%);
+  max-width: 100%;
+  min-width: 0;
   height: auto;
   max-height: calc(100vh - 38px);
   margin: 0 auto;
   overflow: hidden;
   background: #2d2430;
-  border-radius: 24px 110px 24px 24px;
+  @include panel-corners();
   padding: 22px 36px 18px;
   color: #ffffff;
 }
@@ -59,12 +67,15 @@
   line-height: 1.2;
 }
 
+/// Fluid between 40 and 72px: the title has to share its row with the Cancel
+/// button, which would otherwise be pushed out on narrow windows.
 .overlay__heading h1 {
   font-family: $font-display;
   font-size: clamp(40px, 4.6vw, 72px);
   font-weight: 400;
   line-height: 1;
   color: $peach;
+  overflow-wrap: anywhere;
 }
 
 .overlay__cancel {
@@ -79,7 +90,7 @@
   padding: 10px 16px;
   font-family: $font-body;
   font-weight: 700;
-  font-size: 16px;
+  font-size: $text-btn;
   min-height: 42px;
   transition: background 0.18s ease;
 
@@ -99,6 +110,9 @@
 /// the first question's trash icon in the left column.
 $overlay-col-gap: 40px;
 
+/// The scrolling form well: two equal columns, and the only element that
+/// scrolls when the panel hits its height cap. `overscroll-behavior: contain`
+/// stops the page behind the modal from scrolling on at the end of the list.
 .overlay__body {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -110,7 +124,7 @@ $overlay-col-gap: 40px;
   overflow-y: auto;
   overscroll-behavior: contain;
   background: #3c313e;
-  border-radius: 18px;
+  border-radius: $panel-inner-radius;
   padding: 24px 28px 22px;
   scrollbar-width: thin;
   scrollbar-color: $peach transparent;
@@ -137,25 +151,12 @@ $overlay-col-gap: 40px;
   min-width: 0;
 }
 
+/// End date and category share a row. The date input needs slightly more room
+/// for its native picker icon, hence the uneven 1.05 : 0.95 split.
 .overlay__pair {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
   gap: 16px;
-}
-
-/// Field type is a step below the global 24px: the panel is capped at
-/// `$content-max`, and at that width the larger size wraps labels such as
-/// "Set end date (optional)" onto a second line.
-.overlay .field > span {
-  font-size: 20px;
-  font-weight: 700;
-}
-
-.overlay .field--description > label {
-  color: $text-on-dark;
-  font-family: $font-body;
-  font-size: 20px;
-  font-weight: 700;
 }
 
 .overlay .checkbox {
@@ -166,7 +167,7 @@ $overlay-col-gap: 40px;
 .overlay .field input,
 .overlay .field textarea,
 .overlay .field select {
-  border-radius: 14px;
+  border-radius: $radius-md;
   min-height: 48px;
   font-size: 20px;
 }
@@ -204,6 +205,7 @@ $overlay-col-gap: 40px;
   position: relative;
 }
 
+/// Category trigger shows the selected value, not the label styling.
 .category-picker__trigger {
   display: inline-flex;
   align-items: center;
@@ -214,7 +216,7 @@ $overlay-col-gap: 40px;
   color: $text-on-dark;
   font-family: $font-body;
   font-size: 20px;
-  font-weight: 700;
+  font-weight: 400;
   line-height: 1;
   transition: color 0.18s ease;
 
@@ -229,6 +231,9 @@ $overlay-col-gap: 40px;
   }
 }
 
+/// Custom dropdown instead of a native `<select>`, because the design needs
+/// its own colours. It is absolutely positioned so opening it does not resize
+/// the form, and the max width keeps it inside the viewport on phones.
 .category-picker__menu {
   position: absolute;
   top: calc(100% + 6px);
@@ -252,8 +257,8 @@ $overlay-col-gap: 40px;
     background: transparent;
     color: $text-dark;
     font-family: $font-body;
-    font-size: 16px;
-    font-weight: 600;
+    font-size: $text-btn;
+    font-weight: 700;
     line-height: 1.25;
     text-align: left;
 
@@ -264,13 +269,6 @@ $overlay-col-gap: 40px;
   }
 }
 
-.category-picker__selection {
-  margin: 2px 0 0;
-  color: $peach;
-  font-family: $font-body;
-  font-size: 16px;
-  font-weight: 700;
-}
 
 .field--description {
   flex: 1;
@@ -318,6 +316,8 @@ $overlay-col-gap: 40px;
   line-height: 1.3;
 }
 
+/// Missing fields are marked in three places at once — outline, label colour
+/// and the message slot above — since colour alone is not a reliable signal.
 .field--invalid {
   input,
   input:focus {
@@ -325,7 +325,7 @@ $overlay-col-gap: 40px;
     background: #fff0f0;
   }
 
-  > span:first-child {
+  > .field__label {
     color: $error;
   }
 
@@ -355,6 +355,8 @@ $overlay-col-gap: 40px;
   }
 }
 
+/// Secondary button: tinted rather than filled, so it stays behind Publish in
+/// the visual order. Spans both question columns and sticks to the left edge.
 .overlay__add-question {
   display: inline-flex;
   align-items: center;
@@ -367,7 +369,7 @@ $overlay-col-gap: 40px;
   padding: 12px 18px 12px 20px;
   font-family: $font-body;
   font-weight: 700;
-  font-size: 16px;
+  font-size: $text-btn;
   min-height: 48px;
   transition: background 0.18s ease;
   grid-column: 1 / -1;
@@ -407,7 +409,7 @@ $overlay-col-gap: 40px;
   min-height: 26px;
   color: $error;
   font-family: $font-body;
-  font-size: 16px;
+  font-size: $text-sm-heading;
   font-weight: 700;
   line-height: 1.3;
 }
@@ -418,6 +420,8 @@ $overlay-col-gap: 40px;
   margin-top: 16px;
 }
 
+/// Primary action of the overlay. `gap` and `padding` are animated because the
+/// shared `.btn--primary` reveals its icon on hover, which changes the width.
 .overlay__publish {
   display: inline-flex;
   align-items: center;
@@ -431,8 +435,8 @@ $overlay-col-gap: 40px;
   background: $peach-btn;
   color: $text-dark;
   font-family: $font-body;
-  font-weight: 800;
-  font-size: 20px;
+  font-weight: 700;
+  font-size: $text-btn;
   box-shadow: 0 8px 16px rgba(12, 6, 16, 0.28);
   transition:
     background 0.18s ease,
@@ -445,26 +449,33 @@ $overlay-col-gap: 40px;
   }
 }
 
+/// Tablet: the two columns still fit, only the padding and the corner scoop
+/// shrink so the panel keeps its proportions on a narrower window.
 @media (max-width: #{$bp-tablet}) {
   .overlay {
     padding: 14px 16px 16px;
   }
 
   .overlay__panel {
-    border-radius: 24px 72px 24px 24px;
+    @include panel-corners($panel-radius-base, $panel-radius-tablet-tr);
     padding: 20px 22px 16px;
     max-height: calc(100vh - 30px);
   }
 
   .overlay__body {
-    border-radius: 16px;
+    border-radius: $panel-inner-radius;
     padding: 20px 18px 18px;
   }
 }
 
+/// Phone: everything becomes one column and the panel fills the screen inside
+/// the gutter, so the modal reads as a page of its own.
 @media (max-width: #{$bp-mobile}) {
   .overlay {
-    padding: 10px;
+    padding: $gutter-mobile;
+    align-items: stretch;
+    /// Darker than the panel so the asymmetric corners read clearly.
+    background: #1a121e;
   }
 
   .overlay__body,
@@ -480,9 +491,11 @@ $overlay-col-gap: 40px;
   }
 
   .overlay__panel {
-    border-radius: 18px 52px 18px 18px;
-    padding: 16px 14px 14px;
-    max-height: calc(100vh - 20px);
+    width: 100%;
+    @include panel-corners($panel-radius-mobile-base, $panel-radius-mobile-tr);
+    padding: 16px $gutter-mobile 18px;
+    max-height: none;
+    min-height: calc(100vh - #{$gutter-mobile * 2});
   }
 
   .overlay__header {
@@ -509,13 +522,13 @@ $overlay-col-gap: 40px;
   .overlay__cancel {
     justify-content: center;
     gap: 0;
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
     min-height: 0;
-    margin-top: 0;
+    margin-top: 25px;
     padding: 0;
-    border-radius: 10px;
-    font-size: 15px;
+    border-radius: 50%;
+    font-size: $text-btn;
   }
 
   .overlay__cancel-text {
@@ -524,8 +537,8 @@ $overlay-col-gap: 40px;
 
   .overlay__body {
     gap: 18px;
-    border-radius: 14px;
-    padding: 16px 14px;
+    border-radius: $panel-inner-radius-mobile;
+    padding: 18px 16px 20px;
   }
 
   .overlay__left,
@@ -553,7 +566,7 @@ $overlay-col-gap: 40px;
     gap: 6px 8px;
   }
 
-  .overlay .field > span:first-child {
+  .overlay .field > .field__label {
     grid-area: 1 / 1;
   }
 
@@ -572,39 +585,30 @@ $overlay-col-gap: 40px;
   .overlay .field > .field__error {
     grid-area: 3 / 1 / 4 / -1;
     min-height: 16px;
-    font-size: 13px;
-  }
-
-  .overlay .field > span,
-  .overlay .field--description > label {
-    font-size: 15px;
+    font-size: 14px;
   }
 
   .overlay .field input,
   .overlay .field textarea,
   .overlay .field select {
     min-height: 42px;
-    border-radius: 10px;
-    font-size: 16px;
+    border-radius: $radius-md;
+    font-size: $text-btn;
   }
 
   .overlay .checkbox {
-    font-size: 12px;
+    font-size: 14px;
   }
 
   .category-picker__trigger {
     padding: 0;
-    font-size: 15px;
+    font-size: $text-btn;
   }
 
   .category-picker__menu {
     min-width: 0;
     width: calc(100vw - 76px);
     max-width: none;
-  }
-
-  .category-picker__selection {
-    font-size: 13px;
   }
 
   /// Same treatment as `.field__row`, for the describing-text block.
@@ -615,7 +619,7 @@ $overlay-col-gap: 40px;
     gap: 8px;
   }
 
-  .overlay .field--description > label {
+  .overlay .field--description > .field__label {
     grid-area: 1 / 1;
   }
 
@@ -639,24 +643,28 @@ $overlay-col-gap: 40px;
     gap: 20px;
   }
 
-  /// Centred under the questions, matching the mock-up.
+  /// Centred under the questions, matching the mock-up, and set off from the
+  /// "Add answer" link that ends the last question.
   .overlay__add-question {
     justify-self: center;
-    min-height: 40px;
-    padding: 10px 14px;
-    border-radius: 12px;
-    font-size: 13px;
+    margin-top: 16px;
+    width: min(100%, 280px);
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px 18px;
+    border-radius: $radius-md;
+    font-size: $text-btn;
   }
 
   .overlay__plus {
     width: 18px;
     height: 18px;
-    font-size: 13px;
+    font-size: $text-btn;
   }
 
   .overlay__errors {
     min-height: 20px;
-    font-size: 13px;
+    font-size: $text-sm-heading;
   }
 
   .overlay__footer {
@@ -669,8 +677,8 @@ $overlay-col-gap: 40px;
     width: min(210px, 100%);
     min-height: 44px;
     padding: 10px 26px;
-    border-radius: 14px;
-    font-size: 16px;
+    border-radius: $radius-md;
+    font-size: $text-btn;
   }
 
   .trash {

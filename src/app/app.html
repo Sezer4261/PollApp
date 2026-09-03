@@ -1,3 +1,8 @@
+<!--
+  Root template: the routed page plus the two overlays. They live here rather
+  than in the pages, so `OverlayService` can open them from anywhere and they
+  survive a route change.
+-->
 <router-outlet />
 
 @if (overlay.createOpen()) {

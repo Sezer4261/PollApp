@@ -1,7 +1,7 @@
 /**
  * @fileoverview Live results panel shown beside the survey form.
  */
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, signal } from '@angular/core';
 import {
   Survey,
   SurveyOption,
@@ -12,7 +12,7 @@ import {
 import { OptionLetterPipe, VotePercentPipe } from '../../../shared/pipes/poll.pipes';
 
 /**
- * Renders live percentages. Empty results keep a reserved placeholder height.
+ * Renders live percentages with a collapsible body on every viewport size.
  */
 @Component({
   selector: 'app-results-panel',
@@ -25,9 +25,17 @@ export class ResultsPanel {
   /** Survey whose live votes are displayed. */
   @Input({ required: true }) survey!: Survey;
 
+  /** Whether the results body is visible. */
+  readonly expanded = signal(true);
+
   /** True when at least one vote exists. */
   get hasAnswers(): boolean {
     return surveyHasAnswers(this.survey);
+  }
+
+  /** Shows or hides the results body. */
+  toggleExpanded(): void {
+    this.expanded.update((open) => !open);
   }
 
   /**

@@ -1,5 +1,14 @@
+<!--
+  Site header shared by the dark start page and the light detail page. The
+  wordmark always links home, the create-survey button is opt-in.
+-->
 <header class="site-header" [class.site-header--light]="variant === 'light'">
   <a routerLink="/" class="brand" aria-label="Poll App home">
+    <!--
+      Decorative logo: the link already carries its label, so the drawing stays
+      out of the accessibility tree. Its parts keep classes because the light
+      variant swaps bubble and ink colour.
+    -->
     <span class="brand__mark" aria-hidden="true">
       <svg viewBox="0 0 26 18" fill="none">
         <path class="brand__tail" d="M19.6 12.2h3.4L20.3 18Z" fill="#FFB770" />
@@ -10,12 +19,18 @@
         <rect class="brand__mark-bar" x="8.9" y="9.4" width="14.2" height="2.9" rx="0.7" fill="#BF8269" />
       </svg>
     </span>
+    <!-- Two spans so the name stacks over two lines, as in the mock-up. -->
     <span class="brand__name">
       <span>Poll</span>
       <span>App</span>
     </span>
   </a>
 
+  <!--
+    Only the detail page asks for this button; on the start page the hero
+    already offers the same action. The click is passed up because the page,
+    not the header, owns the create overlay.
+  -->
   @if (showCreate) {
     <button class="btn btn--primary" type="button" (click)="createSurvey.emit()">
       <span>Create survey</span>

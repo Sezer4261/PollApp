@@ -1,6 +1,15 @@
+<!--
+  One question inside the create-survey overlay: heading with delete control,
+  the question text, and the answer rows with their own delete controls. All
+  edits are emitted upwards through `patch()`; the component keeps no state.
+-->
 <section class="editor">
   <header class="editor__head">
-    <h3>{{ index + 1 }}. Question</h3>
+    <span class="field__label">{{ index + 1 }}. Question</span>
+    <!--
+      Question 1 cannot be removed, only emptied, so the same button changes
+      its meaning and its label with `isFirst`.
+    -->
     <button
       class="trash"
       type="button"
@@ -11,6 +20,7 @@
     </button>
   </header>
 
+  <!-- The visible heading already names the field, so the label is for screen readers only. -->
   <label class="field" [class.field--invalid]="textError">
     <span class="sr-only">Question text</span>
     <input
@@ -27,7 +37,8 @@
 
   <div class="editor__answers">
     <div class="editor__answers-head">
-      <strong>Answers</strong>
+      <span class="field__label">Answers</span>
+      <!-- Switches the detail page between radio buttons and checkboxes. -->
       <label class="checkbox">
         <input
           type="checkbox"
@@ -38,6 +49,11 @@
       </label>
     </div>
 
+    <!--
+      Letters (A., B., …) come from the pipe, so removing a row renumbers the
+      rest automatically. Deleting is only allowed down to two rows; below that
+      the component clears the text instead.
+    -->
     @for (answer of question.answers; track answer.id; let i = $index) {
       <div class="editor__answer">
         <span class="editor__letter">{{ i | optionLetter }}.</span>
@@ -55,6 +71,7 @@
 
     <p class="editor__error" role="alert">{{ answersError }}</p>
 
+    <!-- Tertiary button from the design: label, circled plus and one rule under both. -->
     <button class="editor__add" type="button" (click)="addAnswer()">
       Add answer
       <span class="editor__plus" aria-hidden="true">+</span>

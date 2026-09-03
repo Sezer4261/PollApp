@@ -1,11 +1,18 @@
 <!doctype html>
 <html lang="de">
   <head>
+    <!-- Document head: the base href is what lets the Angular router resolve
+         its routes against the site root. -->
     <meta charset="utf-8">
     <title>Poll App</title>
     <base href="/">
+    <!-- Without this the mobile browser would render the desktop layout scaled
+         down, so the phone breakpoints below $bp-mobile would never apply. -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <!-- Critical inline styles. The webfonts and the global stylesheet arrive
+         only after this document, so the dark background is repeated here to
+         avoid a white flash before styles.scss is applied. -->
     <style>
       html,
       body,
@@ -17,6 +24,8 @@
     </style>
   </head>
   <body>
+    <!-- Mount point of the root component; Angular renders the whole app,
+         including the routed pages and the overlays, inside this element. -->
     <app-root></app-root>
   </body>
 </html>

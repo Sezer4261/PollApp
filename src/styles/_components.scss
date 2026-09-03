@@ -1,10 +1,23 @@
 @use './variables' as *;
 
+/// Shared UI primitives that more than one page relies on: the centred content
+/// column, buttons, badges, form fields and the empty-state note. Loaded once
+/// through `styles.scss`, so every class here is global and unscoped.
+
+/// The single content column each page is built inside. `$content-max` caps how
+/// wide it can grow while the subtracted margin keeps a gutter towards the
+/// window edges, so home, overlay and detail page all align on one limiter.
 .page-wrap {
   width: min(#{$content-max}, calc(100% - 72px));
+  max-width: 100%;
+  min-width: 0;
   margin-inline: auto;
 }
 
+/// Base for every button in the app. Unlike the page layout these measurements
+/// are fixed pixels instead of `u()`, because a control has to stay readable and
+/// tappable at any canvas width; components that need the design's exact
+/// proportions (the hero call to action) override the sizes locally.
 .btn {
   display: inline-flex;
   align-items: center;
@@ -17,7 +30,7 @@
   padding: 12px 22px;
   font-family: $font-body;
   font-weight: 700;
-  font-size: 16px;
+  font-size: $text-btn;
   line-height: 1;
   min-height: 44px;
   transition: background 0.18s ease, box-shadow 0.18s ease, color 0.18s ease, border-color 0.18s ease;
@@ -27,6 +40,11 @@
     opacity: 0.55;
   }
 
+  /// The main call to action. Its icons tell the user what the press will do:
+  /// hovering grows the plus, holding it swaps to the check. `.btn--confirm`
+  /// marks buttons whose action is a confirmation, so they show the check
+  /// already on hover. Padding and gap join the transition because the button
+  /// changes width while an icon opens.
   &--primary {
     background: $peach-btn;
     color: $text-dark;
@@ -89,6 +107,10 @@
     }
   }
 
+  /// Icons rest collapsed to zero width and animate open on demand. `overflow`
+  /// clips the glyph while the width grows, so it appears to slide out of the
+  /// label rather than being squashed. Sizes come from custom properties so a
+  /// single component can scale its icons without redefining the animation.
   &__icon {
     display: inline-flex;
     flex-shrink: 0;
@@ -117,10 +139,15 @@
     }
   }
 
+  /// The icon component is only a carrier: `display: contents` lets its icons
+  /// become flex items of the button itself, so the gap rules above still apply.
   app-primary-btn-icons {
     display: contents;
   }
 
+  /// Secondary button on light surfaces. `.is-active` marks the currently chosen
+  /// option, which is why hover deliberately skips those — repainting a selected
+  /// button would make it look unselected.
   &--ghost {
     background: #ffe8d6;
     color: $text-dark;
@@ -131,6 +158,7 @@
     }
   }
 
+  /// Pill shaped tab, used for the Active/Past switch on the start page.
   &--tab {
     border-radius: $radius-pill;
     padding: 10px 18px;
@@ -141,6 +169,8 @@
     min-height: 40px;
   }
 
+  /// Ghost buttons and tabs share one selected state, so the two families cannot
+  /// drift apart visually even though they differ in shape.
   &--ghost.is-active,
   &--tab.is-active {
     background: $peach;
@@ -148,6 +178,8 @@
     border-color: transparent;
   }
 
+  /// Square, label-less button for the small actions on dark panels, such as
+  /// closing an overlay or removing a question.
   &--icon {
     width: 36px;
     height: 36px;
@@ -159,6 +191,9 @@
   }
 }
 
+/// Status pills on the survey cards and in the detail header. The base only
+/// carries the shape; the variant carries the meaning — `--deadline` for the
+/// remaining time on a card, `--published` for the state on the detail page.
 .badge {
   display: inline-flex;
   align-items: center;
@@ -186,18 +221,13 @@
   }
 }
 
+/// Form primitive: a label stacked above its control, used by the create-survey
+/// overlay and the question editor. The inputs are dressed here instead of per
+/// overlay so every form in the app answers focus in the same way.
 .field {
   display: flex;
   flex-direction: column;
   gap: 8px;
-
-  > span,
-  label {
-    font-family: $font-body;
-    font-size: 18px;
-    font-weight: 700;
-    color: $text-on-dark;
-  }
 
   input,
   textarea,
@@ -223,11 +253,24 @@
     resize: vertical;
   }
 
+  /// Marks a required field inside its label. Tinted with the accent rather than
+  /// `$error`, because it is a hint and not yet a validation failure.
   .req {
     color: $orange-soft;
   }
 }
 
+/// Small section headings and form labels — always Mulish bold.
+.field__label {
+  font-family: $font-body;
+  font-size: $text-sm-heading;
+  font-weight: 700;
+  color: $text-on-dark;
+}
+
+/// Custom checkbox for the overlay options. The native box is switched off with
+/// `appearance: none` and redrawn in the peach accent; the tick is two borders
+/// of an empty pseudo element turned by 45 degrees, so no icon asset is needed.
 .checkbox {
   display: inline-flex;
   align-items: center;
@@ -267,6 +310,9 @@
   }
 }
 
+/// Placeholder line shown wherever a list has no entries yet — the filtered
+/// survey grid or a question without options. The minimum height keeps the row
+/// occupied so the surrounding layout does not jump once content arrives.
 .empty-note {
   font-family: $font-body;
   color: $text-muted-on-dark;
@@ -274,12 +320,17 @@
   min-height: 24px;
 }
 
+/// Tablet: the gutter narrows so the content column can hold its width for as
+/// long as possible before the phone layout takes over.
 @media (max-width: #{$bp-tablet}) {
   .page-wrap {
     width: min(#{$content-max}, calc(100% - 48px));
   }
 }
 
+/// Phone: the column falls back to `$gutter-mobile`, matching the margin the
+/// remapped `--u` scale assumes below `$bp-mobile`, and the primitives shrink to
+/// their compact sizes while staying large enough to hit with a thumb.
 @media (max-width: #{$bp-mobile}) {
   .page-wrap {
     width: calc(100% - #{$gutter-mobile * 2});
@@ -288,7 +339,7 @@
   .btn {
     min-height: 42px;
     padding: 10px 18px;
-    font-size: 15px;
+    font-size: $text-btn;
   }
 
   .btn--tab {
@@ -304,11 +355,6 @@
 
   .field {
     gap: 6px;
-
-    > span,
-    label {
-      font-size: 15px;
-    }
 
     input,
     textarea,

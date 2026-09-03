@@ -1,4 +1,12 @@
+<!--
+  Confirmation after publishing. The backdrop closes on click; the panel stops
+  the event so a click inside does not dismiss it.
+-->
 <div class="confirm" @overlayAnimation (click)="close()">
+  <!--
+    `alertdialog` because the note appears unprompted and should be announced;
+    `aria-labelledby` points at the message, which is the only content.
+  -->
   <section
     class="confirm__panel"
     @panelAnimation
@@ -8,6 +16,7 @@
   >
     <p id="confirm-message">Your survey is now published</p>
     <button class="confirm__close" type="button" (click)="close()" aria-label="Close">
+      <!-- Two crossing strokes instead of a glyph, so it scales with the button. -->
       <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
         <path
           d="M3.6 3.6 12.4 12.4M12.4 3.6 3.6 12.4"

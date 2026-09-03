@@ -77,12 +77,33 @@ $radius-lg: 24px;
 $radius-xl: 80px;
 $radius-pill: 999px;
 
+/// Asymmetric panel corners (every page except home): small on three corners,
+/// large scoop on the top-right — matches the mobile mock-ups.
+$panel-radius-base: 24px;
+$panel-radius-tr: 110px;
+$panel-radius-tablet-tr: 72px;
+$panel-radius-mobile-base: 16px;
+$panel-radius-mobile-tr: 88px;
+
+/// Inner form well inside dark panels.
+$panel-inner-radius: 18px;
+$panel-inner-radius-mobile: 24px;
+
+@mixin panel-corners($base: $panel-radius-base, $tr: $panel-radius-tr) {
+  border-radius: $base $tr $base $base;
+}
+
 $shadow-card: 0 10px 22px rgba(12, 6, 16, 0.32);
 $shadow-hover: 0 8px 18px rgba(20, 10, 18, 0.28);
 $shadow-type: 3px 4px 0 rgba(18, 10, 20, 0.55);
 
 $font-display: 'Nerko One', cursive;
 $font-body: 'Mulish', sans-serif;
+
+/// Small section headings and form labels — always Mulish bold.
+$text-sm-heading: 16px;
+/// Standard button label size.
+$text-btn: 16px;
 
 /// `$bp-tablet` is where the two-column content grids fold, `$bp-mobile` where
 /// the phone layout takes over and `$bp-small` covers the narrowest devices.

@@ -1,8 +1,14 @@
+<!--
+  Detail route `/survey/:id`: the light card on the left carries the vote form,
+  the results panel on the right updates live from the current selection.
+-->
 <div class="detail">
   <app-header variant="light" [showCreate]="true" (createSurvey)="openCreate()" />
 
+  <!-- `as current` avoids re-reading the signal for every binding below. -->
   @if (survey(); as current) {
     <div class="detail__layout page-wrap">
+      <!-- `is-locked` greys out the options for past or already answered surveys. -->
       <article class="detail__card" [class.is-locked]="locked()">
         <div class="detail__meta">
           <span class="badge badge--published">Published</span>
@@ -12,6 +18,10 @@
           </div>
         </div>
 
+        <!--
+          `titleLines()` returns the manual line break of the design; the
+          wrapping `<span>` is what the stylesheet sizes and breaks.
+        -->
         <h1>
           @for (line of titleLines(current.title); track $index) {
             @if ($index > 0) {
@@ -21,6 +31,7 @@
           }
         </h1>
         <p class="detail__description">{{ current.description }}</p>
+        <!-- Explains why the form is locked, so a disabled button is not a dead end. -->
         @if (isPast() || alreadyCompleted()) {
           <p class="detail__note">
             @if (isPast()) {
@@ -34,11 +45,20 @@
         <div class="detail__questions">
           @for (question of current.questions; track question.id; let qi = $index) {
             <section class="question">
-              <h2>{{ qi + 1 }}. {{ question.text }}</h2>
+              <span class="field__label">{{ qi + 1 }}. {{ question.text }}</span>
+              <!--
+                Kept in the DOM and only made invisible, so single and
+                multiple choice questions occupy the same height.
+              -->
               <p class="question__hint" [class.is-hidden]="!question.allowMultiple">
                 More than one answers are possible.
               </p>
 
+              <!--
+                Radio or checkbox depending on `allowMultiple`; the shared
+                `name` groups the radios of one question. The native input is
+                hidden by CSS, the label styles the visible state.
+              -->
               @for (option of question.options; track option.id; let oi = $index) {
                 <label class="option" [class.is-selected]="isChecked(question.id, option.id)">
                   <input
@@ -55,6 +75,7 @@
           }
         </div>
 
+        <!-- Set by `complete()` when a question was left unanswered. -->
         @if (formError(); as message) {
           <p class="detail__error">{{ message }}</p>
         }
@@ -73,9 +94,14 @@
         </div>
       </article>
 
+      <!--
+        `previewSurvey()` is the survey plus one preview vote per selection, so
+        the bars react while voting. It is defined whenever `survey()` is.
+      -->
       <app-results-panel [survey]="previewSurvey()!" />
     </div>
   } @else {
+    <!-- Unknown or deleted id: offer the way back instead of an empty page. -->
     <div class="page-wrap detail__missing">
       <h1>Survey not found</h1>
       <button class="btn btn--primary" type="button" (click)="goHome()">

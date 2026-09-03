@@ -1,30 +1,61 @@
-<aside class="results">
-  <h2>Survey results <span>LIVE</span></h2>
+<!--
+  Live results for one survey: a headline that doubles as the collapse toggle,
+  followed by one block per question with a bar and a percentage per option.
+-->
+<aside class="results" [class.is-collapsed]="!expanded()">
+  <!--
+    The whole headline is the toggle, so the hit area matches what the user
+    sees. `aria-controls`/`aria-expanded` tie it to the body for screen readers.
+  -->
+  <button
+    class="results__toggle"
+    type="button"
+    aria-controls="results-body"
+    [attr.aria-expanded]="expanded()"
+    (click)="toggleExpanded()"
+  >
+    <span class="results__title">Survey results <span class="results__live">LIVE</span></span>
+    <!-- Decorative chevron; the stylesheet rotates it in the collapsed state. -->
+    <svg class="results__chevron" width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true">
+      <path d="M1 1.5 6 6.5 11 1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+    </svg>
+  </button>
 
-  @if (hasAnswers) {
-    @for (question of survey.questions; track question.id; let qi = $index) {
-      <section class="results__block">
-        <h3>{{ qi + 1 }}. {{ question.text }}</h3>
-        @for (option of question.options; track option.id; let oi = $index) {
-          <div class="results__row">
-            <span class="results__letter">{{ oi | optionLetter }}.</span>
-            <div class="results__track">
-              <div
-                class="results__bar"
-                [style.transform]="barTransform(option, question)"
-              ></div>
-            </div>
-            <strong>{{ option | votePercent: question }}%</strong>
-          </div>
-        } @empty {
-          <p>No options yet.</p>
+  <!--
+    Removed from the DOM instead of hidden, so a collapsed panel does not leave
+    an empty block at the bottom of the page.
+  -->
+  @if (expanded()) {
+    <div id="results-body" class="results__body">
+      @if (hasAnswers) {
+        @for (question of survey.questions; track question.id; let qi = $index) {
+          <section class="results__block">
+            <span class="field__label">{{ qi + 1 }}. {{ question.text }}</span>
+            @for (option of question.options; track option.id; let oi = $index) {
+              <div class="results__row">
+                <!-- Letters (A., B., …) come from the pipe, matching the form. -->
+                <span class="results__letter">{{ oi | optionLetter }}.</span>
+                <div class="results__track">
+                  <!-- Filled by a `scaleX` transform, see `barTransform()`. -->
+                  <div
+                    class="results__bar"
+                    [style.transform]="barTransform(option, question)"
+                  ></div>
+                </div>
+                <strong>{{ option | votePercent: question }}%</strong>
+              </div>
+            } @empty {
+              <p>No options yet.</p>
+            }
+          </section>
         }
-      </section>
-    }
-  } @else {
-    <p class="results__lead">
-      Results will be shown here after participants complete the survey.
-    </p>
-    <p class="results__empty">There are no answers yet.</p>
+      } @else {
+        <!-- No votes yet: explain what will appear here later. -->
+        <p class="results__lead">
+          Results will be shown here after participants complete the survey.
+        </p>
+        <p class="results__empty">There are no answers yet.</p>
+      }
+    </div>
   }
 </aside>

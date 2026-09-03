@@ -1,3 +1,7 @@
+/// Global entry point, referenced from `angular.json` and therefore the only
+/// stylesheet outside a component. The order is deliberate: the design tokens
+/// and helpers first, then the font faces, the reset and last the shared
+/// component classes, each of which builds on the ones before it.
 @use './styles/variables';
 @use './styles/fonts';
 @use './styles/reset';

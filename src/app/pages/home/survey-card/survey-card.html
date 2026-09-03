@@ -1,3 +1,9 @@
+<!--
+  One survey as a card – category, title and remaining time – either as the
+  light "ending soon" highlight or as a dark row of the survey list. The whole
+  card stands in for the link to the detail page, so it takes focus, answers
+  Enter as well as a click and is announced as a link.
+-->
 <article
   class="survey-card"
   [class.survey-card--highlight]="variant === 'highlight'"
@@ -9,6 +15,11 @@
 >
   <p class="survey-card__category">{{ survey.category }}</p>
   <h3 class="survey-card__title">{{ survey.title }}</h3>
+  <!--
+    `endsIn` turns the stored end date into the wording of the mock-up ("2 days
+    left"). The extra class only exists in the list variant, where the pill
+    moves into the bottom-right corner instead of hanging on the left.
+  -->
   <span
     class="badge badge--deadline"
     [class.survey-card__deadline]="variant === 'list'"

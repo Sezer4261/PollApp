@@ -1,11 +1,20 @@
 @use './variables' as *;
 
+/// Global reset applied once through `styles.scss`. It drops only the browser
+/// defaults that fight the design and installs the guards that keep the page
+/// from ever scrolling sideways.
+
+/// Border-box everywhere, so a padding taken from the mock-up can be written
+/// down as measured instead of being subtracted from the element's width.
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
+/// The dark background sits on the root as well as on the body so overscroll
+/// areas stay dark instead of flashing white. Hiding horizontal overflow here is
+/// the outermost guard: a single too-wide child must not widen the whole page.
 html {
   margin: 0;
   min-height: 100%;
@@ -13,9 +22,16 @@ html {
   background: $bg-dark;
 }
 
+/// `overflow-x: clip` rather than `hidden`: `hidden` would make the body a
+/// scroll container of its own, while `clip` only cuts the overhang off.
+/// `overflow-wrap` catches long unbroken words in user supplied survey titles,
+/// and synthetic bolding is off since the variable Mulish ships real weights.
 body {
   margin: 0;
   min-height: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+  overflow-wrap: break-word;
   font-family: $font-body;
   color: $text-on-dark;
   background: $bg-dark;
@@ -23,16 +39,21 @@ body {
   font-synthesis: none;
 }
 
+/// Images are laid out as blocks — no baseline gap underneath — and are never
+/// allowed to push their column wider than the layout allows.
 img {
   display: block;
   max-width: 100%;
 }
 
+/// Inline SVG icons must keep their drawn size and not be squeezed by the flex
+/// rows they usually sit in.
 svg {
   display: block;
   flex-shrink: 0;
 }
 
+/// Form controls follow the page typography instead of the operating system's.
 button,
 input,
 select,
@@ -40,10 +61,13 @@ textarea {
   font: inherit;
 }
 
+/// Buttons are real controls everywhere in the app, so they always read as one.
 button {
   cursor: pointer;
 }
 
+/// Vertical rhythm comes from the layout gaps of each page, which is only
+/// predictable once the default heading and paragraph margins are gone.
 h1,
 h2,
 h3,
@@ -51,6 +75,8 @@ p {
   margin: 0;
 }
 
+/// Links get their look from their context — buttons, cards, tabs — so the
+/// browser's blue and underline would only ever be in the way.
 a {
   color: inherit;
   text-decoration: none;

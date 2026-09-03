@@ -1,5 +1,12 @@
 @use '../../../styles/variables' as *;
 
+/// Both header variants: the dark start-page header, which is measured in
+/// canvas units so it scales with the mock-up, and the light detail-page
+/// header, which sits on a normal page and therefore uses fixed sizes.
+
+/// Top spacing comes from the mock-up. The items align to the top edge, so the
+/// two-line wordmark and the single-line button start on the same line instead
+/// of the button drifting to the middle of the taller logo.
 .site-header {
   display: flex;
   align-items: flex-start;
@@ -15,11 +22,15 @@
   text-decoration: none;
   transition: opacity 0.18s ease;
 
+  /// Hovering brightens the wording only – the drawn mark keeps its design
+  /// colours, so the logo stays recognisable.
   &:hover .brand__name {
     color: #ffdcb6;
   }
 }
 
+/// The mark must never be squeezed by the button next to it, and the inline SVG
+/// only fills the given box once it is a block.
 .brand__mark {
   display: block;
   flex-shrink: 0;
@@ -33,6 +44,9 @@
   }
 }
 
+/// The display font carries a lot of empty space above its letters, so the two
+/// lines are pulled together and the block is nudged down to line up with the
+/// top edge of the mark.
 .brand__name {
   display: flex;
   flex-direction: column;
@@ -45,6 +59,9 @@
   transition: color 0.18s ease;
 }
 
+/// The light header spans the whole detail page instead of sitting inside the
+/// content column, so it repeats the same limiter with 40px kept free on each
+/// side. Everything below is in pixels: this page is not on the canvas scale.
 .site-header--light {
   width: min(#{$content-max}, calc(100% - 80px));
   margin-inline: auto;
@@ -61,6 +78,8 @@
     height: 34px;
   }
 
+  /// On the light background the peach bubble would wash out, so bubble and
+  /// content trade colours: dark speech bubble, peach rows inside.
   .brand__tail,
   .brand__bubble {
     fill: #35273a;
@@ -83,6 +102,8 @@
     color: $peach;
   }
 
+  /// A calmer, slightly smaller version of the shared primary button: in the
+  /// header it is a secondary action and must not outshine the page heading.
   .btn--primary {
     background: $peach-btn;
     color: $text-dark;
@@ -94,6 +115,8 @@
   }
 }
 
+/// Narrower window, narrower margins: the page keeps 24px on each side here, so
+/// the header follows to stay flush with the panel below it.
 @media (max-width: #{$bp-tablet}) {
   .site-header--light {
     width: min(#{$content-max}, calc(100% - 48px));
@@ -124,6 +147,8 @@
     font-size: 21px;
   }
 
+  /// On phones the page gutter replaces the content-column limiter, so the
+  /// header lines up with the panel edges again.
   .site-header--light {
     width: calc(100% - #{$gutter-mobile * 2});
     padding-block: 16px 8px;

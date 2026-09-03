@@ -1,18 +1,27 @@
+/// Survey detail page: a light card with the vote form next to the results
+/// column. Unlike the start page this view is dark-on-light, so the shared
+/// components are re-coloured here.
 @use '../../../styles/variables' as *;
 
+/// The card holds user text of any length, so the host clips instead of
+/// letting a long word scroll the whole document sideways.
 :host {
   display: block;
-  min-height: 100vh;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: clip;
   background: #ffffff;
 }
 
 .detail {
-  min-height: 100vh;
   background: #ffffff;
   color: $text-dark;
   padding-bottom: 64px;
 }
 
+/// Form and results share one row in the ratio of the design (1.62 : 0.62).
+/// The results column also gets a floor of 280px, below which its bars and
+/// percentages would collide.
 .detail__layout.page-wrap {
   width: min(#{$content-max}, calc(100% - 80px));
   display: grid;
@@ -20,12 +29,17 @@
   gap: 40px 64px;
   align-items: start;
   margin-top: 4px;
+  min-width: 0;
 }
 
+/// `panel-corners()` is the asymmetric radius every page except home uses:
+/// small on three corners, one large scoop on the top right.
 .detail__card {
   background: #f2eff5;
-  border-radius: 24px 110px 24px 24px;
+  @include panel-corners();
   padding: 32px 40px 32px 36px;
+  min-width: 0;
+  overflow-x: clip;
 }
 
 .detail__meta {
@@ -55,6 +69,8 @@
   font-size: 13px;
 }
 
+/// Titles come from the database and vary in length, so the display size is
+/// fluid between 36 and 52px instead of scaling with u() like the start page.
 .detail__card h1 {
   font-family: $font-display;
   font-size: clamp(36px, 3.8vw, 52px);
@@ -64,8 +80,9 @@
   margin-bottom: 16px;
 }
 
+/// A single unbroken word in a title must break rather than widen the card.
 .detail__title-line {
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 
 .detail__description,
@@ -76,22 +93,26 @@
   max-width: 62ch;
   line-height: 1.5;
   margin-bottom: 28px;
+  overflow-wrap: anywhere;
 }
 
+/// Questions are paired in two columns as in the design; they fold to one
+/// column together with the phone layout below.
 .detail__questions {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 32px 40px;
 }
 
-.question h2 {
-  font-family: $font-body;
-  font-size: 16px;
-  font-weight: 700;
+.question .field__label {
+  display: block;
   color: $text-dark;
   line-height: 1.35;
+  overflow-wrap: anywhere;
 }
 
+/// Only shown for multiple-choice questions; the template keeps the element in
+/// place and toggles `.is-hidden` so nothing else has to move.
 .question__hint {
   font-family: $font-body;
   color: $text-muted;
@@ -104,6 +125,9 @@
   }
 }
 
+/// The whole row is the label, so clicking the text selects the option. The
+/// negative left margin pulls the padded hover area back onto the text edge,
+/// keeping the letters aligned with the heading above.
 .option {
   display: flex;
   align-items: center;
@@ -127,6 +151,9 @@
     font-weight: 700;
   }
 
+  /// Native radios and checkboxes cannot be coloured across browsers, so the
+  /// control is drawn from scratch: same square box for both types, with the
+  /// check mark composed from two borders in `::after` below.
   input {
     appearance: none;
     -webkit-appearance: none;
@@ -171,6 +198,8 @@
   }
 }
 
+/// Past or already answered surveys stay readable but must not invite input,
+/// so the rows lose their hover feedback.
 .is-locked .option {
   cursor: not-allowed;
   opacity: 0.75;
@@ -228,6 +257,8 @@
   }
 }
 
+/// Phone layout: single column inside the page gutter, mobile panel corners
+/// and a smaller type scale throughout.
 @media (max-width: #{$bp-mobile}) {
   .detail {
     padding-bottom: 40px;
@@ -239,7 +270,7 @@
   }
 
   .detail__card {
-    border-radius: 16px 56px 16px 16px;
+    @include panel-corners($panel-radius-mobile-base, $panel-radius-mobile-tr);
     padding: 18px 16px 20px;
   }
 
@@ -256,28 +287,19 @@
   .detail__card h1 {
     font-size: 27px;
     margin-bottom: 12px;
-  }
-
-  /// The pre-split title lines are kept on one line on desktop; at phone width
-  /// they have to wrap or they push the card sideways.
-  .detail__title-line {
-    white-space: normal;
+    overflow-wrap: anywhere;
   }
 
   .detail__description,
   .detail__note {
     max-width: none;
     margin-bottom: 20px;
-    font-size: 13px;
+    font-size: 14px;
   }
 
   .detail__questions {
     grid-template-columns: 1fr;
     gap: 22px;
-  }
-
-  .question h2 {
-    font-size: 14px;
   }
 
   .question__hint {

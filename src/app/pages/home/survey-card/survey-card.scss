@@ -1,11 +1,16 @@
 @use '../../../../styles/variables' as *;
 
+/// Both card variants of the start page: the light highlight card in the
+/// "ending soon" row and the dark row of the survey list. Everything the two
+/// share lives at the top, the variants only add size, colour and corners.
 .survey-card {
   display: flex;
   flex-direction: column;
   cursor: pointer;
   transition: box-shadow 0.22s ease, background 0.22s ease;
 
+  /// Ring in canvas units so it keeps its weight relative to the card at every
+  /// window width – the card itself is measured that way too.
   &:focus-visible {
     outline: u(1) solid $peach;
     outline-offset: u(1.5);
@@ -23,6 +28,8 @@
   font-weight: 700;
 }
 
+/// The shared badge is sized in fixed pixels, which would look oversized next
+/// to the scaled card, so the pill is re-measured from the mock-up here.
 .badge--deadline {
   align-self: flex-start;
   height: u(8);
@@ -36,6 +43,9 @@
   line-height: 1;
 }
 
+/// Highlight card, taken from the mock-up: the fixed height keeps the cards of
+/// the row equally tall no matter how long a title is, and the large top-right
+/// radius is the scoop the design cuts out of every panel.
 .survey-card--highlight {
   height: u(117);
   padding: u(16) u(17) u(23);
@@ -55,6 +65,8 @@
     color: $text-dark;
   }
 
+  /// Pushed against the bottom padding, so the pill sits on one line across the
+  /// whole row even when one title runs longer than the others.
   .badge--deadline {
     margin-top: auto;
   }
@@ -65,6 +77,8 @@
   }
 }
 
+/// List card: a flat 49-unit row from the mock-up, so the two-column grid keeps
+/// an even raster. The padding is asymmetric there as well.
 .survey-card--list {
   height: u(49);
   padding: u(6) u(8) u(5) u(7);
@@ -76,6 +90,8 @@
     color: $peach;
   }
 
+  /// One line only: the row height is fixed, so a wrapping title would push the
+  /// deadline pill out of the card.
   .survey-card__title {
     margin-top: u(2.7);
     font-size: fs(24);
@@ -86,6 +102,8 @@
     text-overflow: ellipsis;
   }
 
+  /// Here the pill sits in the bottom right corner, opposite the title, instead
+  /// of on the left as in the highlight card.
   .badge--deadline {
     margin-top: auto;
     align-self: flex-end;

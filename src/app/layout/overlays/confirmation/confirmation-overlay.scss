@@ -1,5 +1,8 @@
+/// "Survey published" note. Sits above the create-survey overlay, hence the
+/// higher stacking order.
 @use '../../../../styles/variables' as *;
 
+/// Full-screen backdrop that centres the panel and dims the page behind it.
 .confirm {
   position: fixed;
   inset: 0;
@@ -8,6 +11,7 @@
   place-items: center;
   background: rgba(18, 10, 22, 0.55);
   padding: 24px;
+  overflow-x: clip;
 }
 
 /// A short note rather than a dialog with its own buttons: the message sits on
@@ -19,21 +23,25 @@
   justify-content: space-between;
   gap: 24px;
   width: min(420px, 100%);
+  max-width: 100%;
+  min-width: 0;
   padding: 20px 24px 22px;
   background: #fee9d4;
-  border-radius: 12px 44px 12px 12px;
+  @include panel-corners(12px, 44px);
   box-shadow: $shadow-card;
 
   p {
-    max-width: 11em;
+    max-width: none;
     font-family: $font-body;
-    font-size: 20px;
+    font-size: $text-sm-heading;
     font-weight: 700;
     line-height: 1.35;
     color: $text-dark;
+    overflow-wrap: anywhere;
   }
 }
 
+/// Kept at its size next to the message, which may wrap onto several lines.
 .confirm__close {
   flex-shrink: 0;
   display: grid;
@@ -58,6 +66,8 @@
   }
 }
 
+/// On a phone the panel spans the full gutter width, so the corner scoop is
+/// enlarged to keep the same visual weight as on desktop.
 @media (max-width: #{$bp-mobile}) {
   .confirm {
     padding: $gutter-mobile;
@@ -66,11 +76,6 @@
   .confirm__panel {
     gap: 16px;
     padding: 16px 18px 18px;
-    border-radius: 12px 36px 12px 12px;
-
-    p {
-      max-width: none;
-      font-size: 16px;
-    }
+    @include panel-corners(12px, 56px);
   }
 }

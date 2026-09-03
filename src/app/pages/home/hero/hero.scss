@@ -22,6 +22,10 @@
   color: $peach;
 }
 
+.hero__title-line {
+  display: block;
+}
+
 .hero__copy p {
   max-width: u(194);
   margin-top: u(10.4);
@@ -148,14 +152,14 @@
   }
 }
 
-/// One column on phones. `.hero__copy` dissolves into the flex flow so the
-/// illustration can sit between the headline and the paragraph, as in the
-/// mock-up, without reordering the markup.
+/// Single column: headline, illustration, copy, button — as in the phone mock-up.
 @media (max-width: #{$bp-mobile}) {
   .hero {
-    flex-direction: column;
-    align-items: stretch;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto;
     gap: 0;
+    align-items: stretch;
     min-height: 0;
   }
 
@@ -164,47 +168,61 @@
   }
 
   .hero__copy h1 {
-    order: 1;
-    font-size: 34px;
+    grid-column: 1;
+    grid-row: 1;
+    /// 63px fills the column down to a 364 px viewport. Below that the cap
+    /// takes over: "Unlock Ideas" measures 5.15x the font size, so dividing the
+    /// column by that factor keeps the longest line on one row.
+    font-size: min(63px, calc((100vw - #{$gutter-mobile * 2}) / 5.15));
+    line-height: 1.05;
   }
 
   .hero__visual {
-    order: 2;
-    align-self: center;
-    width: min(74%, 250px);
+    position: relative;
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: center;
+    width: 46%;
+    max-width: 170px;
     height: auto;
     aspect-ratio: 124 / 152;
-    margin: 20px 0 4px;
+    margin: 18px 0 20px;
+    overflow: visible;
+  }
+
+  /// Fixed perspective keeps the tilt proportional without the u()-scale distortion.
+  .hero__phone {
+    transform-origin: 53.5% 49.02%;
+    transform: perspective(118px) rotateY(-10.06deg) rotateX(4.65deg) rotate(0.38deg);
   }
 
   .hero__copy p {
-    order: 3;
+    grid-column: 1;
+    grid-row: 3;
     max-width: none;
-    margin-top: 14px;
-    font-size: 14px;
+    margin-top: 0;
+    font-size: 16px;
+    line-height: 1.4;
   }
 
   .hero__copy .btn--primary {
-    order: 4;
-    align-self: flex-start;
+    grid-column: 1;
+    grid-row: 4;
+    justify-self: center;
     height: auto;
     min-height: 44px;
-    margin-top: 20px;
+    margin-top: 36px;
     padding: 0 20px;
     border-radius: 12px;
-    font-size: 16px;
+    font-size: 14px;
     --btn-plus-size: 17px;
     --btn-icon-gap: 10px;
   }
 }
 
 @media (max-width: #{$bp-small}) {
-  .hero__copy h1 {
-    font-size: 29px;
-  }
-
-  .hero__visual {
-    width: min(78%, 210px);
+  .hero__phone {
+    transform: perspective(105px) rotateY(-10.06deg) rotateX(4.65deg) rotate(0.38deg);
   }
 }
 

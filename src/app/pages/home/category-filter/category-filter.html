@@ -1,16 +1,32 @@
+<!--
+  Category dropdown for the survey lists. Selection and open state live in the
+  parent page, so switching between the Active and Past tab cannot carry a
+  filter over from the other list.
+-->
 <div class="filter">
   <button class="filter__button" type="button" (click)="toggle()">
     <span>Sort by categories</span>
+    <!-- Decorative chevron; the label next to it already names the control. -->
     <svg width="12" height="8" viewBox="0 0 12 8" fill="none" aria-hidden="true">
       <path d="M1 1.5 6 6.5 11 1.5" stroke="#F3A36B" stroke-width="2" stroke-linecap="round"/>
     </svg>
   </button>
 
+  <!--
+    The menu only exists while it is open, so a closed filter leaves nothing
+    behind that could swallow clicks on the cards underneath. It floats above
+    the list, hence opening it never shifts the toolbar.
+  -->
   @if (open) {
     <ul class="filter__menu" role="listbox">
+      <!--
+        Reset entry: the stored value is the shared `all` marker, but it reads
+        as "All Surveys" in the menu.
+      -->
       <li>
         <button type="button" (click)="choose(allValue)">{{ labelFor(allValue) }}</button>
       </li>
+      <!-- One entry per shared category; `is-active` marks the current choice. -->
       @for (category of categories; track category) {
         <li>
           <button type="button" [class.is-active]="value === category" (click)="choose(category)">

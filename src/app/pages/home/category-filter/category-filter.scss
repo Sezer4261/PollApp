@@ -1,9 +1,16 @@
 @use '../../../../styles/variables' as *;
 
+/// The category dropdown of the start page: a bare text trigger on the dark
+/// background plus the white menu that floats over the survey list.
+
+/// Anchor for the absolutely positioned menu.
 .filter {
   position: relative;
 }
 
+/// Looks like plain text, not like a button: the mock-up shows the label in the
+/// same size and weight as the surrounding copy, so the shared button styling
+/// is stripped back and the metrics follow the canvas scale.
 .filter__button {
   display: inline-flex;
   align-items: center;
@@ -27,6 +34,7 @@
     transition: stroke 0.18s ease;
   }
 
+  /// Label and chevron light up together, so the pair reads as one control.
   &:hover {
     color: $peach;
 
@@ -36,6 +44,9 @@
   }
 }
 
+/// The menu is an overlay rather than part of the design canvas, so its metrics
+/// are fixed pixels. It has to clear the cards below it, and the upper bound
+/// keeps it inside the window even when a category name is long.
 .filter__menu {
   position: absolute;
   right: 0;
@@ -52,6 +63,8 @@
   border-radius: 12px;
   box-shadow: $shadow-card;
 
+  /// Full-width rows so the whole line is clickable; a name that still does not
+  /// fit is cut off with an ellipsis instead of wrapping into a second row.
   button {
     width: 100%;
     text-align: left;
@@ -60,14 +73,16 @@
     border-radius: 8px;
     padding: 8px 10px;
     font-family: $font-body;
-    font-size: 16px;
-    font-weight: 600;
+    font-size: $text-btn;
+    font-weight: 700;
     line-height: 1.25;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
+  /// The current choice is tinted like a hovered row, so the menu shows where
+  /// the list stands without adding a second highlight colour.
   button:hover,
   .is-active {
     background: #ffe8d6;
@@ -75,8 +90,10 @@
 }
 
 @media (max-width: #{$bp-mobile}) {
+  /// Below the phone breakpoint the canvas maps onto the narrow content column,
+  /// which would shrink label and chevron past the point of being tappable.
   .filter__button {
-    font-size: 15px;
+    font-size: 18px;
 
     svg {
       width: 12px;
