@@ -17,6 +17,10 @@
   gap: 12px;
 }
 
+.editor .field__label {
+  font-size: 18px;
+}
+
 /// The overlay sizes its own fields, but this input lives in a child component
 /// and would otherwise fall back to the larger global `.field` size.
 .editor .field input {
@@ -31,6 +35,10 @@
   align-items: center;
   gap: 12px;
   margin-bottom: 10px;
+
+  .checkbox {
+    font-size: 14px;
+  }
 }
 
 /// Letter, input and delete control on one line, with the letter and the

@@ -31,7 +31,7 @@
   margin-top: u(10.4);
   color: $text-on-dark;
   font-family: $font-body;
-  font-size: fs(24);
+  font-size: fs(18);
   font-weight: 400;
   line-height: 1.35;
 }
@@ -170,10 +170,10 @@
   .hero__copy h1 {
     grid-column: 1;
     grid-row: 1;
-    /// 63px fills the column down to a 364 px viewport. Below that the cap
+    /// 62px fills the column down to a 364 px viewport. Below that the cap
     /// takes over: "Unlock Ideas" measures 5.15x the font size, so dividing the
     /// column by that factor keeps the longest line on one row.
-    font-size: min(63px, calc((100vw - #{$gutter-mobile * 2}) / 5.15));
+    font-size: min(62px, calc((100vw - #{$gutter-mobile * 2}) / 5.15));
     line-height: 1.05;
   }
 
@@ -201,7 +201,7 @@
     grid-row: 3;
     max-width: none;
     margin-top: 0;
-    font-size: 16px;
+    font-size: 18px;
     line-height: 1.4;
   }
 

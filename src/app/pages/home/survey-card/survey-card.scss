@@ -54,13 +54,13 @@
   box-shadow: 0 u(2) u(4) rgba(15, 7, 18, 0.4);
 
   .survey-card__category {
-    font-size: fs(16);
+    font-size: fs(14);
     color: $text-category;
   }
 
   .survey-card__title {
     margin-top: u(2.6);
-    font-size: fs(26);
+    font-size: fs(24);
     line-height: 1.25;
     color: $text-dark;
   }
@@ -86,7 +86,7 @@
   background: $bg-card-dark;
 
   .survey-card__category {
-    font-size: fs(16);
+    font-size: fs(14);
     color: $peach;
   }
 
@@ -122,7 +122,7 @@
     height: auto;
     min-height: 22px;
     padding: 4px 10px;
-    font-size: 11px;
+    font-size: 14px;
   }
 
   .survey-card--highlight {
@@ -133,12 +133,12 @@
     box-shadow: 0 3px 8px rgba(15, 7, 18, 0.4);
 
     .survey-card__category {
-      font-size: 12px;
+      font-size: 14px;
     }
 
     .survey-card__title {
       margin-top: 6px;
-      font-size: 17px;
+      font-size: 24px;
     }
   }
 
@@ -148,14 +148,14 @@
     border-radius: 8px 30px 8px 8px;
 
     .survey-card__category {
-      font-size: 12px;
+      font-size: 14px;
     }
 
     /// Full width leaves room for a second line, so the title is no longer
     /// truncated the way it has to be in the two-column desktop grid.
     .survey-card__title {
       margin-top: 6px;
-      font-size: 16px;
+      font-size: 24px;
       line-height: 1.25;
       white-space: normal;
       overflow: visible;

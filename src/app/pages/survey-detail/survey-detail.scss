@@ -66,14 +66,14 @@
   color: $text-dark;
   border-radius: 8px;
   padding: 5px 12px;
-  font-size: 13px;
+  font-size: 16px;
 }
 
 /// Titles come from the database and vary in length, so the display size is
-/// fluid between 36 and 52px instead of scaling with u() like the start page.
+/// fixed at 52px as in the design.
 .detail__card h1 {
   font-family: $font-display;
-  font-size: clamp(36px, 3.8vw, 52px);
+  font-size: 52px;
   font-weight: 400;
   color: $peach;
   line-height: 1.08;
@@ -106,6 +106,7 @@
 
 .question .field__label {
   display: block;
+  font-size: 18px;
   color: $text-dark;
   line-height: 1.35;
   overflow-wrap: anywhere;
@@ -116,7 +117,7 @@
 .question__hint {
   font-family: $font-body;
   color: $text-muted;
-  font-size: 13px;
+  font-size: 14px;
   margin: 4px 0 12px;
   min-height: 0;
 
@@ -138,7 +139,7 @@
   border-radius: 8px;
   cursor: pointer;
   font-family: $font-body;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 400;
   color: $text-dark;
   transition: background 0.18s ease;
@@ -281,11 +282,15 @@
 
   .detail__meta-row {
     gap: 4px 16px;
-    font-size: 12px;
+    font-size: 14px;
+  }
+
+  .detail .badge--published {
+    font-size: 16px;
   }
 
   .detail__card h1 {
-    font-size: 27px;
+    font-size: 48px;
     margin-bottom: 12px;
     overflow-wrap: anywhere;
   }
@@ -294,7 +299,7 @@
   .detail__note {
     max-width: none;
     margin-bottom: 20px;
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .detail__questions {
@@ -302,9 +307,13 @@
     gap: 22px;
   }
 
+  .question .field__label {
+    font-size: 18px;
+  }
+
   .question__hint {
     margin: 3px 0 8px;
-    font-size: 11px;
+    font-size: 14px;
   }
 
   .option {
@@ -312,7 +321,7 @@
     margin-bottom: 4px;
     margin-left: -8px;
     padding: 5px 8px;
-    font-size: 13px;
+    font-size: 16px;
 
     input {
       width: 15px;

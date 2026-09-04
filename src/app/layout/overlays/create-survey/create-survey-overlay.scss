@@ -67,11 +67,11 @@
   line-height: 1.2;
 }
 
-/// Fluid between 40 and 72px: the title has to share its row with the Cancel
+/// Fixed at 56px as in the design; the title shares its row with the Cancel
 /// button, which would otherwise be pushed out on narrow windows.
 .overlay__heading h1 {
   font-family: $font-display;
-  font-size: clamp(40px, 4.6vw, 72px);
+  font-size: 56px;
   font-weight: 400;
   line-height: 1;
   color: $peach;
@@ -159,8 +159,12 @@ $overlay-col-gap: 40px;
   gap: 16px;
 }
 
+.overlay .field__label {
+  font-size: 18px;
+}
+
 .overlay .checkbox {
-  font-size: 16px;
+  font-size: 14px;
   color: $text-on-dark;
 }
 
