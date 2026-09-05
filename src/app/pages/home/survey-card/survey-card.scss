@@ -38,7 +38,7 @@
   background: $bg-badge-soft;
   color: $text-dark;
   font-family: $font-body;
-  font-size: fs(14);
+  font-size: 14px;
   font-weight: 700;
   line-height: 1;
 }
@@ -54,13 +54,13 @@
   box-shadow: 0 u(2) u(4) rgba(15, 7, 18, 0.4);
 
   .survey-card__category {
-    font-size: fs(14);
+    font-size: 14px;
     color: $text-category;
   }
 
   .survey-card__title {
     margin-top: u(2.6);
-    font-size: fs(24);
+    font-size: 24px;
     line-height: 1.25;
     color: $text-dark;
   }
@@ -86,7 +86,7 @@
   background: $bg-card-dark;
 
   .survey-card__category {
-    font-size: fs(14);
+    font-size: 14px;
     color: $peach;
   }
 
@@ -94,7 +94,7 @@
   /// deadline pill out of the card.
   .survey-card__title {
     margin-top: u(2.7);
-    font-size: fs(24);
+    font-size: 24px;
     line-height: 1.15;
     color: $text-on-dark;
     white-space: nowrap;

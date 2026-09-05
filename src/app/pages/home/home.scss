@@ -1,6 +1,5 @@
-/// Start page. All desktop measurements are taken from the 547-unit mock-up and
-/// converted with `u()`/`fs()`, so the page keeps its proportions at every
-/// window width up to `$canvas-max`. Type sizes on phones are set explicitly.
+/// Start page. Layout measurements use `u()` so the page keeps its proportions
+/// at every window width up to `$canvas-max`. Type sizes are fixed in px.
 @use '../../../styles/variables' as *;
 
 /// One rhythm for every gap in the stacked mobile layout: heading to label,
@@ -39,7 +38,7 @@ app-hero {
 .home__title {
   margin-top: u(44);
   font-family: $font-display;
-  font-size: fs(72);
+  font-size: 54px;
   font-weight: 400;
   line-height: 1;
   text-align: center;
@@ -59,7 +58,7 @@ app-hero {
 .home__kicker {
   margin-top: u(24.4);
   font-family: $font-body;
-  font-size: fs(32);
+  font-size: 24px;
   font-weight: 400;
   line-height: 1.2;
   color: $text-on-dark;
@@ -104,7 +103,7 @@ app-hero {
   border: 0;
   border-radius: u(5.5);
   font-family: $font-body;
-  font-size: fs(16);
+  font-size: 14px;
   font-weight: 700;
   line-height: 1;
   background: $bg-tab-idle;

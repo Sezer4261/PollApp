@@ -16,7 +16,7 @@
 
 .hero__copy h1 {
   font-family: $font-display;
-  font-size: fs(100);
+  font-size: 76px;
   font-weight: 400;
   line-height: 1.08;
   color: $peach;
@@ -31,13 +31,13 @@
   margin-top: u(10.4);
   color: $text-on-dark;
   font-family: $font-body;
-  font-size: fs(18);
+  font-size: 18px;
   font-weight: 400;
   line-height: 1.35;
 }
 
 /// Metrics come from the design component, which is 172 x 48 at the capped
-/// canvas width: 17px side padding, a 19px label, a 14px gap and an 18px plus.
+/// canvas width: 17px side padding, an 18px label, a 14px gap and an 18px plus.
 /// The gap only opens together with the icon, so the idle button stays tight.
 .hero__copy .btn--primary {
   margin-top: u(15.6);
@@ -47,7 +47,7 @@
   border: 1px solid transparent;
   border-radius: calc(3 * var(--u));
   font-family: $font-body;
-  font-size: fs(25);
+  font-size: 18px;
   font-weight: 700;
   line-height: 1;
   background: $peach-btn;
@@ -170,10 +170,7 @@
   .hero__copy h1 {
     grid-column: 1;
     grid-row: 1;
-    /// 62px fills the column down to a 364 px viewport. Below that the cap
-    /// takes over: "Unlock Ideas" measures 5.15x the font size, so dividing the
-    /// column by that factor keeps the longest line on one row.
-    font-size: min(62px, calc((100vw - #{$gutter-mobile * 2}) / 5.15));
+    font-size: 62px;
     line-height: 1.05;
   }
 
@@ -214,7 +211,7 @@
     margin-top: 36px;
     padding: 0 20px;
     border-radius: 12px;
-    font-size: 14px;
+    font-size: 18px;
     --btn-plus-size: 17px;
     --btn-icon-gap: 10px;
   }
