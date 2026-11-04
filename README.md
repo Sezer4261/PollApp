@@ -1,3 +1,29 @@
+PollApp – Online Polling Application
+About the Project
+
+PollApp is a web application focused on creating and participating in online polls.
+
+The project explores interactive user interfaces and the handling of user input and voting data.
+Key Features
+
+    Poll-related interface
+
+    User interaction and voting
+
+    Display of poll information and results (if implemented)
+
+    Data handling
+
+    Responsive design
+
+Technologies
+
+Add the technologies used in this project.
+Purpose
+
+To develop practical skills in frontend application development, user interaction, and structured data handling.
+
+
 # Poll App
 
 Angular 21 survey app with Signals, routing, custom pipes, overlays and a Supabase-ready READ process.
